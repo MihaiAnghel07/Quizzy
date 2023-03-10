@@ -1,0 +1,41 @@
+
+/* .Dashboard {
+    background-color: rgb(228, 31, 44);
+} */
+
+.labels{
+    /* background-color: aliceblue; */
+    list-style: none;
+    /* align-items: center; */
+    padding-top: 20px;
+    
+}
+
+.labels {
+    list-style: none;
+    padding-left: 0;
+    display: flex;
+    flex-direction: row;
+    
+}
+
+.labels li{
+    margin-left: 130px;
+    margin-top: 50px;
+}
+
+.labels li:first-child{
+    margin-left: 200px;
+}
+
+#join_lobbyID, #create_lobbyID, #training_quizID {
+    text-decoration: none;
+    color: black;
+}
+
+
+
+
+
+
+

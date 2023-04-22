@@ -1,16 +1,17 @@
 import React from 'react'
 import './Join_lobby.css'
 import { useState } from 'react'
+import { useJoinLobby } from '../../hooks/useJoinLobby'
 
 
 export default function Join_lobby() {
 
   const [lobbyCode, setLobbyCode] = useState('')
+  const { join, error, isPending } = useJoinLobby()
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(lobbyCode)
-    //login(email, password)
+    join(lobbyCode)
   }
 
   return (
@@ -28,13 +29,21 @@ export default function Join_lobby() {
             required />
             <i className="validation"></i>
         </p>
-
+        {error && <p className='showError'>{error}</p>}
         <p>
-          <input 
+          {!isPending && <input 
             type="submit" 
             id="join-lobby-submit" 
-            value="Join Lobby" />
+            value="Join Lobby" />}
         </p>
+
+        <p>
+          {isPending && <input 
+            type="submit" 
+            id="join-lobby-submit" 
+            value="loading" />}
+        </p>
+        
 
         </form>
       </div>

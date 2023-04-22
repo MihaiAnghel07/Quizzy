@@ -8,10 +8,11 @@ export const authReducer = (state, action) => {
 
     switch (action.type) {
         case 'LOGIN' :
-            console.log("SET: ", action.payload)
-            sessionStorage.setItem('user', action.payload)
+            console.log("SET: ", action.payload.email)
+            if (sessionStorage.getItem('user') == null)
+                sessionStorage.setItem('user', action.payload.email)
             console.log("GET: ", sessionStorage.getItem('user'))
-            return { ...state, user: action.payload }
+            return { ...state, user: sessionStorage.getItem('user') }
         case 'LOGOUT' :
             sessionStorage.removeItem('user')
             projectFirebaseAuth.signOut()
@@ -29,34 +30,18 @@ export const AuthContextProvider = ({ children }) => {
     })
 
     useEffect (() => {
-        console.log("AAAAAAAAAAAAAAAAAA")
-        //console.log(projectFirebaseAuth.currentUser);
-
-        // if (projectFirebaseAuth.currentUser) {
-        //     dispatch({ type: 'LOGIN', payload: localStorage.getItem('user') })
-        //     localStorage.setItem('user', JSON.stringify(projectFirebaseAuth.currentUser))
-        // } else {
-        //     localStorage.setItem('user', null)
-        // }
-        // projectFirebaseAuth.currentUser ? localStorage.setItem('user', projectFirebaseAuth.currentUser) : localStorage.setItem('user', null)
         console.log("localStorage: ", sessionStorage.getItem('user'))
+        if (currentUser == null) 
+            setCurrentUser(sessionStorage.getItem('user'));
+        
         if (sessionStorage.getItem('user') !== null) {
             dispatch({ type: 'LOGIN', payload: sessionStorage.getItem('user') })
         }
-            // setCurrentUser(localStorage.getItem('user'))
-        //localStorage.setItem('user', projectFirebaseAuth.currentUser)
-        //dispatch({ type: 'LOGIN', payload: localStorage.getItem('user') })
-     
-        // projectFirebaseAuth.onAuthStateChanged((user) => {
-        //     setCurrentUser(user)
-        //     //setDispatch(user)
-        //     //setState(true)
-        //     dispatch({ type: 'LOGIN', payload: user })
-        // });
+            
     }, []);
 
     
-    //console.log("user = ", currentUser)
+    console.log("user = ", currentUser)
     console.log('AuthContext state:', state)
     
     return (

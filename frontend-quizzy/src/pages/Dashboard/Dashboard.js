@@ -14,7 +14,7 @@ export default function Dashboard() {
 
   return (
     <div className="Dashboard">
-      <h4>Hello from Dashboard! </h4>
+      <h4>Hello from Dashboard! {user.email}</h4>
      
       <ul className='labels'>
         <li><Link to="/join_lobby" id="join_lobbyID"><Join_lobby_label /> </Link></li>

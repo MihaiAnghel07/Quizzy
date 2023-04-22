@@ -13,10 +13,11 @@ const firebaseConfig = {
   };
 
   // init firebase
-  firebase.initializeApp(firebaseConfig)
+  const app = firebase.initializeApp(firebaseConfig)
 
   // init services
   const projectFirebaseRealtime = firebase.database()
   const projectFirebaseAuth = firebase.auth()
+
 
   export {projectFirebaseRealtime, projectFirebaseAuth}

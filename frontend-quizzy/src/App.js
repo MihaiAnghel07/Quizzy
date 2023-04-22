@@ -44,7 +44,7 @@ function App() {
               {/* {!user && <Navigate to="/login" />}
               {user && <Dashboard />} */}
             
-            <Route path="/dashboard" element= {user ? <Dashboard /> : < Login/>} />
+            <Route path="/dashboard" element= {user? <Dashboard /> : < Login/>} />
             <Route path="/account" element= {user? <Account /> : < Login/>} />
             {/* <Route path="/faq" element= {user ? <FAQ /> : < Login/>} />*/}
             <Route path="/contact" element= {user? <Contact /> : < Login/>} /> 

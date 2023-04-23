@@ -7,13 +7,14 @@ import { useSignup } from '../../hooks/useSignup';
 
 export default function Signup() {
 
+  const [username, SetUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const { signup, isPending, error } = useSignup()
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    signup(email, password)
+    signup(username, email, password)
 
   }
 
@@ -21,6 +22,16 @@ export default function Signup() {
     <div id="signup-form-wrap">
       <h2>Sign up</h2>
       <form id="signup-form" onSubmit={handleSubmit}>
+      <p>
+        <input 
+          type="username" 
+          id="username-signup" 
+          name="username" 
+          placeholder="Username" 
+          onChange={(e) => SetUsername(e.target.value)} 
+          required />
+          <i className="validation"></i>
+        </p>
         <p>
         <input 
           type="email" 

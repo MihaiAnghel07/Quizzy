@@ -9,6 +9,7 @@
 .create-lobby-buttons{
     /* background-color: aliceblue; */
     margin-top: 100px;
+    margin-left: -80px;
 }
 
 .create-lobby-buttons{
@@ -39,10 +40,14 @@
 
 
 #select-quiz-button{
-    margin-right: 80px;
+    margin-right: 50px;
 }
 
-#select-quiz-button, #start-quiz-button{
+#start-quiz-button{
+    margin-right: 50px;
+}
+
+#select-quiz-button, #start-quiz-button, #close-lobby-button{
     float: left;
     background-color: rgb(235, 188, 99);
     border-radius: 8px;
@@ -60,6 +65,12 @@
 }
 
 #start-quiz-button:hover {
+    cursor: pointer;
+    background-color: rgb(232, 173, 64);
+    transition: 250ms;
+}
+
+#close-lobby-button:hover {
     cursor: pointer;
     background-color: rgb(232, 173, 64);
     transition: 250ms;

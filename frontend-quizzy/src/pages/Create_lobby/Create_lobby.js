@@ -1,22 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './Create_lobby.css'
 import { useGenerateLobbyCode } from '../../hooks/useGenerateLobbyCode'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { useLoadingLobbyTemplate } from '../../hooks/useLoadingLobbyTemplate'
 import { useState } from "react";
-import { useGetParticipants } from '../../hooks/useGetParticipants'
-import { Table } from 'react-bootstrap'
 import ShowParticipants from '../../components/showParticipants/ShowParticipants'
+import Modal from '../../components/modal/Modal'
+import { useCloseLobby } from '../../hooks/useCloseLobby'
+import { useNavigate } from 'react-router-dom';
 
 
 
 export default function Create_lobby() {
 
-  //const {user} = useAuthContext
-
   // generate unique lobbyCode
   const { generateLobbyCode } = useGenerateLobbyCode()
-  const lobbyCode = generateLobbyCode();
+  const [lobbyCode] = useState(generateLobbyCode());
 
   let lobbyTemplate = {
     code: lobbyCode,
@@ -28,13 +27,23 @@ export default function Create_lobby() {
     questionSet: []
   }
 
+  let navigate = useNavigate();
+
   // load the lobby template to database
   const { loadLobbyTemplateToDatabase } = useLoadingLobbyTemplate()
   loadLobbyTemplateToDatabase(lobbyTemplate)
 
-  // fetch lobby participants
-  //const { getParticipants } = useGetParticipants();
-  //let participants = getParticipants(lobbyCode)
+  const { closeLobby } = useCloseLobby()
+  const [openModal, setOpenModal] = useState(false);
+  const [confirmModal, setConfirmModal] = useState(false);
+  
+  // when confirmModal modified, cloase the lobby and redirect to dashboard
+  useEffect(()=>{
+    if (confirmModal) {
+      closeLobby(lobbyCode);
+      navigate("/dashboard");
+    }
+  }, [confirmModal])
 
 
   return (
@@ -45,8 +54,11 @@ export default function Create_lobby() {
         <ul className='create-lobby-buttons'>
           <li id='select-quiz-button'>Select Quiz</li>
           <li id='start-quiz-button'>Start Quiz</li>
+          <li id='close-lobby-button' onClick={setOpenModal}>Close Lobby</li>
         </ul>
-      
+
+        {openModal && <Modal closeModal={setOpenModal} yesModal={setConfirmModal} />}
+        
         <div className="show-participants">
           <ShowParticipants lobbyCode={lobbyCode} />
         </div>
@@ -54,3 +66,4 @@ export default function Create_lobby() {
     </div>
   )
 }
+

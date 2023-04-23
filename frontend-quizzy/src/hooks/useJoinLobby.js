@@ -32,7 +32,7 @@ export const useJoinLobby = () => {
 
             //projectFirebaseRealtime.ref('Lobbies').child("1235").update(post);
             try {
-                const ref = await projectFirebaseRealtime.ref('Lobbies');
+                const ref = projectFirebaseRealtime.ref('Lobbies');
                 ref.child(lobbyCode).get().then((snapshot) => {
                     if (snapshot.exists()) {
 

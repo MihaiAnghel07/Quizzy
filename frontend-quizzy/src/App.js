@@ -13,6 +13,7 @@ import Join_lobby from './pages/Join_lobby/Join_lobby';
 import Create_lobby from './pages/Create_lobby/Create_lobby';
 import Contact from './pages/Contact/Contact';
 import Create_quiz from './pages/Create_quiz/Create_quiz';
+import Quizzes from './pages/Quizzes/Quizzes';
 
 
 
@@ -30,21 +31,8 @@ function App() {
           
           <Routes>
             <Route path="/" element={ user ? <Dashboard /> : <Home />} />
-              {/* {!user && } */}
-              {/* {user && <Dashboard />} */}
-
             <Route path="/login" element={user ? <Navigate to="/" /> : (<div className='login-page'><Login /></div>)} />
-              {/* {!user && <div className='login-page'><Login /></div>}
-              {user && <Navigate to="/" />} */}
-          
             <Route path="/signup" element={user ? <Navigate to="/" /> : (<div className='signup-page'><Signup /></div>)}/>
-              {/* {!user && <div className='signup-page'><Signup /></div>}
-              {user && <Navigate to="/" />} */}
-
-            {/* <Route path="/dashboard" element={<Navigate to="/login" />}/> */}
-              {/* {!user && <Navigate to="/login" />}
-              {user && <Dashboard />} */}
-            
             <Route path="/dashboard" element= {user? <Dashboard /> : < Login/>} />
             <Route path="/account" element= {user? <Account /> : < Login/>} />
             {/* <Route path="/faq" element= {user ? <FAQ /> : < Login/>} />*/}
@@ -52,6 +40,7 @@ function App() {
             <Route path="/join_lobby" element= {user? <Join_lobby /> : < Login/>} />
             <Route path="/create_lobby" element= {user? <Create_lobby /> : < Login/>} />
             <Route path="/create_quiz" element= {user? <Create_quiz /> : < Login/>} />
+            <Route path="/quizzes" element= {user? <Quizzes /> : < Login/>} />
             
           </Routes>
 

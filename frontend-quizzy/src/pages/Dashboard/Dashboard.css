@@ -1,8 +1,4 @@
 
-/* .Dashboard {
-    background-color: rgb(228, 31, 44);
-} */
-
 .labels{
     /* background-color: aliceblue; */
     list-style: none;
@@ -28,7 +24,7 @@
     margin-left: 200px;
 }
 
-#join_lobbyID, #create_lobbyID, #training_quizID {
+#join_lobbyID, #create_lobbyID, #training_quizID, #create_quizID {
     text-decoration: none;
     color: black;
 }

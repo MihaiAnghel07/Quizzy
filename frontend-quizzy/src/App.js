@@ -12,6 +12,7 @@ import Account from './pages/Account/Account';
 import Join_lobby from './pages/Join_lobby/Join_lobby';
 import Create_lobby from './pages/Create_lobby/Create_lobby';
 import Contact from './pages/Contact/Contact';
+import Create_quiz from './pages/Create_quiz/Create_quiz';
 
 
 
@@ -50,6 +51,7 @@ function App() {
             <Route path="/contact" element= {user? <Contact /> : < Login/>} /> 
             <Route path="/join_lobby" element= {user? <Join_lobby /> : < Login/>} />
             <Route path="/create_lobby" element= {user? <Create_lobby /> : < Login/>} />
+            <Route path="/create_quiz" element= {user? <Create_quiz /> : < Login/>} />
             
           </Routes>
 

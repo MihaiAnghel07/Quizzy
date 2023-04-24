@@ -19,9 +19,21 @@
     list-style: none;
 }
 
-
 .itemList li {
     margin-top: 20px;
+    border-top-left-radius: 70px;
+    border-bottom-left-radius: 70px;
+    border: solid 2px;
+    border-right: transparent;
+    /* background-color: blue; */
+    padding-right: 59px;
+    padding-left: 5px;
+}
+
+.itemList li:hover{
+    cursor: pointer;
+    background-color: rgb(250, 213, 167);
+    transition: 250ms;
 }
 
 .itemList li:first-child {

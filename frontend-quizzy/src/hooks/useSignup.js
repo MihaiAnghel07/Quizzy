@@ -56,9 +56,12 @@ export const useSignup = () => {
                     if (!res) {
                         throw new Error("Could not complete signup")
                     }
-
+                   
                     // dispatch login action
                     dispatch({ type: 'LOGIN', payload: res.user })
+
+                    //add also the username
+                    firebase.auth().currentUser.updateProfile({displayName: username});
                     
                     setIsPending(false)
                     setError(null)

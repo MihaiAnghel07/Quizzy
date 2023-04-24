@@ -26,7 +26,7 @@ export default function MySidebar() {
       </div>
 
       <ul className='itemList'>
-        <li><FaHome/> <Link to="/dashboard" id="dashboardId">Dashboard</Link></li>
+        <li><FaHome/> <Link to="/dashboard" id="dashboardId" >Dashboard</Link></li>
         <li><VscAccount/> <Link to="/account" id="accountId">Account</Link></li>
         <li><FaQuestion/> FAQ</li>
         <li><AiOutlineMail/> <Link to="/contact" id="contactId">Contact</Link></li>

@@ -13,30 +13,30 @@
     /* display: contents; */
 }
 
-.itemList{
+.sidebar-itemList{
+    /* position: fixed; */
     position: fixed;
     font-size: 20px;
     list-style: none;
 }
 
-.itemList li {
+.sidebar-itemList li {
     margin-top: 20px;
     border-top-left-radius: 70px;
     border-bottom-left-radius: 70px;
     border: solid 2px;
     border-right: transparent;
-    /* background-color: blue; */
     padding-right: 59px;
     padding-left: 5px;
 }
 
-.itemList li:hover{
+.sidebar-itemList li:hover{
     cursor: pointer;
     background-color: rgb(250, 213, 167);
     transition: 250ms;
 }
 
-.itemList li:first-child {
+.sidebar-itemList li:first-child {
     margin-top: 180px;
 }
 

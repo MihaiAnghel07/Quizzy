@@ -26,7 +26,6 @@ export default class Quizzes extends React.Component {
     myQuizzesHandler = (e) => {
         e.preventDefault();
         this.state.myQuizzes = true;
-        console.log(this.state.myQuizzes);
         let root = document.querySelector(':root');
         root.style.setProperty('--btn-background-color', '#ffe4c4');
         root.style.setProperty('--btn-hover-background-color', '#fad5a7');
@@ -38,7 +37,6 @@ export default class Quizzes extends React.Component {
     allQuizzesHandler = (e) => {
         e.preventDefault();
         this.state.myQuizzes = false;
-        console.log(this.state.myQuizzes);
         let root = document.querySelector(':root');
         root.style.setProperty('--btn-background-color', '#fad5a7');
         root.style.setProperty('--btn-hover-background-color', '#ffe4c4');
@@ -57,18 +55,17 @@ export default class Quizzes extends React.Component {
                         <button id='quizzes-all-quizzes-btn'
                                 onClick={this.allQuizzesHandler}>All Quizzes</button>
                         <button id='quizzes-create-quizz-btn'
-                                ><Link to='/create_quiz'>Create a Quiz</Link></button>
-
+                                ><Link to='/create_quiz' 
+                                       id='quizzes-create-quizz-link'>Create a Quiz</Link></button>
                     </div>
                 
                     <div className='quizzes-body'>
                         <div className="show-public-quizzes">
                             {this.state.myQuizzes && <ShowQuizzes quizzesType='private' path={this.state.username} />}
                             {!this.state.myQuizzes && <ShowQuizzes quizzesType='public' path='' />}
-
                         </div>
-
                     </div>
+                    
                 </div>
             </div>
         )

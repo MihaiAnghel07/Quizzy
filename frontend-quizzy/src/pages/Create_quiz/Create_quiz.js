@@ -2,6 +2,7 @@ import './Create_quiz.css'
 import { React, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { useCreateQuiz } from '../../hooks/useCreateQuiz';
+import { useAddQuestion } from '../../hooks/useAddQuestion';
 
 export default function Create_quiz() {
   
@@ -13,14 +14,16 @@ export default function Create_quiz() {
     const [quizAnswer4, setQuizAnswer4] = useState('')
     const [quizCorrectAnswer, setQuizCorrectAnswer] = useState('')
     const [isPublic, setIsPublic] = useState(false)
-    const { createQuiz, isQuizCreated, error } = useCreateQuiz()
+    const { createQuiz, isQuizCreated, error, quizKey} = useCreateQuiz()
+    const { addQuestion } = useAddQuestion()
 
     const handleSubmit = (e) => {
         e.preventDefault()
+
         if (!isQuizCreated) {
             createQuiz(quizTitle, quizQuestion, quizAnswer1, quizAnswer2, quizAnswer3, quizAnswer4, quizCorrectAnswer, isPublic);
         } else {
-            //addQuiz
+            addQuestion(quizQuestion, quizAnswer1, quizAnswer2, quizAnswer3, quizAnswer4, quizCorrectAnswer, quizKey);
         } 
 
     }

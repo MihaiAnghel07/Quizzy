@@ -1,5 +1,6 @@
 import { createContext, useEffect, useReducer, useState } from "react";
 import { projectFirebaseAuth } from '../firebase/config';
+import firebase from "firebase/app";
 
 
 export const AuthContext = createContext()
@@ -11,10 +12,14 @@ export const authReducer = (state, action) => {
             console.log("SET: ", action.payload.email)
             if (sessionStorage.getItem('user') == null)
                 sessionStorage.setItem('user', action.payload.email)
+            // if (sessionStorage.getItem('username') == null)
+            //     sessionStorage.setItem('username', firebase.auth().currentUser.displayName)
             console.log("GET: ", sessionStorage.getItem('user'))
+            // console.log("GET2: ", sessionStorage.getItem('username'))
             return { ...state, user: sessionStorage.getItem('user') }
         case 'LOGOUT' :
             sessionStorage.removeItem('user')
+            // sessionStorage.removeItem('username')
             projectFirebaseAuth.signOut()
             return { ...state, user: null}
         default:

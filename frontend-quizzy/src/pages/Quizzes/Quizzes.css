@@ -1,10 +1,10 @@
 :root {
-    --btn-background-color: bisque;
-    --btn-hover-background-color: rgb(250, 213, 167); 
+    --btn-background-color: #ffe4c4;
+    --btn-hover-background-color: #fad5a7; 
 }
 
 .quizzes-content {
-    background-color: azure;
+    /* background-color: azure; */
     margin-top: 40px;
 }
 
@@ -31,6 +31,11 @@
 
 #quizzes-create-quizz-btn {
     margin-left: 30%;
+}
+
+#quizzes-create-quizz-link {
+    text-decoration: none;
+    color: black;
 }
 
 #quizzes-my-quizzes-btn:hover {

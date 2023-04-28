@@ -1,11 +1,10 @@
 import React from 'react'
 import './MySidebar.css'
 import logo from '../../assets/logo.jpg'
-import { FaHome } from 'react-icons/fa';
+import { FaHome, FaQuestion } from 'react-icons/fa';
 import { VscAccount } from 'react-icons/vsc';
-import { FaQuestion } from 'react-icons/fa';
 import { GrContactInfo } from 'react-icons/gr';
-import { Link, Route, Routes } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Dashboard from '../../pages/Dashboard/Dashboard';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import Account from '../../pages/Account/Account';
@@ -24,8 +23,8 @@ export default function MySidebar() {
       <div>
           <img className="mySidebar-logo" src={logo}/>
       </div>
-
-      <ul className='itemList'>
+      
+      <ul className='sidebar-itemList'>
         <li><FaHome/> <Link to="/dashboard" id="dashboardId" >Dashboard</Link></li>
         <li><VscAccount/> <Link to="/account" id="accountId">Account</Link></li>
         <li><FaQuestion/> FAQ</li>

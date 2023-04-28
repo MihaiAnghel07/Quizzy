@@ -1,17 +1,26 @@
-import React from 'react'
+import {React, useState} from 'react'
 import './Join_lobby.css'
-import { useState } from 'react'
 import { useJoinLobby } from '../../hooks/useJoinLobby'
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Join_lobby() {
 
   const [lobbyCode, setLobbyCode] = useState('')
   const { join, error, isPending } = useJoinLobby()
+  let navigate = useNavigate()
 
-  const handleSubmit = (e) => {
+  const delay = ms => new Promise (
+    resolve => setTimeout(resolve, ms)
+  );
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
     join(lobbyCode)
+    await delay(700);
+    
+    if (error == null)
+      navigate('/participant_lobby');
   }
 
   return (

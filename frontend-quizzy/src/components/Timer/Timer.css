@@ -1,0 +1,12 @@
+.timer-component {
+    display: flex;
+    font-size: 25px;
+    justify-content: right;
+}
+
+.timer-component-red {
+    display: flex;
+    font-size: 25px;
+    justify-content: right;
+    color: red;
+}

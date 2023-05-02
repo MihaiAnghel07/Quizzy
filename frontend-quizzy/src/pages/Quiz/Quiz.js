@@ -4,6 +4,12 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import React from 'react'
+import Timer from '../../components/Timer/Timer';
+
+
+function handleTimerComplete() {
+    alert('Time is up!');
+  }
 
 export default class Quiz extends React.Component {
     constructor() {
@@ -67,24 +73,28 @@ export default class Quiz extends React.Component {
     }
 
 
+
+
     render() {
         return (
             //
             <div className='quiz'>
                 {this.state.quizOver ? (<div className='score-section'>You scored {this.state.score} out of {this.state.quizData.length}</div>) : (
                     <div className='quiz-section'>
-                    <div className='question-section'>
-                        <div className='question-count'>
-                            <span>Question {this.state.currentQuestionCount + 1}</span>/{this.state.quizData.length}
+                        <div className='timer-section'>
+                            <Timer seconds={3600} onTimerComplete={handleTimerComplete}/>  
                         </div>
-                        <div className='question-text'>{this.state.quizData[this.state.currentQuestionCount].questionText}</div>
-                    </div>
-                    <div className='answer-section'>
-                        {this.state.quizData[this.state.currentQuestionCount].answerOptions.map((answerOption) => <button onClick={() => this.handleAnswerButtonClick(answerOption.isCorrect)}>{answerOption.answerText}</button>)}
-                    </div>
-                </div> 
+                        <div className='question-section'>
+                            <div className='question-count'>
+                                <span>Question {this.state.currentQuestionCount + 1}</span>/{this.state.quizData.length}
+                            </div>
+                            <div className='question-text'>{this.state.quizData[this.state.currentQuestionCount].questionText}</div>
+                        </div>
+                        <div className='answer-section'>
+                            {this.state.quizData[this.state.currentQuestionCount].answerOptions.map((answerOption) => <button onClick={() => this.handleAnswerButtonClick(answerOption.isCorrect)}>{answerOption.answerText}</button>)}
+                        </div>
+                    </div> 
                 )}
-                
             </div>
              
         )

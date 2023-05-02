@@ -7,7 +7,7 @@
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     padding: 20px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-evenly;
   }
   
@@ -65,4 +65,7 @@
     font-size: 24px;
     align-items: center;
   }
+  
+
+  
   

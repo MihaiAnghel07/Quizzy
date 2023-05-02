@@ -15,6 +15,7 @@ import Contact from './pages/Contact/Contact';
 import Create_quiz from './pages/Create_quiz/Create_quiz';
 import Quizzes from './pages/Quizzes/Quizzes';
 import Participant_lobby from './pages/Participant_lobby/Participant_lobby';
+import Update_quiz from './pages/Update_quiz/Update_quiz';
 
 
 
@@ -43,6 +44,7 @@ function App() {
             <Route path="/create_quiz" element= {user? <Create_quiz /> : < Login/>} />
             <Route path="/quizzes" element= {user? <Quizzes /> : < Login/>} />
             <Route path="/participant_lobby" element= {user? <Participant_lobby /> : < Login/>} />
+            <Route path="/update_quiz" element= {user? <Update_quiz /> : < Login/>} />
             
           </Routes>
 

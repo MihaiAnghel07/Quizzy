@@ -1,9 +1,7 @@
 import React from 'react'
 import './ShowParticipants.css'
-import { useGetParticipants } from '../../hooks/useGetParticipants'
 import { Table } from 'react-bootstrap';
 import { projectFirebaseRealtime } from '../../firebase/config'
-import { useState } from "react";
 
 
 

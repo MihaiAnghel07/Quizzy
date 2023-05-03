@@ -17,7 +17,7 @@ export default class Quiz extends React.Component {
     constructor() {
         super();
         this.state = {
-            username: firebase.auth().currentUser.displayName,
+            // username: firebase.auth().currentUser.displayName,
             quizOver: false,
             score: 0,
             currentQuestionCount: 0,
@@ -54,7 +54,12 @@ export default class Quiz extends React.Component {
                 }
             ]
         }
+       // this.componentDidMount = this.componentDidMount.bind(this)
     }
+
+    // componentDidMount() {
+
+    // }
 
     handleAnswerButtonClick = (isCorrect) => {
        // e.preventDefault();

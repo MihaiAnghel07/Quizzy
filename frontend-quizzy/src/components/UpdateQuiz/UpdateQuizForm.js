@@ -5,8 +5,6 @@ import { projectFirebaseRealtime } from '../../firebase/config'
 
 
 
-
-
 export default class UpdateQuizForm extends React.Component {
 
     constructor() {
@@ -39,7 +37,7 @@ export default class UpdateQuizForm extends React.Component {
     render() {
         
         return (
-            <div>
+            <div>wer
                 {console.log("SSS" + this.state.quizData)}
                 {this.state.quizData}
             </div>

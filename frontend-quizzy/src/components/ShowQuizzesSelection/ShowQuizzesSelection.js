@@ -1,30 +1,26 @@
-import './ShowQuizzes.css'
 import React from 'react'
+import './ShowQuizzesSelection.css'
 import { Table } from 'react-bootstrap';
 import { projectFirebaseRealtime } from '../../firebase/config'
 import firebase from "firebase/app";
-import { useCopyQuiz } from '../../hooks/useCopyQuiz';
-import { useDeleteQuiz } from '../../hooks/useDeleteQuiz';
 import { useNavigate } from 'react-router-dom';
 
 
-
-class ShowQuizzes extends React.Component {
+class ShowQuizzesSelection extends React.Component {
 
     constructor() {
         super();
         this.state = {
             quizzesData: [],
-            username: firebase.auth().currentUser.displayName
+            //username: firebase.auth().currentUser.displayName
         }
-
 
         this.componentDidMount = this.componentDidMount.bind(this)
     }
     
 
     componentDidMount() {
-        let username = firebase.auth().currentUser.displayName;
+        let username = sessionStorage.getItem("username");
 
         if (this.props.quizzesType === 'private') {
             const ref = projectFirebaseRealtime.ref('Quizzes/' + username);
@@ -110,13 +106,7 @@ class ShowQuizzes extends React.Component {
                                     {this.props.quizzesType === 'private' &&
                                     !row.data.isPublic && <td>Private</td>}
                                     <td>
-                                        {this.props.quizzesType === 'public' && 
-                                        this.state.username !== row.data.Author &&
-                                        <button onClick={() => this.props.copyHandler(row.key, row.data.Author)}>Copy</button>}
-                                        {this.state.username === row.data.Author &&
-                                        <button onClick={() => this.props.updateHandler(row.key)}>Update</button>}
-                                        {this.state.username === row.data.Author &&
-                                        <button onClick={() => this.props.deleteHandler(row.key, row.data.Author)}>Delete</button>}
+                                        <button onClick={() => this.props.selectHandler(row.key, row.data.Author)}>Select</button>
                                     </td>
 
                                 </tr>
@@ -132,31 +122,22 @@ class ShowQuizzes extends React.Component {
 
 function wrapClass (Component) {
     return function WrappedComponent(props) {
-        const { copyQuiz } = useCopyQuiz();
-        const { deleteQuiz} = useDeleteQuiz();
         let navigate = useNavigate();
-
-        const copyHandler = (quizId, quizAuthor) => {
-            copyQuiz(quizId, quizAuthor);
-        }
-
-        const updateHandler = (quizId) => {
-            console.log("update");
-            navigate('/update_quiz', {state:{quizId:quizId}});
-        }
-
-        const deleteHandler = (quizId, quizAuthor) => {
-            deleteQuiz(quizId, quizAuthor);
-
-        }
         
+        const selectHandler = (quizId, quizAuthor) => {
+            // console.log(props.quizId)
+            // console.log(props.quizAuthor)
+            // props.quizIdSetter(quizId);
+            // props.quizAuthorSetter(quizAuthor);
+            console.log(quizId)
+            console.log(quizAuthor)
+            navigate(-1, {state:{quizId:quizId, quizAuthor:quizAuthor}})
+        }
 
         return <Component quizzesType={props.quizzesType} 
                           path={props.path} 
-                          copyHandler={copyHandler}
-                          updateHandler={updateHandler}
-                          deleteHandler={deleteHandler}/>
+                          selectHandler={selectHandler}/>
     }
 }
 
-export default wrapClass(ShowQuizzes); 
+export default wrapClass(ShowQuizzesSelection); 

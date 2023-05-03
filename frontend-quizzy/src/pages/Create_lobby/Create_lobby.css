@@ -75,3 +75,8 @@
     background-color: rgb(232, 173, 64);
     transition: 250ms;
 }
+
+#select-quiz-id {
+    text-decoration: none;
+    color: black;
+}

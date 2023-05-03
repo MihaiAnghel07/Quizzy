@@ -1,20 +1,21 @@
+import './QuizzesSelection.css'
+import React, { useEffect } from 'react'
 import ShowQuizzes from '../../components/showQuizzes/ShowQuizzes';
-import './Quizzes.css'
 import firebase from "firebase/app";
-import React from 'react'
-import { Link, useLocation } from 'react-router-dom';
+import ShowQuizzesSelection from '../../components/ShowQuizzesSelection/ShowQuizzesSelection';
+import { useLocation } from 'react-router-dom';
 
 
-export default class Quizzes extends React.Component {
+class QuizzesSelection extends React.Component {
 
     constructor() {
         super();
         this.state = {
             quizzesData: [],
             myQuizzes: true,
-            username: firebase.auth().currentUser.displayName,
+            //username: firebase.auth().currentUser.displayName,
         }
-        
+       
         //this.componentDidMount = this.componentDidMount.bind(this)
     }
     
@@ -50,15 +51,18 @@ export default class Quizzes extends React.Component {
                                 onClick={this.myQuizzesHandler}>My Quizzes</button>
                         <button id='quizzes-all-quizzes-btn'
                                 onClick={this.allQuizzesHandler}>All Quizzes</button>
-                        <button id='quizzes-create-quizz-btn'
-                                ><Link to='/create_quiz' 
-                                       id='quizzes-create-quizz-link'>Create a Quiz</Link></button>
                     </div>
                 
                     <div className='quizzes-body'>
                         <div className="show-public-quizzes">
-                            {this.state.myQuizzes && <ShowQuizzes quizzesType='private' path={this.state.username} />}
-                            {!this.state.myQuizzes && <ShowQuizzes quizzesType='public' path='' />}
+                            {this.state.myQuizzes && <ShowQuizzesSelection 
+                                                        quizzesType='private' 
+                                                        path={this.state.username} 
+                                                         />}
+                            {!this.state.myQuizzes && <ShowQuizzesSelection 
+                                                        quizzesType='public' 
+                                                        path='' 
+                                                        />}
                         </div>
                     </div>
                     
@@ -67,3 +71,20 @@ export default class Quizzes extends React.Component {
         )
     }
 }
+
+function wrapClass (Component) {
+    return function WrappedComponent(props) {
+        let location = useLocation();
+        
+        // useEffect(()=>{
+        //     location.state.quizAuthorSetter.quizAuthor = 'sad';
+        //     console.log(location.state.quizAuthorSetter.quizAuthor);
+        //   })
+        // console.log(location.state.quizIdSetter)
+        // console.log(location.state.quizAuthor)
+
+        return <Component />
+    }
+}
+
+export default wrapClass(QuizzesSelection); 

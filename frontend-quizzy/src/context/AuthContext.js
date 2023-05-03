@@ -1,25 +1,30 @@
 import { createContext, useEffect, useReducer, useState } from "react";
 import { projectFirebaseAuth } from '../firebase/config';
 import firebase from "firebase/app";
+import { useGetUsername } from "../hooks/useGetUsername";
 
 
 export const AuthContext = createContext()
 
-export const authReducer = (state, action) => {
+const SetUsernameFunction = () => { 
+    const { getUsername } = useGetUsername();
+    sessionStorage.setItem('username', getUsername());
+}
 
+export const authReducer = (state, action) => {
+    
     switch (action.type) {
         case 'LOGIN' :
             console.log("SET: ", action.payload.email)
-            if (sessionStorage.getItem('user') == null)
+            if (sessionStorage.getItem('user') == null) {
                 sessionStorage.setItem('user', action.payload.email)
-            // if (sessionStorage.getItem('username') == null)
-            //     sessionStorage.setItem('username', firebase.auth().currentUser.displayName)
+            }
             console.log("GET: ", sessionStorage.getItem('user'))
-            // console.log("GET2: ", sessionStorage.getItem('username'))
+            console.log("GET2: ", sessionStorage.getItem('username'))
             return { ...state, user: sessionStorage.getItem('user') }
         case 'LOGOUT' :
             sessionStorage.removeItem('user')
-            // sessionStorage.removeItem('username')
+            sessionStorage.removeItem('username')
             projectFirebaseAuth.signOut()
             return { ...state, user: null}
         default:
@@ -29,7 +34,6 @@ export const authReducer = (state, action) => {
 
 export const AuthContextProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState(null);
-    //const [state, setState] = useState(null);
     const [state, dispatch] = useReducer(authReducer, {
         user: null
     })
@@ -45,7 +49,8 @@ export const AuthContextProvider = ({ children }) => {
             
     }, []);
 
-    
+    SetUsernameFunction();
+    console.log("username = ", sessionStorage.getItem("username"));
     console.log("user = ", currentUser)
     console.log('AuthContext state:', state)
     

@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import React from 'react'
 import Timer from '../../components/Timer/Timer';
+import { FaFontAwesomeFlag, FaClock} from 'react-icons/fa'
+
 
 
 function handleTimerComplete() {
@@ -72,17 +74,27 @@ export default class Quiz extends React.Component {
         this.forceUpdate();
     }
 
+    handleFlagClick = () => {
+        // Handle event for when user clicks the flag button
+        alert('Flagged')
+    }
+
 
 
 
     render() {
         return (
-            //
             <div className='quiz'>
                 {this.state.quizOver ? (<div className='score-section'>You scored {this.state.score} out of {this.state.quizData.length}</div>) : (
                     <div className='quiz-section'>
-                        <div className='timer-section'>
-                            <Timer seconds={3600} onTimerComplete={handleTimerComplete}/>  
+                        <div className='timer-flag-section'>
+                            <div className='flag-icon'>
+                                <FaFontAwesomeFlag className='flag-button' title='Flag this question' onClick={this.handleFlagClick}/>
+                            </div>
+                            <div className='timer-content'>
+                                <Timer seconds={3600} onTimerComplete={handleTimerComplete}/>
+                                <FaClock/>
+                            </div>
                         </div>
                         <div className='question-section'>
                             <div className='question-count'>

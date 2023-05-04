@@ -16,17 +16,39 @@ export default function Create_quiz() {
     const [isPublic, setIsPublic] = useState(false)
     const { createQuiz, isQuizCreated, error, quizKey} = useCreateQuiz()
     const { addQuestion } = useAddQuestion()
+    const [showPopup, setShowPopup] = useState(false)
+    const [popupText, setPopupText] = useState('')
 
     const handleSubmit = (e) => {
         e.preventDefault()
 
         if (!isQuizCreated) {
             createQuiz(quizTitle, quizQuestion, quizAnswer1, quizAnswer2, quizAnswer3, quizAnswer4, quizCorrectAnswer, isPublic);
+            setPopupText('Quiz Created!')
         } else {
             addQuestion(quizQuestion, quizAnswer1, quizAnswer2, quizAnswer3, quizAnswer4, quizCorrectAnswer, quizKey);
+            setPopupText('Question Added!')
         } 
 
+        SetQuizTitle('')
+        setQuizQuestion('')
+        setQuizAnswer1('')
+        setQuizAnswer2('')
+        setQuizAnswer3('')
+        setQuizAnswer4('')
+        setQuizCorrectAnswer('')
+        setShowPopup(true)
+
     }
+
+    useEffect(() => {
+      if (showPopup) {
+        setTimeout(() => {
+          setShowPopup(false)
+        }, 2000)
+      }
+    }, [showPopup])
+
 
     const handlePrivateButton = (e) => {
         e.preventDefault()
@@ -57,9 +79,15 @@ export default function Create_quiz() {
 
 
     return (
+      <div className='create-quiz-page-wrap'>
+        {
+          <div className='form-header'>
+            <div className='popup-section'>{showPopup && <h3>{popupText}</h3>}</div>
+            
+          </div>
+        }
         <div id="create-quiz-form-wrap">
-          {!isQuizCreated && <h2>Create A New Quiz</h2>}
-          {isQuizCreated && <h2>Add A New Question</h2>}
+          {isQuizCreated ? <h2>Add A New Question</h2> : <h2>Create A New Quiz</h2>}
           <form id="create-quiz-form" onSubmit={handleSubmit}>
           {!isQuizCreated && <p>
             <input 
@@ -161,5 +189,7 @@ export default function Create_quiz() {
             </p>
           </div>
       </div>
+    </div>
+        
       )
 }

@@ -6,14 +6,13 @@ import ShowQuizzesSelection from '../../components/ShowQuizzesSelection/ShowQuiz
 import { useLocation } from 'react-router-dom';
 
 
-class QuizzesSelection extends React.Component {
+export default class QuizzesSelection extends React.Component {
 
     constructor() {
         super();
         this.state = {
             quizzesData: [],
             myQuizzes: true,
-            //username: firebase.auth().currentUser.displayName,
         }
        
         //this.componentDidMount = this.componentDidMount.bind(this)
@@ -71,20 +70,3 @@ class QuizzesSelection extends React.Component {
         )
     }
 }
-
-function wrapClass (Component) {
-    return function WrappedComponent(props) {
-        let location = useLocation();
-        
-        // useEffect(()=>{
-        //     location.state.quizAuthorSetter.quizAuthor = 'sad';
-        //     console.log(location.state.quizAuthorSetter.quizAuthor);
-        //   })
-        // console.log(location.state.quizIdSetter)
-        // console.log(location.state.quizAuthor)
-
-        return <Component />
-    }
-}
-
-export default wrapClass(QuizzesSelection); 

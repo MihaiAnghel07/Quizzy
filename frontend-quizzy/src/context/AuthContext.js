@@ -25,6 +25,7 @@ export const authReducer = (state, action) => {
         case 'LOGOUT' :
             sessionStorage.removeItem('user')
             sessionStorage.removeItem('username')
+            sessionStorage.removeItem("lobbyCode");
             projectFirebaseAuth.signOut()
             return { ...state, user: null}
         default:

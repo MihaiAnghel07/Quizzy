@@ -6,25 +6,33 @@
     margin-top: 5%;
 }
 
-.create-lobby-buttons{
+.create-lobby-buttons {
     /* background-color: aliceblue; */
+    /* position: fixed; */
     margin-top: 100px;
     margin-left: -80px;
-}
-
-.create-lobby-buttons{
-    position: fixed;
     font-size: 25px;
     list-style: none;
     overflow: hidden;
     padding: 0;
+    display: flex;
+    flex-direction: row;
 }
 
-#print-lobbyCode {
+.create-lobby-content {
+    display: flex;
+    flex-direction: column;
+}
+
+/* #print-lobbyCode {
     position: fixed;
     color: black;
     margin-left: 50px;
     
+} */
+
+#print-quiz-title {
+    background-color: rgb(4, 77, 141);
 }
 
 .show-participants {
@@ -80,3 +88,4 @@
     text-decoration: none;
     color: black;
 }
+

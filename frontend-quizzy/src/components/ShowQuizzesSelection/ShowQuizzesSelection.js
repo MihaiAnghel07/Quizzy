@@ -106,7 +106,7 @@ class ShowQuizzesSelection extends React.Component {
                                     {this.props.quizzesType === 'private' &&
                                     !row.data.isPublic && <td>Private</td>}
                                     <td>
-                                        <button onClick={() => this.props.selectHandler(row.key, row.data.Author)}>Select</button>
+                                        <button onClick={() => this.props.selectHandler(row.key, row.data.Author, row.data.Title)}>Select</button>
                                     </td>
 
                                 </tr>
@@ -124,14 +124,11 @@ function wrapClass (Component) {
     return function WrappedComponent(props) {
         let navigate = useNavigate();
         
-        const selectHandler = (quizId, quizAuthor) => {
-            // console.log(props.quizId)
-            // console.log(props.quizAuthor)
-            // props.quizIdSetter(quizId);
-            // props.quizAuthorSetter(quizAuthor);
+        const selectHandler = (quizId, quizAuthor, quizTitle) => {
             console.log(quizId)
             console.log(quizAuthor)
-            navigate(-1, {state:{quizId:quizId, quizAuthor:quizAuthor}})
+            console.log(quizTitle)
+            navigate('/create_lobby', {state:{quizId:quizId, quizAuthor:quizAuthor, quizTitle:quizTitle}, replace: true})
         }
 
         return <Component quizzesType={props.quizzesType} 

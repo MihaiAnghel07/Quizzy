@@ -16,6 +16,11 @@ export default function Create_quiz() {
     const [isPublic, setIsPublic] = useState(false)
     const { createQuiz, isQuizCreated, error, quizKey} = useCreateQuiz()
     const { addQuestion } = useAddQuestion()
+    const [selectedOption, setSelectedOption] = useState('');
+
+  function handleOptionChange(event) {
+    setSelectedOption(event.target.value);
+  }
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -111,6 +116,7 @@ export default function Create_quiz() {
               required />
               <i className="validation"></i>
             </p>
+           
             <p>
             <input 
               type="quizAnswer4" 
@@ -121,7 +127,8 @@ export default function Create_quiz() {
               required />
               <i className="validation"></i>
             </p>
-            <p>
+            
+            {/* <p>
             <input 
               type="quizCorrectAnswer" 
               id="quizCorrectAnswer-create-quiz" 
@@ -130,7 +137,25 @@ export default function Create_quiz() {
               onChange={(e) => setQuizCorrectAnswer(e.target.value)} 
               required />
               <i className="validation"></i>
-            </p>
+            </p> */}
+            <div>
+      <label>
+        <input type="radio" value="option1" checked={selectedOption === "option1"} onChange={handleOptionChange} />
+        Option 1
+      </label>
+      <label>
+        <input type="radio" value="option2" checked={selectedOption === "option2"} onChange={handleOptionChange} />
+        Option 2
+      </label>
+      <label>
+        <input type="radio" value="option3" checked={selectedOption === "option3"} onChange={handleOptionChange} />
+        Option 3
+      </label>
+      <label>
+        <input type="radio" value="option4" checked={selectedOption === "option4"} onChange={handleOptionChange} />
+        Option 4
+      </label>
+    </div>
 
             {!isQuizCreated &&
             <div className='private-public-btns'>

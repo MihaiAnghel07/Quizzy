@@ -1,11 +1,12 @@
 import './Quiz.css'
 import firebase from "firebase/app";
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import React from 'react'
 import Timer from '../../components/Timer/Timer';
 import { FaFontAwesomeFlag, FaClock} from 'react-icons/fa'
+import { projectFirebaseRealtime } from '../../firebase/config'
 
 
 
@@ -13,7 +14,7 @@ function handleTimerComplete() {
     alert('Time is up!');
   }
 
-export default class Quiz extends React.Component {
+class Quiz extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -54,12 +55,21 @@ export default class Quiz extends React.Component {
                 }
             ]
         }
-       // this.componentDidMount = this.componentDidMount.bind(this)
+        
+        this.componentDidMount = this.componentDidMount.bind(this)
     }
 
-    // componentDidMount() {
-
-    // }
+    componentDidMount() {
+        const ref = projectFirebaseRealtime.ref('Quizzes/' + this.props.quizAuthor + '/' + this.props.quizId + '/Questions');
+            ref.once('value', (snapshot) => {
+                let records = [];
+                if (snapshot.exists()) {
+                    
+                    // de mapat datele
+                }
+                //this.setState({quizData: records});
+            })
+    }
 
     handleAnswerButtonClick = (isCorrect) => {
        // e.preventDefault();
@@ -117,3 +127,15 @@ export default class Quiz extends React.Component {
         )
     }
 }
+
+function wrapClass (Component) {
+    return function WrappedComponent(props) {
+        const location = useLocation();
+
+        return <Component quizId={location.state.quizId} 
+                            quizTitle={location.state.quizTitle}
+                            quizAuthor={location.state.quizAuthor}/>
+    }
+}
+
+export default wrapClass(Quiz); 

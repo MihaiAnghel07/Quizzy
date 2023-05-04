@@ -1,23 +1,31 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import './Create_lobby.css'
 import { useGenerateLobbyCode } from '../../hooks/useGenerateLobbyCode'
-import { useAuthContext } from '../../hooks/useAuthContext'
 import { useLoadingLobbyTemplate } from '../../hooks/useLoadingLobbyTemplate'
-import { useState } from "react";
 import ShowParticipants from '../../components/showParticipants/ShowParticipants'
 import Modal from '../../components/modal/Modal'
 import { useCloseLobby } from '../../hooks/useCloseLobby'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import QuizzesSelection from '../QuizzesSelection/QuizzesSelection'
 
 
 
 export default function Create_lobby() {
 
+  const { closeLobby } = useCloseLobby()
+  const [openModal, setOpenModal] = useState(false);
+  const [confirmModal, setConfirmModal] = useState(false);
+  const [quizId, setQuizId] = useState(-1)
+  const [quizAuthor, setQuizAuthor] = useState(null)
+  let navigate = useNavigate();
+  let location = useLocation();
   // generate unique lobbyCode
   const { generateLobbyCode } = useGenerateLobbyCode()
-  const [lobbyCode] = useState(generateLobbyCode());
+  if (sessionStorage.getItem('lobbyCode') === null)
+    sessionStorage.setItem('lobbyCode', generateLobbyCode());
 
+  const [lobbyCode] = useState(sessionStorage.getItem("lobbyCode"));
+  
   let lobbyTemplate = {
     code: lobbyCode,
     gameStatus: "on hold",
@@ -28,46 +36,46 @@ export default function Create_lobby() {
     questionSet: []
   }
 
-  let navigate = useNavigate();
-
   // load the lobby template to database
   const { loadLobbyTemplateToDatabase } = useLoadingLobbyTemplate()
   loadLobbyTemplateToDatabase(lobbyTemplate)
-
-  const { closeLobby } = useCloseLobby()
-  const [openModal, setOpenModal] = useState(false);
-  const [confirmModal, setConfirmModal] = useState(false);
-  const [quizId, setQuizId] = useState(-1)
-  const [quizAuthor, setQuizAuthor] = useState(null)
   
   // when confirmModal modified, cloase the lobby and redirect to dashboard
   useEffect(()=>{
     if (confirmModal) {
       closeLobby(lobbyCode);
-      navigate(-1);
+      sessionStorage.removeItem("lobbyCode");
+      navigate('/dashboard', {replace: true});
     }
   }, [confirmModal])
 
   const selectQuizHandler = (e) => {
     e.preventDefault();
-    navigate('/quizzes_selection', {state:{quizIdSetter:{setQuizId}, 
-                                          quizAuthorSetter:{quizAuthor}}});
+    navigate('/quizzes_selection');
   }
 
   const startQuizHandler = (e) => {
     e.preventDefault();
-    console.log("quizId = " + quizId)
-    console.log("quizAuthor = " + quizAuthor)
+
+    console.log("quizId = " + location.state.quizId)
+    console.log("quizTitle = " + location.state.quizTitle)
+    navigate('/quiz', {state: {quizId:location.state.quizId,
+                              quizTitle:location.state.quizTitle,
+                              quizAuthor:location.state.quizAuthor}});
+
   }
 
   return (
     <div className='create-lobby-wrapper'>
       <div className='create-lobby-content'>
         <div id="print-lobbyCode">Lobby Code: {lobbyCode}</div>
-        
+        <div id="print-quiz-title">
+          {location.state?.quizId ? <h2>{location.state?.quizTitle}</h2> : 
+                                  <h2>No quiz selected</h2>}
+        </div>
         <ul className='create-lobby-buttons'>
           <li id='select-quiz-button' onClick={selectQuizHandler}>Select Quiz</li>
-          <li id='start-quiz-button' onClick={startQuizHandler} >Start Quiz</li>
+          <li id='start-quiz-button' onClick={startQuizHandler}>Start Quiz</li>
           <li id='close-lobby-button' onClick={setOpenModal}>Close Lobby</li>
         </ul>
 

@@ -18,6 +18,7 @@ import Quiz from './pages/Quiz/Quiz';
 import Participant_lobby from './pages/Participant_lobby/Participant_lobby';
 import Update_quiz from './pages/Update_quiz/Update_quiz';
 import QuizzesSelection from './pages/QuizzesSelection/QuizzesSelection';
+import PopupTest from './pages/PopupTest/PopupTest';
 
 
 
@@ -49,6 +50,7 @@ function App() {
             <Route path="/update_quiz" element= {user? <Update_quiz /> : < Login/>} />
             <Route path="/quiz" element= {user? <Quiz /> : < Login/>} />
             <Route path="/quizzes_selection" element= {user? <QuizzesSelection /> : < Login/>} />
+            <Route path="/popuptest" element= {user? <PopupTest /> : < Login/>} />
             
           </Routes>
 

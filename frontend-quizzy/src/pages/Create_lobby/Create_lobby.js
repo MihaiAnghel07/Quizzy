@@ -70,7 +70,7 @@ export default function Create_lobby() {
       <div className='create-lobby-content'>
         <div id="print-lobbyCode">Lobby Code: {lobbyCode}</div>
         <div id="print-quiz-title">
-          {location.state?.quizId ? <h2>{location.state?.quizTitle}</h2> : 
+          {location.state?.quizId ? <h2>{"Selected Quiz: " + location.state?.quizTitle}</h2> : 
                                   <h2>No quiz selected</h2>}
         </div>
         <ul className='create-lobby-buttons'>

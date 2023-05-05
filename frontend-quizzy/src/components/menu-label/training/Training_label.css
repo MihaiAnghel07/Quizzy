@@ -1,0 +1,24 @@
+
+.training-label-wrapper {
+    /* display: block; */
+    border: 3px solid rgb(225, 234, 48);
+    padding: .5em;
+    border-radius: 10px;
+    width: 150px;
+    height: 150px;
+    background-color: rgb(235, 188, 99);
+
+}
+.training-label-wrapper:hover {
+    cursor: pointer;
+    background-color: rgb(232, 173, 64);
+    transition: 250ms;
+}
+
+.training-label-content {
+    text-align: center;
+}
+
+h4 {
+    padding-top: 15px;
+}

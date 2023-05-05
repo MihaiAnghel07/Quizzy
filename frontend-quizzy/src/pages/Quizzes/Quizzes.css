@@ -1,0 +1,71 @@
+:root {
+    --btn-background-color: #ffe4c4;
+    --btn-hover-background-color: #fad5a7; 
+}
+
+.quizzes-content {
+    /* background-color: azure; */
+    margin-top: 40px;
+}
+
+#quizzes-my-quizzes-btn, #quizzes-all-quizzes-btn, #quizzes-create-quizz-btn {
+    color: black;
+    background-color: bisque;
+    border-radius: 5px;
+    width: 100px;
+    height: 37px;
+    border: 2px solid;
+    font: 0.55em sans-serif;
+    font-weight: bold;
+}
+
+#quizzes-my-quizzes-btn {
+    margin-left: 35%;
+    background-color: var(--btn-hover-background-color);
+}
+
+#quizzes-all-quizzes-btn {
+    margin-left: 10px;
+    background-color: var(--btn-background-color);
+}
+
+#quizzes-create-quizz-btn {
+    margin-left: 30%;
+}
+
+#quizzes-create-quizz-link {
+    text-decoration: none;
+    color: black;
+}
+
+#quizzes-my-quizzes-btn:hover {
+    background-color: rgb(250, 213, 167);
+    transition: 250ms;
+}
+
+#quizzes-all-quizzes-btn:hover {
+    background-color: rgb(250, 213, 167);
+    transition: 250ms;
+}
+
+#quizzes-create-quizz-btn:hover {
+    background-color: rgb(250, 213, 167);
+    transition: 250ms;
+}
+
+
+@media screen and (min-width: 500px) and (max-width: 1200px) {
+    #quizzes-create-quizz-btn {
+      display: none;
+    } 
+  }
+
+  @media screen and (min-width: 500px) and (max-width: 800px) {
+    #quizzes-all-quizzes-btn {
+      display: none;
+    } 
+  }
+
+  button:hover {
+    cursor: pointer;
+  }

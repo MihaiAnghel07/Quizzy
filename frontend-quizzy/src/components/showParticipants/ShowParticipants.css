@@ -1,0 +1,26 @@
+#id, #username {
+    font: 0.8em sans-serif;
+    min-width: 100px;
+    /* width: 100px; */
+    /* background-color: blue; */
+    font-weight: bold;
+    
+}
+
+#participants{
+  background-color: blue;
+  align-items: center;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  color: black;
+  font-weight: bold;
+}
+
+th, td {
+  font: 0.9em sans-serif;
+  border-bottom: 1px solid #ddd;
+  padding: 16px;
+  text-align: center;
+}
+
+tr:nth-child(even) {background-color: #f2f2f2;}

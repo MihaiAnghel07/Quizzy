@@ -1,3 +1,17 @@
+.popup-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+}
+
+.popup-message {
+    color: aliceblue;
+}
+
+.popup-icon {
+    color: aliceblue;
+}
+
 .popup {
     position: fixed;
     right: -200px;

@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import "./Popup.css";
 
+
 function Popup(props) {
-  const { message, duration, position } = props;
+  const { message, duration, position, icon} = props;
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -16,7 +17,14 @@ function Popup(props) {
 
   return (
     <div className={`popup ${position}`}>
-      <span>{message}</span>
+        <div className="popup-container">
+            <div className="popup-message">
+                <span>{message}</span>
+            </div>
+            <div className="popup-icon">
+                {icon}
+            </div>
+        </div>
     </div>
   );
 }

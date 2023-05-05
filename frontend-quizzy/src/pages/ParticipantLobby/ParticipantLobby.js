@@ -1,11 +1,11 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import BouncingDotsLoader from '../../components/BouncingDotsLoader/BouncingDotsLoader'
-import './Participant_lobby.css'
+import './ParticipantLobby.css'
 import React from 'react'
 import { projectFirebaseRealtime } from '../../firebase/config'
 
 
-class Participant_lobby extends React.Component() {
+class ParticipantLobby extends React.Component {
 
     constructor() {
         super();
@@ -20,15 +20,8 @@ class Participant_lobby extends React.Component() {
 
         const ref = projectFirebaseRealtime.ref('Lobbies/' + this.props.lobbyCode + '/gameStatus');
         ref.on('value', (snapshot) => {
-            if (snapshot.exists()) {
-                console.log(snapshot)
-                // let records = [];
-                // snapshot.forEach(childSnapshot => {
-                //     let key = childSnapshot.key;
-                //     let data = childSnapshot.val();
-                //     records.push({"key":key, "data":data}); 
-                // })
-                // this.setState({quizzesData: records});
+            if (snapshot.exists() && snapshot.val() === 'in progress') {
+                this.props.myNavigateHandler();
             }
         })
 
@@ -41,7 +34,6 @@ class Participant_lobby extends React.Component() {
                 <div className='participant-lobby-content'>
                     <h4>Waiting for quiz starting </h4>
                     <div id='bouncing-dots-loader'><BouncingDotsLoader/></div>
-                    
                 </div>
             </div>
         )
@@ -51,12 +43,15 @@ class Participant_lobby extends React.Component() {
 
 function wrapClass (Component) {
     return function WrappedComponent(props) {
+        let location = useLocation();
         let navigate = useNavigate();
-        console.log(props.lobbyCode);
-        
 
-        return <Component lobbyCode={props.lobbyCode}/>
+        const myNavigate = () => {
+            navigate('/quiz', {state:{lobbyCode:location.state.lobbyCode}})
+        }
+
+        return <Component lobbyCode={location.state.lobbyCode} myNavigateHandler={myNavigate}/>
     }
 }
 
-export default wrapClass(Participant_lobby); 
+export default wrapClass(ParticipantLobby); 

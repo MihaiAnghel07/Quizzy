@@ -58,7 +58,7 @@ export default function Create_lobby() {
     updateLobby(lobbyCode, location.state.quizId);
     // navigate to waiting page
     // TODO
-    
+
     // navigate('/quiz', {state: {quizId:location.state.quizId,
     //                           quizTitle:location.state.quizTitle,
     //                           quizAuthor:location.state.quizAuthor}});
@@ -81,9 +81,9 @@ export default function Create_lobby() {
 
         {openModal && <Modal closeModal={setOpenModal} yesModal={setConfirmModal} message="Are you sure you want to close the lobby?" />}
         
-        <div className="show-participants">
+        {/* <div className="show-participants">
           <ShowParticipants lobbyCode={lobbyCode} />
-        </div>  
+        </div>   */}
       </div>  
         
     </div>

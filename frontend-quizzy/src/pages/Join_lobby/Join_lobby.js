@@ -8,8 +8,6 @@ export default function Join_lobby() {
 
   const [lobbyCode, setLobbyCode] = useState('')
   const { join, error, isPending } = useJoinLobby()
-  let navigate = useNavigate()
-
 
   const handleSubmit = (e) => {
     e.preventDefault()

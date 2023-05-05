@@ -53,7 +53,7 @@ export const useJoinLobby = () => {
                         // ATENTIE! folosim navigate in hook. De cercetat daca exista o varianta mai buna
                         setIsPending(true)
                         await delay(700);
-                        navigate('/participant_lobby');
+                        navigate('/participant_lobby', {state:{lobbyCode:lobbyCode}});
 
                     } else {
                         setError("Nu exista un lobby cu acest cod!")

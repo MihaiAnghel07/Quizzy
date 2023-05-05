@@ -7,6 +7,7 @@ import Modal from '../../components/modal/Modal'
 import { useCloseLobby } from '../../hooks/useCloseLobby'
 import { useLocation, useNavigate } from 'react-router-dom';
 import QuizzesSelection from '../QuizzesSelection/QuizzesSelection'
+import { useUpdateLobby } from '../../hooks/useUpdateLobby'
 
 
 
@@ -15,30 +16,28 @@ export default function Create_lobby() {
   const { closeLobby } = useCloseLobby()
   const [openModal, setOpenModal] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
-  const [quizId, setQuizId] = useState(-1)
-  const [quizAuthor, setQuizAuthor] = useState(null)
+  const { updateLobby } = useUpdateLobby();
+  const { loadLobbyTemplateToDatabase } = useLoadingLobbyTemplate()
+
   let navigate = useNavigate();
   let location = useLocation();
   // generate unique lobbyCode
   const { generateLobbyCode } = useGenerateLobbyCode()
-  if (sessionStorage.getItem('lobbyCode') === null)
+  if (sessionStorage.getItem('lobbyCode') === null) {
     sessionStorage.setItem('lobbyCode', generateLobbyCode());
-
-  const [lobbyCode] = useState(sessionStorage.getItem("lobbyCode"));
-  
-  let lobbyTemplate = {
-    code: lobbyCode,
-    gameStatus: "on hold",
-    host: sessionStorage.getItem('user'),
-    noParticipants: 0,
-    participants: [],
-    questionIndex: 0,
-    questionSet: []
+    let lobbyTemplate = {
+      code: sessionStorage.getItem('lobbyCode'),
+      gameStatus: "on hold",
+      host: sessionStorage.getItem('username'),
+      noParticipants: 0,
+      participants: [],
+      questionIndex: 0,
+      quizId: -1
+    }
+    loadLobbyTemplateToDatabase(lobbyTemplate)
   }
 
-  // load the lobby template to database
-  const { loadLobbyTemplateToDatabase } = useLoadingLobbyTemplate()
-  loadLobbyTemplateToDatabase(lobbyTemplate)
+  const [lobbyCode] = useState(sessionStorage.getItem("lobbyCode"));
   
   // when confirmModal modified, cloase the lobby and redirect to dashboard
   useEffect(()=>{
@@ -56,12 +55,13 @@ export default function Create_lobby() {
 
   const startQuizHandler = (e) => {
     e.preventDefault();
-
-    console.log("quizId = " + location.state.quizId)
-    console.log("quizTitle = " + location.state.quizTitle)
-    navigate('/quiz', {state: {quizId:location.state.quizId,
-                              quizTitle:location.state.quizTitle,
-                              quizAuthor:location.state.quizAuthor}});
+    updateLobby(lobbyCode, location.state.quizId);
+    // navigate to waiting page
+    // TODO
+    
+    // navigate('/quiz', {state: {quizId:location.state.quizId,
+    //                           quizTitle:location.state.quizTitle,
+    //                           quizAuthor:location.state.quizAuthor}});
 
   }
 
@@ -79,12 +79,13 @@ export default function Create_lobby() {
           <li id='close-lobby-button' onClick={setOpenModal}>Close Lobby</li>
         </ul>
 
-        {openModal && <Modal closeModal={setOpenModal} yesModal={setConfirmModal} />}
+        {openModal && <Modal closeModal={setOpenModal} yesModal={setConfirmModal} message="Are you sure you want to close the lobby?" />}
         
         <div className="show-participants">
           <ShowParticipants lobbyCode={lobbyCode} />
-        </div>
-      </div>      
+        </div>  
+      </div>  
+        
     </div>
   )
 }

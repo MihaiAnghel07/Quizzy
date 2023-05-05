@@ -3,7 +3,7 @@ import React from 'react'
 
 
 
-export default function Modal({closeModal, yesModal}) {
+export default function Modal({closeModal, yesModal, message}) {
 
     return (
         <div className='modal-wrapper'>
@@ -12,7 +12,7 @@ export default function Modal({closeModal, yesModal}) {
                     <button onClick={() => closeModal(false)}>X</button>
                 </div>
                 <div className='modal-title'>
-                    <h5>Are you sure you want to close the lobby?</h5>
+                    <h5>{message}</h5>
                 </div>
                 <div className='modal-body'>
                     

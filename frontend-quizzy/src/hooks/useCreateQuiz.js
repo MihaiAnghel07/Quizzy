@@ -5,7 +5,6 @@ import firebase from "firebase/app";
 
 export const useCreateQuiz = () => {
     const [error, setError] = useState(null)
-    const [isQuizCreated, setIsQuizCreated] = useState(false)
     const [quizKey, setQuizKey] = useState(null)
     let exists = false;
 
@@ -29,7 +28,8 @@ export const useCreateQuiz = () => {
                                    'answer1': {'text':quizAnswer1, 'isCorrect': selectedOption === 'answer1'},
                                    'answer2': {'text':quizAnswer2, 'isCorrect': selectedOption === 'answer2'},
                                    'answer3': {'text':quizAnswer3, 'isCorrect': selectedOption === 'answer3'},
-                                   'answer4': {'text':quizAnswer4, 'isCorrect': selectedOption === 'answer4'}}];
+                                   'answer4': {'text':quizAnswer4, 'isCorrect': selectedOption === 'answer4'},
+                                   'hasImage': (imageUpload !== null && imageUpload.length !== 0)}];
         quizTemplate.isPublic = isPublic;
         
         const ref = projectFirebaseRealtime.ref('Quizzes');
@@ -40,7 +40,6 @@ export const useCreateQuiz = () => {
                         // there is another quiz having the same title
                         setError("There is another quiz having the same title");
                         exists = true;
-                        setIsQuizCreated(false);
                     }
                 })
             }
@@ -49,10 +48,9 @@ export const useCreateQuiz = () => {
                 let newKey = getTimeEpoch();
                 setQuizKey(newKey);
                 projectFirebaseRealtime.ref('Quizzes/' + username + '/' + newKey).set(quizTemplate);  
-                setIsQuizCreated(true);
 
                 //add question image, if exists
-                if (imageUpload.length !== 0) {
+                if (imageUpload !== null && imageUpload.length !== 0) {
                     console.log(imageUpload[0].name)
                     let ref = projectFirebaseStorage.ref('Images/');
                     ref.child(username + '/' + newKey + '/' + 'Questions/0/' + imageUpload[0].name).put(imageUpload[0]).then((snapshot) => {
@@ -65,5 +63,5 @@ export const useCreateQuiz = () => {
                   
     }
 
-    return { createQuiz, isQuizCreated, error, quizKey }
+    return { createQuiz, error, quizKey }
 }

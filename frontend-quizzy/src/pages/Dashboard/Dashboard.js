@@ -12,14 +12,13 @@ import { motion } from "framer-motion"
 
 export default function Dashboard() {
   
-  const {user} = useAuthContext()
+  // const {user} = useAuthContext()
 
   return (
     <motion.div className="Dashboard" 
       initial={{opacity:0}}
       animate={{opacity:1}} 
       exit={{opacity:0}}>
-      <h4>Hello from Dashboard! {user.email}</h4>
      
       <ul className='labels'>
         <li><Link to="/join_lobby" id="join_lobbyID"><Join_lobby_label /> </Link></li>

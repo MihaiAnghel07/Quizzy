@@ -1,8 +1,9 @@
 import './Create_quiz.css'
 import { React, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCreateQuiz } from '../../hooks/useCreateQuiz';
 import { useAddQuestion } from '../../hooks/useAddQuestion';
+import Modal from '../../components/modal/Modal'
 
 export default function Create_quiz() {
   
@@ -13,20 +14,14 @@ export default function Create_quiz() {
     const [quizAnswer3, setQuizAnswer3] = useState('')
     const [quizAnswer4, setQuizAnswer4] = useState('')
     const [isPublic, setIsPublic] = useState(false)
-    const { createQuiz, isQuizCreated, error, quizKey} = useCreateQuiz()
-    const { addQuestion } = useAddQuestion()
-    const [selectedOption, setSelectedOption] = useState('');
+    const { createQuiz, error, quizKey} = useCreateQuiz()
+    const [selectedOption, setSelectedOption] = useState('answer1');
     const [imageUpload, setImageUpload] = useState(null);
+    let navigate = useNavigate()
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        
-        if (!isQuizCreated) {
-            createQuiz(quizTitle, quizQuestion, quizAnswer1, quizAnswer2, quizAnswer3, quizAnswer4, selectedOption, imageUpload, isPublic);
-        } else {
-            addQuestion(quizQuestion, quizAnswer1, quizAnswer2, quizAnswer3, quizAnswer4, selectedOption, imageUpload, quizKey);
-        } 
-
+        createQuiz(quizTitle, quizQuestion, quizAnswer1, quizAnswer2, quizAnswer3, quizAnswer4, selectedOption, imageUpload, isPublic);
     }
 
     const handlePrivateButton = (e) => {
@@ -60,13 +55,18 @@ export default function Create_quiz() {
       setSelectedOption(event.target.value);
     }
 
+    useEffect(() => {
+      if (quizKey !== null)
+        navigate('/add_question', {state:{quizKey:quizKey}, replace: true});
+    }, [quizKey])
+
 
     return (
         <div id="create-quiz-form-wrap">
-          {!isQuizCreated && <h2>Create A New Quiz</h2>}
-          {isQuizCreated && <h2>Add A New Question</h2>}
+          
+          <h2>Create A New Quiz</h2>
           <form id="create-quiz-form" onSubmit={handleSubmit}>
-          {!isQuizCreated && <p>
+          <p>
             <input 
               type="quizTitle" 
               id="quizTitle-create-quiz" 
@@ -75,7 +75,7 @@ export default function Create_quiz() {
               onChange={(e) => SetQuizTitle(e.target.value)} 
               required />
               <i className="validation"></i>
-            </p>}
+            </p>
             <p>
             <input 
               type="quizQuestion" 
@@ -133,16 +133,6 @@ export default function Create_quiz() {
               <i className="validation"></i>
             </p>
             
-            {/* <p>
-            <input 
-              type="quizCorrectAnswer" 
-              id="quizCorrectAnswer-create-quiz" 
-              name="quizCorrectAnswer" 
-              placeholder="Correct Answer" 
-              onChange={(e) => setQuizCorrectAnswer(e.target.value)} 
-              required />
-              <i className="validation"></i>
-            </p> */}
             <div id="select-correct-answer-title">Select the correct answer:</div>
             
             <div className='select-correct-answer-section'>
@@ -160,29 +150,22 @@ export default function Create_quiz() {
               </label>
             </div>
 
-            {!isQuizCreated &&
             <div className='private-public-btns'>
                 <button id='private-quiz-button' onClick={handlePrivateButton} >Private</button>
                 <button id='public-quiz-button' onClick={handlePublicButton} >Public</button>
-            </div> }
+            </div>
 
-            {!isQuizCreated && <p>
+            <p>
             <input 
               type="submit" 
               id="signup" 
               value="Create Quiz" />
-            </p>}
-
-            {isQuizCreated && <p>
-            <input 
-              type="submit" 
-              id="signup" 
-              value="Add Question" />
-            </p>}
+            </p>
 
             {error &&<p className='showError'>{error}</p>}
+
           </form>
-    
+
           <div id="leave-page-create-quiz-wrap">
             <p>Leave the page? 
               <Link to="/quizzes"> Leave</Link>

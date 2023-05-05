@@ -10,17 +10,11 @@ export default function Join_lobby() {
   const { join, error, isPending } = useJoinLobby()
   let navigate = useNavigate()
 
-  const delay = ms => new Promise (
-    resolve => setTimeout(resolve, ms)
-  );
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     join(lobbyCode)
-    await delay(700);
-    
-    if (error == null)
-      navigate('/participant_lobby');
+
   }
 
   return (

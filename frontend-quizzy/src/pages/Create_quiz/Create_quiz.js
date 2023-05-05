@@ -12,23 +12,19 @@ export default function Create_quiz() {
     const [quizAnswer2, setQuizAnswer2] = useState('')
     const [quizAnswer3, setQuizAnswer3] = useState('')
     const [quizAnswer4, setQuizAnswer4] = useState('')
-    const [quizCorrectAnswer, setQuizCorrectAnswer] = useState('')
     const [isPublic, setIsPublic] = useState(false)
     const { createQuiz, isQuizCreated, error, quizKey} = useCreateQuiz()
     const { addQuestion } = useAddQuestion()
     const [selectedOption, setSelectedOption] = useState('');
-
-  function handleOptionChange(event) {
-    setSelectedOption(event.target.value);
-  }
+    const [imageUpload, setImageUpload] = useState(null);
 
     const handleSubmit = (e) => {
         e.preventDefault()
-
+        
         if (!isQuizCreated) {
-            createQuiz(quizTitle, quizQuestion, quizAnswer1, quizAnswer2, quizAnswer3, quizAnswer4, quizCorrectAnswer, isPublic);
+            createQuiz(quizTitle, quizQuestion, quizAnswer1, quizAnswer2, quizAnswer3, quizAnswer4, selectedOption, imageUpload, isPublic);
         } else {
-            addQuestion(quizQuestion, quizAnswer1, quizAnswer2, quizAnswer3, quizAnswer4, quizCorrectAnswer, quizKey);
+            addQuestion(quizQuestion, quizAnswer1, quizAnswer2, quizAnswer3, quizAnswer4, selectedOption, imageUpload, quizKey);
         } 
 
     }
@@ -60,6 +56,10 @@ export default function Create_quiz() {
         
     }
 
+    function handleOptionChange(event) {
+      setSelectedOption(event.target.value);
+    }
+
 
     return (
         <div id="create-quiz-form-wrap">
@@ -86,6 +86,11 @@ export default function Create_quiz() {
               required />
               <i className="validation"></i>
             </p>
+            <input 
+              type='file' 
+              id='upload-image-btn'
+              onChange={(event) => {setImageUpload(event.target.files)}}>
+              </input>
             <p>
             <input 
               type="quizAnswer1" 
@@ -138,24 +143,22 @@ export default function Create_quiz() {
               required />
               <i className="validation"></i>
             </p> */}
-            <div>
-      <label>
-        <input type="radio" value="option1" checked={selectedOption === "option1"} onChange={handleOptionChange} />
-        Option 1
-      </label>
-      <label>
-        <input type="radio" value="option2" checked={selectedOption === "option2"} onChange={handleOptionChange} />
-        Option 2
-      </label>
-      <label>
-        <input type="radio" value="option3" checked={selectedOption === "option3"} onChange={handleOptionChange} />
-        Option 3
-      </label>
-      <label>
-        <input type="radio" value="option4" checked={selectedOption === "option4"} onChange={handleOptionChange} />
-        Option 4
-      </label>
-    </div>
+            <div id="select-correct-answer-title">Select the correct answer:</div>
+            
+            <div className='select-correct-answer-section'>
+              <label id="option1-label">Ans 1
+                <input type="radio" value="answer1" checked={selectedOption === "answer1"} onChange={handleOptionChange} />
+              </label>
+              <label id="option2-label">Ans 2
+                <input type="radio" value="answer2" checked={selectedOption === "answer2"} onChange={handleOptionChange} />
+              </label>
+              <label id="option3-label">Ans 3
+                <input type="radio" value="answer3" checked={selectedOption === "answer3"} onChange={handleOptionChange} />
+              </label>
+              <label id="option4-label">Ans 4
+                <input type="radio" value="answer4" checked={selectedOption === "answer4"} onChange={handleOptionChange} />
+              </label>
+            </div>
 
             {!isQuizCreated &&
             <div className='private-public-btns'>
@@ -182,7 +185,7 @@ export default function Create_quiz() {
     
           <div id="leave-page-create-quiz-wrap">
             <p>Leave the page? 
-              <Link to="/dashboard"> Leave</Link>
+              <Link to="/quizzes"> Leave</Link>
             </p>
           </div>
       </div>

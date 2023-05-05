@@ -15,7 +15,7 @@ class ShowQuizzes extends React.Component {
         super();
         this.state = {
             quizzesData: [],
-            username: firebase.auth().currentUser.displayName
+            username: sessionStorage.getItem("username")
         }
 
 
@@ -24,7 +24,7 @@ class ShowQuizzes extends React.Component {
     
 
     componentDidMount() {
-        let username = firebase.auth().currentUser.displayName;
+        let username = sessionStorage.getItem("username");
 
         if (this.props.quizzesType === 'private') {
             const ref = projectFirebaseRealtime.ref('Quizzes/' + username);

@@ -12,7 +12,7 @@ export default class Quizzes extends React.Component {
         this.state = {
             quizzesData: [],
             myQuizzes: true,
-            username: firebase.auth().currentUser.displayName,
+            username: sessionStorage.getItem("username")
         }
         
         //this.componentDidMount = this.componentDidMount.bind(this)

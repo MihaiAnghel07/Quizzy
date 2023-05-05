@@ -1,4 +1,4 @@
-import { projectFirebaseRealtime } from '../firebase/config'
+import { projectFirebaseRealtime, projectFirebaseStorage } from '../firebase/config'
 import { useState } from 'react'
 import firebase from "firebase/app";
 
@@ -16,79 +16,52 @@ export const useCreateQuiz = () => {
         isPublic: false
     };
 
-    let username = firebase.auth().currentUser.displayName;
-    
+    let username = sessionStorage.getItem("username");
     
     const getTimeEpoch = () => {
         return new Date().getTime().toString();                             
     }
 
-    const createQuiz = (quizTitle, quizQuestion, quizAnswer1, quizAnswer2, quizAnswer3, quizAnswer4, quizCorrectAnswer, isPublic) => {
+    const createQuiz = (quizTitle, quizQuestion, quizAnswer1, quizAnswer2, quizAnswer3, quizAnswer4, selectedOption, imageUpload, isPublic) => {
         quizTemplate.Author = username;
         quizTemplate.Title = quizTitle;
-        quizTemplate.Questions = [{'question':quizQuestion,
-                                   'answer1': quizAnswer1,
-                                   'answer2': quizAnswer2,
-                                   'answer3': quizAnswer3,
-                                   'answer4': quizAnswer4,
-                                   'correct_answer': quizCorrectAnswer}];
+        quizTemplate.Questions = [{'question': quizQuestion,
+                                   'answer1': {'text':quizAnswer1, 'isCorrect': selectedOption === 'answer1'},
+                                   'answer2': {'text':quizAnswer2, 'isCorrect': selectedOption === 'answer2'},
+                                   'answer3': {'text':quizAnswer3, 'isCorrect': selectedOption === 'answer3'},
+                                   'answer4': {'text':quizAnswer4, 'isCorrect': selectedOption === 'answer4'}}];
         quizTemplate.isPublic = isPublic;
         
         const ref = projectFirebaseRealtime.ref('Quizzes');
+        ref.child(username).get().then((snapshot) => {
+            if (snapshot.exists()) {
+                snapshot.forEach(childSnapshot => {
+                    if (childSnapshot.val().Title == quizTitle) {
+                        // there is another quiz having the same title
+                        setError("There is another quiz having the same title");
+                        exists = true;
+                        setIsQuizCreated(false);
+                    }
+                })
+            }
+            
+            if (!exists) {
+                let newKey = getTimeEpoch();
+                setQuizKey(newKey);
+                projectFirebaseRealtime.ref('Quizzes/' + username + '/' + newKey).set(quizTemplate);  
+                setIsQuizCreated(true);
 
-        // if (isPublic) {
-            ref.child(username).get().then((snapshot) => {
-                if (snapshot.exists()) {
-                    snapshot.forEach(childSnapshot => {
-                        if (childSnapshot.val().Title == quizTitle) {
-                            // there is another quiz having the same title
-                            setError("There is another quiz having the same title");
-                            exists = true;
-                            setIsQuizCreated(false);
-                        }
-                    })
+                //add question image, if exists
+                if (imageUpload.length !== 0) {
+                    console.log(imageUpload[0].name)
+                    let ref = projectFirebaseStorage.ref('Images/');
+                    ref.child(username + '/' + newKey + '/' + 'Questions/0/' + imageUpload[0].name).put(imageUpload[0]).then((snapshot) => {
+                        console.log("Uploading state: " + snapshot.state);
+                        console.log("File uploaded!")
+                    });
                 }
-
-                if (!exists) {
-                    //projectFirebaseRealtime.ref('Quizzes/'+ username + '/noQuizzes').set(firebase.database.ServerValue.increment(1));
-                    //let key = snapshot.child('noQuizzes').val();
-                    let newKey = getTimeEpoch();
-                    setQuizKey(newKey);
-                    projectFirebaseRealtime.ref('Quizzes/' + username + '/' + newKey).set(quizTemplate);  
-                    setIsQuizCreated(true);
-                }
-            })
-
-        // } else {
-           
-        //     ref.child('private/' + username).get().then((snapshot) => {
-        //         if (snapshot.exists()) {
-        //             snapshot.forEach(childSnapshot => {
-        //                 if (childSnapshot.val().Title == quizTitle) {
-        //                     // there is another quiz having the same title
-        //                     setError("There is another quiz having the same title");
-        //                     exists = true;
-        //                     setIsQuizCreated(false);
-        //                 }
-        //             })
-
-        //             if (!exists) {
-        //                 projectFirebaseRealtime.ref('Quizzes/private/' + username + '/noQuizzes').set(firebase.database.ServerValue.increment(1));
-        //                 let key = snapshot.child('noQuizzes').val();
-        //                 let newKey = projectFirebaseRealtime.ref('Quizzes/private/' + username).push().key;
-        //                 projectFirebaseRealtime.ref('Quizzes/private/' + username + '/' + getTimeEpoch()).set(quizTemplate);  
-        //                 setError(null);
-        //                 setIsQuizCreated(true);
-        //             }
-
-        //         } else {
-        //             // first entry
-        //             projectFirebaseRealtime.ref('Quizzes/private/' + username + '/noQuizzes').set(1);
-        //             projectFirebaseRealtime.ref('Quizzes/private/' + username + '/0').set(quizTemplate); 
-        //             setIsQuizCreated(true);
-        //         }
-        //     })
-        // }
+            }
+        })
                   
     }
 

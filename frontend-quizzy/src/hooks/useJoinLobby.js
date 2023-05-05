@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { projectFirebaseRealtime } from '../firebase/config'
 import { useAuthContext } from "./useAuthContext";
+import { useNavigate } from "react-router-dom";
 
 
 export const useJoinLobby = () => {
@@ -8,6 +9,7 @@ export const useJoinLobby = () => {
     const [isPending, setIsPending] = useState(false)
     const { dispatch } = useAuthContext()
     const [isLoading, setIsLoading] = useState(true)
+    let navigate = useNavigate();
 
     const validateLobbyCode = (lobbyCode) => {
         if (lobbyCode.length != 4 || 
@@ -22,18 +24,21 @@ export const useJoinLobby = () => {
         return true;
     }
 
+    const delay = ms => new Promise (
+        resolve => setTimeout(resolve, ms)
+      );
+    
+
     const join = async (lobbyCode) => {
         setError(null)
         setIsPending(true)
+        
 
         if (validateLobbyCode(lobbyCode)) {
 
-            //var newPostKey = projectFirebaseRealtime.ref('Lobbies').child("1234").push().key;
-
-            //projectFirebaseRealtime.ref('Lobbies').child("1235").update(post);
             try {
                 const ref = projectFirebaseRealtime.ref('Lobbies');
-                ref.child(lobbyCode).get().then((snapshot) => {
+                ref.child(lobbyCode).get().then(async (snapshot) => {
                     if (snapshot.exists()) {
 
                         // update noParticipants
@@ -45,35 +50,19 @@ export const useJoinLobby = () => {
                         projectFirebaseRealtime.ref('Lobbies/' + lobbyCode + '/participants/' + (noParticipants - 1)).set({'name':sessionStorage.getItem('user'), 'score': 0});
 
                         // incepere activitate lobby
-                        // TODO
-                        
+                        // ATENTIE! folosim navigate in hook. De cercetat daca exista o varianta mai buna
+                        setIsPending(true)
+                        await delay(700);
+                        navigate('/participant_lobby');
+
                     } else {
                         setError("Nu exista un lobby cu acest cod!")
                     }
                 })
                
-                // ref.once('value', function(snapshot) {
-                //     console.log("A")
-                //     if (snapshot.child(lobbyCode).exists()) {
-                //         console.log("B")
-
-                //         const refNoParticipants = projectFirebaseRealtime.ref('Lobbies/' + lobbyCode);
-                //         console.log("C")
-                //         let noParticipants = 0;
-                //         refNoParticipants.once('value', function(snapshotNoParticipants) {
-                //             console.log("D")
-                            
-                //             noParticipants = parseInt(snapshotNoParticipants.child('noParticipants').val())
-                //             noParticipants = noParticipants + 1
-                //             console.log(noParticipants)
-                //         })
-                //         console.log(noParticipants)
-                //         refNoParticipants.update({'noParticipants': noParticipants})
-
-                    
-                // })
                 setError(null)
                 setIsPending(false)
+
             } catch(err) {
                 console.log(err.message)
                 setError(err.message)

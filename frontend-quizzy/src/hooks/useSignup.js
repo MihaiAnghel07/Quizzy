@@ -37,12 +37,7 @@ export const useSignup = () => {
                         let key = snapshot.child('noUsers').val();
                         projectFirebaseRealtime.ref('Users/' + key).set({'username': username, 'email': email});  
                     }
-                    //let noParticipants = snapshot.child('noParticipants').val() + 1;
-                    //projectFirebaseRealtime.ref('Lobbies/' + lobbyCode).update({'noParticipants': noParticipants});
-                    
-                    // update participants list
-                    // projectFirebaseRealtime.ref('Lobbies/' + lobbyCode + '/participants/' + (noParticipants - 1)).set({'name':sessionStorage.getItem('user'), 'score': 0});
-                    
+                
                 } else {
                     // add first entry
                     projectFirebaseRealtime.ref('Users/0').set({'username': username, 'email': email});

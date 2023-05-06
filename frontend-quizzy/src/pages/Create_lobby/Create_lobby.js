@@ -73,19 +73,23 @@ export default function Create_lobby() {
           {location.state?.quizId ? <h2>{"Selected Quiz: " + location.state?.quizTitle}</h2> : 
                                   <h2>No quiz selected</h2>}
         </div>
-        <ul className='create-lobby-buttons'>
+        <div className='create-lobby-buttons'>
+        <ul>
           <li id='select-quiz-button' onClick={selectQuizHandler}>Select Quiz</li>
           <li id='start-quiz-button' onClick={startQuizHandler}>Start Quiz</li>
           <li id='close-lobby-button' onClick={setOpenModal}>Close Lobby</li>
         </ul>
-
+        </div>
+        <div className="show-participants-container">
+          <caption id="participants">Participants</caption>
+          <div className='show-participants'>
+            <ShowParticipants lobbyCode={lobbyCode} />
+          </div>
+        </div>
+        
         {openModal && <Modal closeModal={setOpenModal} yesModal={setConfirmModal} message="Are you sure you want to close the lobby?" />}
         
-        {/* <div className="show-participants">
-          <ShowParticipants lobbyCode={lobbyCode} />
-        </div>   */}
       </div>  
-        
     </div>
   )
 }

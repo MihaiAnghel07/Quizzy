@@ -40,8 +40,7 @@ export default class ShowParticipants extends React.Component {
         
         return (
             <Table >
-                {this.state.participantsData.length != 0 &&
-                <caption id="participants">Participants</caption>}
+
                 
                 {this.state.participantsData.length != 0 && <thead>
                     <tr>

@@ -1,20 +1,13 @@
 #id, #username {
     font: 0.8em sans-serif;
-    min-width: 100px;
+    min-width: 50px;
     /* width: 100px; */
     /* background-color: blue; */
     font-weight: bold;
     
 }
 
-#participants{
-  background-color: blue;
-  align-items: center;
-  padding-bottom: 10px;
-  padding-top: 10px;
-  color: black;
-  font-weight: bold;
-}
+
 
 th, td {
   font: 0.9em sans-serif;

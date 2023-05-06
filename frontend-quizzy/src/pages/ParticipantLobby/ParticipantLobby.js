@@ -32,7 +32,7 @@ class ParticipantLobby extends React.Component {
         return (
             <div className='participant-lobby-wrapper'>
                 <div className='participant-lobby-content'>
-                    <h4>Waiting for quiz starting </h4>
+                    <h4>Waiting for quiz to start </h4>
                     <div id='bouncing-dots-loader'><BouncingDotsLoader/></div>
                 </div>
             </div>

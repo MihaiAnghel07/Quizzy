@@ -1,31 +1,24 @@
-
-
-.labels {
-    list-style: none;
-    padding-top: 20px;
-    padding-left: 0;
+.dashboard-container {
     display: flex;
     flex-direction: row;
-    
-}
-
-.labels li{
-    margin-left: 130px;
-    margin-top: 50px;
-}
-
-.labels li:first-child{
-    margin-left: 200px;
-}
-
-#join_lobbyID, #create_lobbyID, #training_quizID, #create_quizID, #quizzesID {
-    text-decoration: none;
-    color: black;
+    margin-top: 350px;
+    margin-bottom: 350px;
+    margin-left: 100px;
+    margin-right: 100px;
+    justify-content: space-evenly;
 }
 
 
+#dashboard-join-lobby-button, #dashboard-create-lobby-button, #dashboard-quizzes-button {
+    background-color: orange;
+    font-size: 50px;
+    border-radius: 10px;
+    min-height: 200px;
+    max-width: 250px;
+    border: 0px;
+    padding: 20px;
+}
 
-
-
-
-
+#dashboard-join-lobby-button:hover, #dashboard-create-lobby-button:hover, #dashboard-quizzes-button:hover {
+    background-color: rgb(240, 142, 14);
+}

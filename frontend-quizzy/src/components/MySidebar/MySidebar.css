@@ -1,63 +1,73 @@
 .mySidebar-wrapper {
-    background-color: bisque;
-    width: 230px;
-    min-width: 230px;
-    /* box-sizing: border-box; */
-    /* position: sticky;
-    z-index: 99; */
-}
-
-.mySidebar-header {
-    background-color: aliceblue;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(51, 50, 48);
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.2);
+    width: 250px;
+    padding: 0px;
+    height: 100%;
     position: fixed;
-    /* display: contents; */
-}
-
-.sidebar-itemList{
-    /* position: fixed; */
-    position: fixed;
-    font-size: 20px;
-    list-style: none;
-}
-
-.sidebar-itemList li {
-    margin-top: 20px;
-    border-top-left-radius: 70px;
-    border-bottom-left-radius: 70px;
-    border: solid 2px;
-    border-right: transparent;
-    padding-right: 59px;
-    padding-left: 5px;
-}
-
-.sidebar-itemList li:hover{
+    padding: 20px;
+  }
+  
+  .mySidebar-logo {
+    width: 70%;
+    margin: 20px 30px;
+    justify-content: center;
+  }
+  
+  .sidebar-items-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 350px;
+  }
+  
+  #sidebar-dashboard-button, #sidebar-account-button, #sidebar-faq-button, #sidebar-contact-button, #sidebar-logout-button {
+    background-color: transparent;
+    border-radius: 10px;
+    border: none;
     cursor: pointer;
-    background-color: rgb(250, 213, 167);
-    transition: 250ms;
-}
+    font-size: 20px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    width: 100%;
+    margin: 10px 0;
+    color: aliceblue;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  #sidebar-dashboard-button:hover, #sidebar-account-button:hover, #sidebar-faq-button:hover, #sidebar-contact-button:hover {
+    color: #0069d9;
+    background-color: #f1f1f1;
+    transform: scale(1.05);
+  }
 
-.sidebar-itemList li:first-child {
-    margin-top: 180px;
-}
+  #sidebar-logout-button:hover {
+    color: #d9534f;
+    background-color: #f1f1f1;
+  }
+  
+  @media only screen and (min-width: 768px) {
+    /* .mySidebar-wrapper {
+      width: 300px;
+      position: fixed;
+      background-color: blue;
+      top: 0;
+      left: 0;
+    } */
+  
+    .sidebar-items-container {
+      padding: 20px;
+    }
+  
 
-#dashboardId, #accountId, #contactId, #faqId {
-    text-decoration: none;
-    color: black;
-}
-
-.mySidebar-logo {
-    width: 140px;
-    height: 70px;
-    /* margin-left: 20%; */
-    /* margin-top: 2%; */
-    background-color: rgb(250, 213, 167);
-    padding-left: 40px;
-    padding-right: 70px;
-    padding-bottom: 8px;
-    position: fixed;
-    /* box-shadow: 0px 00px 50px 0px rgba(235, 177, 61, 0.23); */
-    
-    
-}
-
-
+  }
+  

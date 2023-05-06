@@ -33,7 +33,7 @@ function App() {
       
         {user && <MySidebar />}
         <div className="body">  
-          <Navbar />
+          {!user && <Navbar />}
           
           <Routes>
             <Route path="/" element={ user ? <Dashboard /> : <Home />} />

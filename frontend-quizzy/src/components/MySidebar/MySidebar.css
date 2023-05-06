@@ -24,7 +24,11 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    margin-bottom: 350px;
+    margin-bottom: 150px;
+  }
+
+  .sidebar-main-buttons {
+    margin-bottom: 250px;
   }
   
   #sidebar-dashboard-button, #sidebar-account-button, #sidebar-faq-button, #sidebar-contact-button, #sidebar-logout-button {

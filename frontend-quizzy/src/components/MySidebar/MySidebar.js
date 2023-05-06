@@ -11,6 +11,7 @@ import Account from '../../pages/Account/Account';
 import { AiOutlineMail } from 'react-icons/ai';
 import { CiLogout } from 'react-icons/ci'
 import { BsTelephoneFill } from 'react-icons/bs'
+import { useLogout } from '../../hooks/useLogout';
 
 
 
@@ -18,6 +19,7 @@ export default function MySidebar() {
 
   const { user } = useAuthContext()
   const navigate = useNavigate();
+  const { logout } = useLogout()
 
   function handleDashboardButtonClick() {
     navigate('/dashboard');
@@ -28,16 +30,13 @@ export default function MySidebar() {
   }
 
   function handleFaqButtonClick() {
-    navigate('/contact');
+    navigate('/faq');
   }
 
   function handleContactButtonClick() {
     navigate('/contact');
   }
 
-  function handleLogoutButtonClick() {
-    navigate('/contact');
-  }
 
   return (
     <div className='mySidebar-wrapper'>
@@ -45,11 +44,13 @@ export default function MySidebar() {
           <img className="mySidebar-logo" src={logo}/>
       </div>
       <div className='sidebar-items-container'>
-        <button id='sidebar-dashboard-button' onClick={handleDashboardButtonClick}><FaHome/>Dashboard</button>
-        <button id='sidebar-account-button' onClick={handleAccountButtonClick}><VscAccount/>Account</button>
-        <button id='sidebar-faq-button' onClick={handleFaqButtonClick}><FaQuestion/>FAQ</button>
-        <button id='sidebar-contact-button' onClick={handleContactButtonClick}><BsTelephoneFill/>Contact</button>
-        <button id='sidebar-logout-button' onClick={handleLogoutButtonClick}><CiLogout/>Log out</button>
+        <div className='sidebar-main-buttons'>
+          <button id='sidebar-dashboard-button' onClick={handleDashboardButtonClick}><FaHome/>Dashboard</button>
+          <button id='sidebar-account-button' onClick={handleAccountButtonClick}><VscAccount/>Account</button>
+          <button id='sidebar-faq-button' onClick={handleFaqButtonClick}><FaQuestion/>FAQ</button>
+          <button id='sidebar-contact-button' onClick={handleContactButtonClick}><BsTelephoneFill/>Contact</button>
+        </div>
+        <button id='sidebar-logout-button' onClick={logout}><CiLogout/>Log out</button>
       </div>
     </div>
   )

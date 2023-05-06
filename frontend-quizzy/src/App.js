@@ -20,6 +20,7 @@ import Update_quiz from './pages/Update_quiz/Update_quiz';
 import QuizzesSelection from './pages/QuizzesSelection/QuizzesSelection';
 import PopupTest from './pages/PopupTest/PopupTest';
 import { AddQuestion } from './pages/AddQuestion/AddQuestion';
+import Faq from './pages/Faq/Faq';
 
 
 
@@ -32,7 +33,7 @@ function App() {
       <BrowserRouter >
       
         {user && <MySidebar />}
-        <div className="body">  
+        <div className="body" style={{ marginLeft: user ? '250px' : '0px' }}>  
           {!user && <Navbar />}
           
           <Routes>
@@ -53,6 +54,7 @@ function App() {
             <Route path="/quizzes_selection" element= {user? <QuizzesSelection /> : < Login/>} />
             <Route path="/popuptest" element= {user? <PopupTest /> : < Login/>} />
             <Route path="/add_question" element= {user? <AddQuestion /> : < Login/>} />
+            <Route path="/faq" element= {user? <Faq /> : < Login/>} />
             
           </Routes>
 

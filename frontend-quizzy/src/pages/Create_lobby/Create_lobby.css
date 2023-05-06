@@ -3,7 +3,7 @@
     background-color: transparent;
     width: 600px;
     margin: auto;
-    margin-top: 5%;
+    margin-top: 3%;
 }
 
 .create-lobby-buttons {
@@ -39,20 +39,19 @@
 #participants{
     display: flex;
     flex-direction: column;
-    background-color: orange;
     align-items: center;
     padding-bottom: 10px;
-    padding-top: 10px;
     color: black;
     font-weight: bold;
   }
 
 .show-participants-container {
     padding-top: 50px;
+    padding-bottom: 50px;
 }
 
 .show-participants {
-    max-height: 400px;
+    max-height: 500px;
     max-width: 700px;
     overflow: auto;
     display: flex;

@@ -2,9 +2,9 @@
     margin-top: 5%;
 }
 
-#show-quizzes-wrapper {
+/* #show-quizzes-wrapper {
     margin-top: 50px;
-}
+} */
 
 table {
     border-collapse: collapse;
@@ -24,7 +24,6 @@ table {
   th,
   td {
     text-align: left;
-    padding: 12px;
   }
   
   th {

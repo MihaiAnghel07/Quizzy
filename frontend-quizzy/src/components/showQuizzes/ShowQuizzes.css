@@ -1,9 +1,42 @@
 #empty-list-message {
-    margin-left: 36%;
     margin-top: 5%;
 }
 
 #show-quizzes-wrapper {
     margin-top: 50px;
-    margin-left: 10%;
 }
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    background-color: #f7c078;
+    border-radius: 8px;
+  }
+  
+  thead tr {
+    background-color: orange;
+    border-bottom: 2px solid aliceblue;
+  }
+  
+  th,
+  td {
+    text-align: left;
+    padding: 12px;
+  }
+  
+  th {
+    font-weight: bold;
+    color: black;
+  }
+  
+  tbody tr:nth-child(even) {
+    background-color: #f7c078;
+  }
+  
+  tbody tr:hover {
+    background-color: rgb(240, 142, 14);
+  }
+  

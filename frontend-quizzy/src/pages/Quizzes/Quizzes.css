@@ -1,36 +1,32 @@
 :root {
-    --btn-background-color: #ffe4c4;
-    --btn-hover-background-color: #fad5a7; 
+    --btn-background-color: orange;
+    --btn-hover-background-color: rgb(240, 142, 14); 
 }
 
 .quizzes-content {
     /* background-color: azure; */
+    display: flex;
+    flex-direction: column;
     margin-top: 40px;
+}
+
+.quizzes-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 #quizzes-my-quizzes-btn, #quizzes-all-quizzes-btn, #quizzes-create-quizz-btn {
     color: black;
-    background-color: bisque;
-    border-radius: 5px;
-    width: 100px;
-    height: 37px;
-    border: 2px solid;
-    font: 0.55em sans-serif;
+    border-radius: 8px;
+    background-color: orange;
+    width: 120px;
+    height: 40px;
+    border: 0px solid;
     font-weight: bold;
-}
-
-#quizzes-my-quizzes-btn {
-    margin-left: 35%;
-    background-color: var(--btn-hover-background-color);
-}
-
-#quizzes-all-quizzes-btn {
-    margin-left: 10px;
-    background-color: var(--btn-background-color);
-}
-
-#quizzes-create-quizz-btn {
-    margin-left: 30%;
+    padding: 6px;
+    text-align: center;
+    font-size: 14px;
 }
 
 #quizzes-create-quizz-link {
@@ -38,23 +34,31 @@
     color: black;
 }
 
+#quizzes-create-quizz-btn {
+    margin-left: 10%;
+}
+
+#quizzes-all-quizzes-btn {
+    margin-left: 1%;
+}
+
 #quizzes-my-quizzes-btn:hover {
-    background-color: rgb(250, 213, 167);
+    background-color: rgb(240, 142, 14);
     transition: 250ms;
 }
 
 #quizzes-all-quizzes-btn:hover {
-    background-color: rgb(250, 213, 167);
+    background-color: rgb(240, 142, 14);
     transition: 250ms;
 }
 
 #quizzes-create-quizz-btn:hover {
-    background-color: rgb(250, 213, 167);
+    background-color: rgb(240, 142, 14);
     transition: 250ms;
 }
 
 
-@media screen and (min-width: 500px) and (max-width: 1200px) {
+/* @media screen and (min-width: 500px) and (max-width: 1200px) {
     #quizzes-create-quizz-btn {
       display: none;
     } 
@@ -64,8 +68,21 @@
     #quizzes-all-quizzes-btn {
       display: none;
     } 
-  }
+  } */
 
   button:hover {
     cursor: pointer;
-  }
+}
+
+/* .quizzes-body {
+    margin-left: 300px;
+    margin-right: 300px;
+    padding-top: 50px;
+    margin-bottom: 50px;
+} */
+
+.show-public-quizzes {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}

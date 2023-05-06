@@ -1,7 +1,6 @@
 import {React, useState} from 'react'
 import './Join_lobby.css'
 import { useJoinLobby } from '../../hooks/useJoinLobby'
-import { useNavigate } from 'react-router-dom';
 
 
 export default function Join_lobby() {

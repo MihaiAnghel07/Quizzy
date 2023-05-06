@@ -32,7 +32,8 @@ export default function Create_lobby() {
       noParticipants: 0,
       participants: [],
       questionIndex: 0,
-      quizId: -1
+      quizId: -1,
+      quizAuthor: null
     }
     loadLobbyTemplateToDatabase(lobbyTemplate)
   }
@@ -55,7 +56,7 @@ export default function Create_lobby() {
 
   const startQuizHandler = (e) => {
     e.preventDefault();
-    updateLobby(lobbyCode, location.state.quizId);
+    updateLobby(lobbyCode, location.state.quizId, location.state.quizAuthor);
     // navigate to waiting page
     // TODO
 

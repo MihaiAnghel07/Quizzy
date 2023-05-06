@@ -15,7 +15,8 @@ export const useAddQuestion = () => {
                         'answer2': {'text':quizAnswer2, 'isCorrect': selectedOption === 'answer2'},
                         'answer3': {'text':quizAnswer3, 'isCorrect': selectedOption === 'answer3'},
                         'answer4': {'text':quizAnswer4, 'isCorrect': selectedOption === 'answer4'},
-                        'hasImage': (imageUpload !== null && imageUpload.length !== 0)};
+                        'hasImage': (imageUpload !== null && imageUpload.length !== 0),
+                        'image': (imageUpload !== null && imageUpload.length !== 0) ? imageUpload[0].name : null };
 
         let username = sessionStorage.getItem("username");
         let newKey = getTimeEpoch();

@@ -61,7 +61,6 @@ export default class Quizzes extends React.Component {
                             {!this.state.myQuizzes && <ShowQuizzes quizzesType='public' path='' />}
                         </div>
                     </div>
-                    
                 </div>
             </div>
         )

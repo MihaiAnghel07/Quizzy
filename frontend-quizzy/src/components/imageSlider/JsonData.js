@@ -4,12 +4,12 @@ import Img2 from '../../assets/logo.jpg'
 export const ImageData = [
     {
         ImageNo:'1/2',
-        ImageName: 'logo',
+        ImageName: 'cal',
         ImageSrc: Img1
     },
     {
         ImageNo: '2/2',
-        ImageName: 'cal',
+        ImageName: 'logo',
         ImageSrc: Img2
     }
 ]

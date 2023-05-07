@@ -1,7 +1,7 @@
 
 import React from 'react'
 import './UpdateQuiz.css'
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { projectFirebaseRealtime } from '../../firebase/config'
 import { AiOutlineUp, AiOutlineDown } from 'react-icons/ai'
@@ -81,6 +81,10 @@ class UpdateQuiz extends React.Component {
                             <button onClick={this.props.handleSave}>Save</button>
                         </div>
                         
+                        <div>
+                            <button onClick={this.props.handleAddQuestion}>Add question</button>
+                        </div>
+
                         {this.state.quizQuestions.map((question, key) => {
                             return (
                                 <div key={key} className="question-container">
@@ -118,6 +122,7 @@ class UpdateQuiz extends React.Component {
 function wrapClass (Component) {
     return function WrappedComponent(props) {
         const location = useLocation();
+        const navigate = useNavigate();
         const [quizTitle, setQuizTitle] = useState(location.state.quizTitle);
         const [isOpen, setIsOpen] = useState(false);
         const [selectedOption, setSelectedOption] = useState('');
@@ -155,6 +160,11 @@ function wrapClass (Component) {
                 alert("Quiz title cannot be empty!")
         }
         
+        const handleAddQuestion = () => {
+            console.log(location.state.quizId)
+            navigate('/add_question', {state:{quizKey:location.state.quizId, quizAuthor:location.state.quizAuthor, previousPage:'/update_quiz'}})
+        }
+
         return <Component setQuizTitle={setQuizTitle}
                           isOpen={isOpen}
                           toggleDropdown={toggleDropdown}
@@ -167,7 +177,8 @@ function wrapClass (Component) {
                           handleQuestionClick={handleQuestionClick}
                           expandedId={expandedId}
                           handleSave={handleSave}
-                          quizTitle={quizTitle} />
+                          quizTitle={quizTitle}
+                          handleAddQuestion={handleAddQuestion} />
     }
 }
 

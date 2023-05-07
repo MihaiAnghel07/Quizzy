@@ -28,7 +28,10 @@ export const AddQuestion = () => {
     // when confirmModal modified, cloase the lobby and redirect to dashboard
     useEffect(()=>{
         if (confirmModal) {
-          navigate('/quizzes', {replace: true});
+          if (location.state.previousPage === '/create_quiz')
+            navigate('/quizzes', {replace: true});
+          else if (location.state.previousPage === '/update_quiz')
+            navigate(-1, {replace: true});
         }
     }, [confirmModal])
 

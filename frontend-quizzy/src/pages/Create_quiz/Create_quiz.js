@@ -57,7 +57,7 @@ export default function Create_quiz() {
 
     useEffect(() => {
       if (quizKey !== null)
-        navigate('/add_question', {state:{quizKey:quizKey}, replace: true});
+        navigate('/add_question', {state:{quizKey:quizKey, previousPage:'/create_quiz'}, replace: true});
     }, [quizKey])
 
 

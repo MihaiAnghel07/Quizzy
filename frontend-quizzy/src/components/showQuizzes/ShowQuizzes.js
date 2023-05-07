@@ -114,7 +114,7 @@ class ShowQuizzes extends React.Component {
                                         this.state.username !== row.data.Author &&
                                         <button onClick={() => this.props.copyHandler(row.key, row.data.Author)}>Copy</button>}
                                         {this.state.username === row.data.Author &&
-                                        <button onClick={() => this.props.updateHandler(row.key)}>Update</button>}
+                                        <button onClick={() => this.props.updateHandler(row.key, row.data.Author, row.data.isPublic)}>Update</button>}
                                         {this.state.username === row.data.Author &&
                                         <button onClick={() => this.props.deleteHandler(row.key, row.data.Author)}>Delete</button>}
                                     </td>
@@ -140,9 +140,9 @@ function wrapClass (Component) {
             copyQuiz(quizId, quizAuthor);
         }
 
-        const updateHandler = (quizId) => {
+        const updateHandler = (quizId, quizAuthor, isPublic) => {
             console.log("update");
-            navigate('/update_quiz', {state:{quizId:quizId}});
+            navigate('/update_quiz', {state:{quizId:quizId, quizAuthor:quizAuthor, isPublic:isPublic}});
         }
 
         const deleteHandler = (quizId, quizAuthor) => {

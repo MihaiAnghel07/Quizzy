@@ -65,6 +65,7 @@ const Faq = () => {
         {expandedId === 4 && (
           <div className="faq-answer">
             Answer to question 4.
+            
           </div>
         )}
       </div>

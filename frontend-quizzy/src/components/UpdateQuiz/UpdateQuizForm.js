@@ -11,7 +11,7 @@ export default class UpdateQuizForm extends React.Component {
         super();
         this.state = {
             quizData: [],
-            username: firebase.auth().currentUser.displayName,
+            username: sessionStorage.getItem('username')
         }
 
 
@@ -19,17 +19,17 @@ export default class UpdateQuizForm extends React.Component {
     }
     
     componentDidMount() {
-        let records = []
+        // let records = []
 
-        const ref = projectFirebaseRealtime.ref('Quizzes/' + this.state.username);
-        ref.child(this.props.quizId).get().then((snapshot) => {
-            records.push({"author":snapshot.val().Author, 
-                            "title":snapshot.val().Title,
-                            "isPublic":snapshot.val().isPublic,
-                            "questions":snapshot.val().Questions}); 
-        });
-        this.setState({quizData: records});
-        console.log("AA:" + this.state.quizData)
+        // const ref = projectFirebaseRealtime.ref('Quizzes/' + this.state.username);
+        // ref.child(this.props.quizId).get().then((snapshot) => {
+        //     records.push({"author":snapshot.val().Author, 
+        //                     "title":snapshot.val().Title,
+        //                     "isPublic":snapshot.val().isPublic,
+        //                     "questions":snapshot.val().Questions}); 
+        // });
+        // this.setState({quizData: records});
+        // console.log("AA:" + this.state.quizData)
         
  
     } 
@@ -37,9 +37,9 @@ export default class UpdateQuizForm extends React.Component {
     render() {
         
         return (
-            <div>wer
-                {console.log("SSS" + this.state.quizData)}
-                {this.state.quizData}
+            <div>werfgfhrty
+                {/* {console.log("SSS" + this.state.quizData)} */}
+                {/* {this.state.quizData} */}
             </div>
         )
     }

@@ -8,6 +8,8 @@
 .App .body {
   /* background-color: blue; */
   min-height: 100vh;
+  /* margin-left: 250px; */
+  width: 100%;
   /* min-width: 100vw; */
   flex-grow: 1;
   /* padding: 0 60px; */

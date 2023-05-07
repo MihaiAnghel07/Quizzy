@@ -1,7 +1,7 @@
 
 .footer {
     height: 40px;
-    background-color:  rgb(180, 211, 211);
+    background-color:  rgb(181, 185, 190);
     padding-top: 10px;
     padding-bottom: 15px;
     margin-top: 316px;
@@ -48,5 +48,9 @@
     /* align-items: center; */
     margin-left: 15%;/*560px;*/
     margin-top: 15px;
+  }
+
+  .footer-facebook:hover {
+    cursor: pointer;
   }
   

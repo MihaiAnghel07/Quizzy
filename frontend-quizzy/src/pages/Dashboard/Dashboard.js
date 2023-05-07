@@ -6,28 +6,32 @@ import Create_quiz_label from '../../components/menu-label/create_quiz/Create_qu
 import Training_label from '../../components/menu-label/training/Training_label';
 import Quizzes_label from '../../components/menu-label/quizzes/Quizzes_label';
 import './Dashboard.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from "framer-motion"
 
 
 export default function Dashboard() {
   
   // const {user} = useAuthContext()
+  const navigate = useNavigate();
+
+  function handleJoinLobbyButtonClick() {
+    navigate('/join_lobby');
+  }
+
+  function handleCreateLobbyButtonClick() {
+    navigate('/create_lobby');
+  }
+
+  function handleQuizzesButtonClick() {
+    navigate('/quizzes');
+  }
 
   return (
-    <motion.div className="Dashboard" 
-      initial={{opacity:0}}
-      animate={{opacity:1}} 
-      exit={{opacity:0}}>
-     
-      <ul className='labels'>
-        <li><Link to="/join_lobby" id="join_lobbyID"><Join_lobby_label /> </Link></li>
-        <li><Link to="/create_lobby" id="create_lobbyID"><Create_lobby_label /></Link> </li>
-        {/* <li><Link to="/create_quiz" id="create_quizID"><Create_quiz_label /></Link> </li> */}
-        <li><Link to="/quizzes" id="quizzesID"><Quizzes_label /></Link> </li>
-        <li><Training_label /> </li>
-      </ul>
-      
-    </motion.div>
+    <div className='dashboard-container'>
+      <button id='dashboard-join-lobby-button' onClick={handleJoinLobbyButtonClick}>Join Lobby</button>
+      <button id='dashboard-create-lobby-button' onClick={handleCreateLobbyButtonClick}>Create Lobby</button>
+      <button id='dashboard-quizzes-button' onClick={handleQuizzesButtonClick}>Quizzes</button>
+    </div>
   )
 }

@@ -3,6 +3,7 @@ import './Contact.css'
 import { VscLocation } from 'react-icons/vsc';
 import { AiOutlineMail } from 'react-icons/ai';
 import {AiOutlinePhone} from 'react-icons/ai';
+import Rating from '../../components/Rating/Rating';
 
 export default function Contact() {
   return (
@@ -15,6 +16,7 @@ export default function Contact() {
           <p><AiOutlinePhone/>  Phone: (+40)765 002 291</p>
         </div>
       </div>
+      <Rating/>
     </div>
   )
 }

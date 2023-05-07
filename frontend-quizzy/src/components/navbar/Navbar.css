@@ -1,62 +1,62 @@
-.logo {
-    width: 140px;
-    height: 70px;
-    margin-left: 150px;
+.navbar-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #24292e;
+  color: #fff;
+  font-size: 18px;
 }
 
-.NavLinks {
-    margin-left: 70%;
-    position: absolute;
+.navbar-logo {
+  height: 50px;
+  width: auto;
 }
 
-nav {
-    /* width: 100%; */
-    top: 0%;
-    border-style: inset;
-    /* border-bottom-right-radius: 15px;
-    border-bottom-left-radius: 15px; */
-    display: flex;
-    /* margin: 0 auto 60px; */
+.navbar-logo:hover {
+  cursor: pointer;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+#navbar-home-button, #navbar-login-button, #navbar-signup-button, #navbar-dashboard-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background-color: orange;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#navbar-login-button:hover, #navbar-signup-button:hover, #navbar-dashboard-button:hover {
+  background-color: rgb(240, 142, 14);
+}
+
+#navbar-home-button {
+  background-color: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+}
+
+#navbar-home-button:hover {
+  background-color: #fff;
+  color: #24292e;
+}
+
+@media (max-width: 768px) {
+  .navbar-wrapper {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .nav-links {
+    flex-direction: column;
     gap: 10px;
-    align-items: center;
-    padding: auto;
-    background-color: blueviolet;
-    font-size: large;
-    position: sticky;
-    z-index: 99;
-  
   }
-
-  .NavLinks {
-    margin-left: 70%;
-    position: absolute;
-  }
-  
-  @media screen and (min-width: 500px) and (max-width: 1000px) {
-    .NavLinks #first{
-      display: none;
-    } 
-  }
-  
-  @media screen and (min-width: 300px) and (max-width: 700px) {
-    .NavLinks #signup{
-      display: none;
-    } 
-  }
-
-  nav h1 {
-    margin-right: auto;
-  }
-  
-  nav a {
-    color: darkred;
-    padding: 4px 10px;
-  }
-  
-  nav a.active {
-    color: white;
-    background-color: black;
-    text-decoration: none;
-    -webkit-transition: all 0.2s ease;
-    transition: all 0.2s ease;
-  }
+}

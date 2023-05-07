@@ -1,12 +1,13 @@
 import './Quiz.css'
 import firebase from "firebase/app";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import React from 'react'
 import Timer from '../../components/Timer/Timer';
 import { FaFontAwesomeFlag, FaClock} from 'react-icons/fa'
 import { projectFirebaseRealtime, projectFirebaseStorage } from '../../firebase/config'
+import { useSetFlag } from '../../hooks/useSetFlag';
 
 
 
@@ -21,6 +22,7 @@ class Quiz extends React.Component {
             quizOver: false,
             score: 0,
             currentQuestionCount: 0,
+            currentQuestionId: 0,
             quizData: [
                 // {
                 //     question: 'Question 1',
@@ -54,10 +56,16 @@ class Quiz extends React.Component {
                 // }
             ]
         }
+
+        let root = document.querySelector(':root');
+        root.style.setProperty('--flag-color', '#474747');
+        root.style.setProperty('--flag-color2', '#ffa500');
+        root.style.setProperty('--scale', '1');
+        root.style.setProperty('--scale2', '1.4');
         
         this.componentDidMount = this.componentDidMount.bind(this)
     }
-
+    
     componentDidMount() {
         let quizAuthor = null;
         let quizId = null;
@@ -72,34 +80,51 @@ class Quiz extends React.Component {
                 if (snapshot2.exists()) {
                     let records = [];
                     let answerOptions = [];
+                    let promises = [];
 
-                    snapshot2.forEach((childSnapshot) => {
-                        
+                    snapshot2.forEach( (childSnapshot) => {
+                       
+                        let questionId = childSnapshot.key; 
                         let question = childSnapshot.val().question;
                         let hasImage = childSnapshot.val().hasImage;
                         let answer1 = childSnapshot.val().answer1;
                         let answer2 = childSnapshot.val().answer2;
                         let answer3 = childSnapshot.val().answer3;
                         let answer4 = childSnapshot.val().answer4;
+                        let isFlagged = childSnapshot.val().isFlagged;
                         
                         answerOptions.push(answer1)
                         answerOptions.push(answer2)
                         answerOptions.push(answer3)
                         answerOptions.push(answer4)
 
+                        //records.push({'question': question, 'answerOptions':answerOptions, 'hasImage':hasImage})
                         if (hasImage) {
                             const image = projectFirebaseStorage.ref('Images/' + quizAuthor + '/' + quizId + '/Questions/' + childSnapshot.key + '/' + childSnapshot.val().image);
-                            image.getDownloadURL().then((url) => {console.log(url)})
-
+                            let promise = image.getDownloadURL().then((url) => {
+                                let answerOptions2 = []
+                                answerOptions2.push(answer1)
+                                answerOptions2.push(answer2)
+                                answerOptions2.push(answer3)
+                                answerOptions2.push(answer4)
+                                records.push({'questionId':questionId, 'question': question, 'answerOptions':answerOptions2, 'hasImage':hasImage, 'url': url, 'isFlagged':isFlagged})
+                                
+                            })
+                            promises.push(promise)
+                        
+                        } else {
+                            records.push({'questionId':questionId, 'question': question, 'answerOptions':answerOptions, 'hasImage': hasImage, 'isFlagged': isFlagged})
                         }
-
-                        records.push({'question': question, 'answerOptions':answerOptions, 'hasImage':hasImage})
-
+                        
                         answerOptions = [];
                         
                     })
-                    //console.log(records)
-                    this.setState({quizData: records});
+
+                    Promise.all(promises).then(() => {
+                        this.setState({quizData: records});
+                    
+                    });
+                    //this.setState({quizData: records});
                     
                     // de mapat datele
                     // CE FA CEM CU TESTELE PUBLICE CARE SE MOFIFICA IN TIMOUL NQUIZULUI?
@@ -128,11 +153,6 @@ class Quiz extends React.Component {
         this.forceUpdate();
     }
 
-    handleFlagClick = () => {
-        // Handle event for when user clicks the flag button
-        alert('Flagged')
-    }
-
 
     render() {
         return (
@@ -141,7 +161,7 @@ class Quiz extends React.Component {
                     <div className='quiz-section'>
                         <div className='timer-flag-section'>
                             <div className='flag-icon'>
-                                <FaFontAwesomeFlag className='flag-button' title='Flag this question' onClick={this.handleFlagClick}/>
+                                <FaFontAwesomeFlag className='flag-button' title='Flag this question' onClick={() => this.props.handleFlagClick(this.state.quizData[this.state.currentQuestionCount].questionId)}/>
                             </div>
                             <div className='timer-content'>
                                 <Timer seconds={3600} onTimerComplete={handleTimerComplete}/>
@@ -152,7 +172,11 @@ class Quiz extends React.Component {
                             <div className='question-count'>
                                 <span>Question {this.state.currentQuestionCount + 1}</span>/{this.state.quizData.length}
                             </div>
+
                             {this.state.quizData.length !== 0 && <div className='question-text'>{this.state.quizData[this.state.currentQuestionCount].question}</div>}
+                            {this.state.quizData.length !== 0 && this.state.quizData[this.state.currentQuestionCount].hasImage &&
+                            <img src={this.state.quizData[this.state.currentQuestionCount].url} width='700' height='400'/>}
+                        
                         </div>
                         {this.state.quizData.length !== 0 && <div className='answer-section'>
                             {this.state.quizData[this.state.currentQuestionCount].answerOptions.map((answerOption, key) => 
@@ -169,8 +193,25 @@ class Quiz extends React.Component {
 function wrapClass (Component) {
     return function WrappedComponent(props) {
         const location = useLocation();
+        const { setFlag } = useSetFlag();
+
+        const handleFlagClick = (questionId) => {
+            setFlag(location.state.lobbyCode, questionId);
+            let root = document.querySelector(':root');
+            let color = root.style.getPropertyValue('--flag-color')
+            let color2 = root.style.getPropertyValue('--flag-color2')
+            root.style.setProperty('--flag-color', color2);
+            root.style.setProperty('--flag-color2', color);
+
+            let scale = root.style.getPropertyValue('--scale')
+            let scale2 = root.style.getPropertyValue('--scale2')
+            root.style.setProperty('--scale', scale2);
+            root.style.setProperty('--scale2', scale);
+
+        }
+
     
-        return <Component lobbyCode={location.state.lobbyCode}/>
+        return <Component lobbyCode={location.state.lobbyCode} handleFlagClick={handleFlagClick} />
     }
 }
 

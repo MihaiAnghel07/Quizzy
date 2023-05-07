@@ -30,7 +30,8 @@ export const useCreateQuiz = () => {
                                    'answer3': {'text':quizAnswer3, 'isCorrect': selectedOption === 'answer3'},
                                    'answer4': {'text':quizAnswer4, 'isCorrect': selectedOption === 'answer4'},
                                    'hasImage': (imageUpload !== null && imageUpload.length !== 0),
-                                   'image': (imageUpload !== null && imageUpload.length !== 0) ? imageUpload[0].name : null }];
+                                   'image': (imageUpload !== null && imageUpload.length !== 0) ? imageUpload[0].name : null,
+                                   'isFlagged': false}];
         quizTemplate.isPublic = isPublic;
         
         const ref = projectFirebaseRealtime.ref('Quizzes');

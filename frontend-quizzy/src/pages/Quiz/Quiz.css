@@ -1,3 +1,10 @@
+:root {
+  --flag-color: #474747;
+  --flag-color2: #ffa500;
+  --scale: 1;
+  --scale2: 1.4;
+}
+
 .quiz {
     margin-top: 100px;
     margin-left: 250px;
@@ -49,7 +56,7 @@
   
   .answer-section button:hover {
     cursor: pointer;
-    background-color: orange;
+    background-color: #ffa500;
     color: white;
     transform: scale(1.1);
   }
@@ -74,10 +81,15 @@
     justify-content: space-between;
   }
   
+  .flag-button {
+    color: var(--flag-color);
+    transform: scale(var(--scale));
+  }
+
   .flag-button:hover {
     transform: scale(1.4);
     cursor: pointer;
-    color: orange;
+    color: orange
   }
 
   .timer-content {

@@ -56,7 +56,11 @@ export default function Create_lobby() {
 
   const startQuizHandler = (e) => {
     e.preventDefault();
-    updateLobby(lobbyCode, location.state.quizId, location.state.quizAuthor);
+    if (location.state != null && location.state.quizId != null && location.state.quizAuthor != null) {
+      updateLobby(lobbyCode, location.state.quizId, location.state.quizAuthor);
+    } else {
+      // popup
+    }
     // navigate to waiting page
     // TODO
 

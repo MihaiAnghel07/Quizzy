@@ -1,6 +1,7 @@
 import React from 'react'
 import './QuestionEdit.css'
 import { useState } from 'react'
+import { useUpdateQuestion } from '../../hooks/useUpdateQuestion'
 
 export default function QuestionEdit(props) {
 
@@ -9,23 +10,31 @@ export default function QuestionEdit(props) {
     const [quizAnswer2, setQuizAnswer2] = useState(props.quizAnswer2)
     const [quizAnswer3, setQuizAnswer3] = useState(props.quizAnswer3)
     const [quizAnswer4, setQuizAnswer4] = useState(props.quizAnswer4)
-    const [selectedOption, setSelectedOption] = useState('answer1');
+    const [selectedOption, setSelectedOption] = useState(props.quizAnswer1.isCorrect? 'answer1' : 
+                                                        props.quizAnswer2.isCorrect? 'answer2' : 
+                                                        props.quizAnswer3.isCorrect? 'answer3' : 'answer4');
     const [imageUpload, setImageUpload] = useState(null);
+    const {updateQuestion} = useUpdateQuestion();
 
     
     function handleOptionChange(event) {
         setSelectedOption(event.target.value);
     }
 
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        updateQuestion(quizQuestion, quizAnswer1, quizAnswer2, quizAnswer3, quizAnswer4, selectedOption, imageUpload, props.questionKey, props.quizKey, props.quizAuthor);
+    }
+
   return (
     <div id="edit-question-form-wrap">
-        <form id="edit-question-form">
+        <form id="edit-question-form" onSubmit={handleSubmit}>
         <p>
         <input 
             type="quizQuestion" 
             id="quizQuestion-edit-question" 
             name="quizQuestion" 
-            placeholder={quizQuestion} 
+            value={quizQuestion} 
             onChange={(e) => setQuizQuestion(e.target.value)} 
             required />
             <i className="validation"></i>
@@ -40,8 +49,8 @@ export default function QuestionEdit(props) {
             type="quizAnswer1" 
             id="quizAnswer1-edit-question" 
             name="quizAnswer1" 
-            placeholder={quizAnswer1.text} 
-            onChange={(e) => setQuizAnswer1(e.target.value)} 
+            value={quizAnswer1.text} 
+            onChange={(e) => setQuizAnswer1({'text':e.target.value, 'isCorrect':quizAnswer1.isCorrect})} 
             required />
             <i className="validation"></i>
         </p>
@@ -50,8 +59,8 @@ export default function QuestionEdit(props) {
             type="quizAnswer2" 
             id="quizAnswer2-edit-question" 
             name="quizAnswer2" 
-            placeholder={quizAnswer2.text}  
-            onChange={(e) => setQuizAnswer2(e.target.value)} 
+            value={quizAnswer2.text}  
+            onChange={(e) => setQuizAnswer2({'text':e.target.value, 'isCorrect':quizAnswer2.isCorrect})} 
             required />
             <i className="validation"></i>
         </p>
@@ -60,8 +69,8 @@ export default function QuestionEdit(props) {
             type="quizAnswer3" 
             id="quizAnswer3-edit-question" 
             name="quizAnswer3" 
-            placeholder={quizAnswer3.text} 
-            onChange={(e) => setQuizAnswer3(e.target.value)} 
+            value={quizAnswer3.text} 
+            onChange={(e) => setQuizAnswer3({'text':e.target.value, 'isCorrect':quizAnswer3.isCorrect})} 
             required />
             <i className="validation"></i>
         </p>
@@ -71,8 +80,8 @@ export default function QuestionEdit(props) {
             type="quizAnswer4" 
             id="quizAnswer4-edit-question" 
             name="quizAnswer4" 
-            placeholder={quizAnswer4.text} 
-            onChange={(e) => setQuizAnswer4(e.target.value)} 
+            value={quizAnswer4.text} 
+            onChange={(e) => setQuizAnswer4({'text':e.target.value, 'isCorrect':quizAnswer4.isCorrect})} 
             required />
             <i className="validation"></i>
         </p>
@@ -94,6 +103,12 @@ export default function QuestionEdit(props) {
             <input type="radio" value="answer4" checked={selectedOption === "answer4"} onChange={handleOptionChange} />
             </label>
         </div>
+        <p>
+          <input 
+            type="submit" 
+            id="save" 
+            value="Save" />
+          </p>
 
         </form>
 

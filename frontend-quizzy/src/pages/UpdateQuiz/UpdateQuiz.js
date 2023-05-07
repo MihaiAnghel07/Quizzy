@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { projectFirebaseRealtime } from '../../firebase/config'
 import { AiOutlineUp, AiOutlineDown } from 'react-icons/ai'
 import QuestionEdit from '../../components/QuestionEdit/QuestionEdit';
+import { useUpdateQuiz } from '../../hooks/useUpdateQuiz';
 
 
 class UpdateQuiz extends React.Component {
@@ -25,7 +26,7 @@ class UpdateQuiz extends React.Component {
         let quizAuthor = this.props.quizAuthor;
         let quizId = this.props.quizId;
         const ref = projectFirebaseRealtime.ref('Quizzes/' + quizAuthor + '/' + quizId);
-        ref.once('value', (snapshot) => {
+        ref.on('value', (snapshot) => {
             let quizTitle = snapshot.val().Title;
             let isPublic = snapshot.val().isPublic;
             let record = []
@@ -33,11 +34,11 @@ class UpdateQuiz extends React.Component {
 
             ref2.once('value', (childSnapshot) => {
                 childSnapshot.forEach((questionSnapshot) => {
-                    console.log(questionSnapshot.key)
+                    //console.log(questionSnapshot.key)
                     record.push({'key':questionSnapshot.key, 'data':questionSnapshot.val()})
                 })
             })
-        
+            console.log(record)
             this.setState({quizTitle:quizTitle, quizQuestions:record, isPublic:isPublic});
             
         }) 
@@ -53,7 +54,7 @@ class UpdateQuiz extends React.Component {
 
                         <input 
                             id='quiz-title-metadata'
-                            placeholder={this.state.quizTitle}
+                            value={this.props.quizTitle}
                             onChange={(e)=>this.props.setQuizTitle(e.target.value)}
                             />
                         
@@ -75,6 +76,10 @@ class UpdateQuiz extends React.Component {
                                 </div>
                             )}
                         </div>
+
+                        <div>
+                            <button onClick={this.props.handleSave}>Save</button>
+                        </div>
                         
                         {this.state.quizQuestions.map((question, key) => {
                             return (
@@ -92,6 +97,9 @@ class UpdateQuiz extends React.Component {
                                                       quizAnswer2={question.data.answer2}
                                                       quizAnswer3={question.data.answer3}
                                                       quizAnswer4={question.data.answer4}
+                                                      questionKey={question.key}
+                                                      quizKey={this.props.quizId}
+                                                      quizAuthor={this.props.quizAuthor}
                                                      />
                                     </div>
                                     )}
@@ -110,11 +118,13 @@ class UpdateQuiz extends React.Component {
 function wrapClass (Component) {
     return function WrappedComponent(props) {
         const location = useLocation();
-        const [quizTitle, setQuizTitle] = useState();
+        const [quizTitle, setQuizTitle] = useState(location.state.quizTitle);
         const [isOpen, setIsOpen] = useState(false);
         const [selectedOption, setSelectedOption] = useState('');
         const [isPublic, setIsPublic] = useState(location.state.isPublic);
         const [expandedId, setExpandedId] = useState(null);
+        const {updateQuiz} = useUpdateQuiz();
+        
         const options = [
             { value: "public", label: "Public" },
             { value: "private", label: "Private" },
@@ -137,8 +147,14 @@ function wrapClass (Component) {
             setIsOpen(false);
             setIsPublic(option.value === 'public' ? true : false)
         };
-        
 
+        const handleSave = () => {
+            if (quizTitle !== null && quizTitle.length > 0)
+                updateQuiz(location.state.quizAuthor, location.state.quizId, quizTitle, isPublic);
+            else
+                alert("Quiz title cannot be empty!")
+        }
+        
         return <Component setQuizTitle={setQuizTitle}
                           isOpen={isOpen}
                           toggleDropdown={toggleDropdown}
@@ -149,7 +165,9 @@ function wrapClass (Component) {
                           quizAuthor={location.state.quizAuthor}
                           isPublic={isPublic}
                           handleQuestionClick={handleQuestionClick}
-                          expandedId={expandedId} />
+                          expandedId={expandedId}
+                          handleSave={handleSave}
+                          quizTitle={quizTitle} />
     }
 }
 

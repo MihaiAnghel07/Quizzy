@@ -32,7 +32,8 @@
     width: 100%;
   }
   
-  #sidebar-dashboard-button, #sidebar-account-button, #sidebar-faq-button, #sidebar-contact-button, #sidebar-logout-button {
+  #sidebar-dashboard-button, #sidebar-account-button, #sidebar-faq-button, #sidebar-contact-button, #sidebar-logout-button,
+  #sidebar-dashboard-button-selected, #sidebar-account-button-selected, #sidebar-faq-button-selected, #sidebar-contact-button-selected {
     background-color: transparent;
     border-radius: 10px;
     border: none;
@@ -59,6 +60,25 @@
     color: #d9534f;
     background-color: #f1f1f1;
   }
+
+  #sidebar-dashboard-button-selected, #sidebar-account-button-selected, #sidebar-faq-button-selected, #sidebar-contact-button-selected {
+    background-color: transparent;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    width: 100%;
+    margin: 10px 0;
+    transition: all 0.2s ease-in-out;
+    color: #0069d9;
+    background-color: #f1f1f1;
+    transform: scale(1.05);
+  }
   
   @media only screen and (min-width: 768px) {
     /* .mySidebar-wrapper {
@@ -75,4 +95,6 @@
   
 
   }
+
+ 
   

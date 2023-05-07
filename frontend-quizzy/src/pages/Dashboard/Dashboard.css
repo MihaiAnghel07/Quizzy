@@ -21,4 +21,5 @@
 
 #dashboard-join-lobby-button:hover, #dashboard-create-lobby-button:hover, #dashboard-quizzes-button:hover {
     background-color: rgb(240, 142, 14);
+    transform: scale(1.05);
 }

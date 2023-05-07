@@ -45,16 +45,19 @@
 #quizzes-my-quizzes-btn:hover {
     background-color: rgb(240, 142, 14);
     transition: 250ms;
+    transform: scale(1.05);
 }
 
 #quizzes-all-quizzes-btn:hover {
     background-color: rgb(240, 142, 14);
     transition: 250ms;
+    transform: scale(1.05);
 }
 
 #quizzes-create-quizz-btn:hover {
     background-color: rgb(240, 142, 14);
     transition: 250ms;
+    transform: scale(1.05);
 }
 
 

@@ -326,3 +326,8 @@ input[type="radio"] {
     border-radius: 4px;
   
   }
+
+  #exit-modal-add-question {
+    margin-left: -120%;
+    margin-top: -20%;
+  }

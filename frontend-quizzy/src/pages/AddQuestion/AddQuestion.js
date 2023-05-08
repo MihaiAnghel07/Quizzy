@@ -3,6 +3,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAddQuestion } from '../../hooks/useAddQuestion';
 import './AddQuestion.css'
 import Modal from '../../components/modal/Modal'
+import Popup from '../../components/Popup/Popup';
+import { FaCheck } from 'react-icons/fa';
 
 export const AddQuestion = () => {
 
@@ -16,16 +18,26 @@ export const AddQuestion = () => {
     const [imageUpload, setImageUpload] = useState(null);
     const [openModal, setOpenModal] = useState(false);
     const [confirmModal, setConfirmModal] = useState(false);
+    const [showPopup, setShowPopup] = useState(false);
+    const [showPopup2, setShowPopup2] = useState(true);
+
     let navigate = useNavigate();
     let location = useLocation();
 
+    function handlePopup2Close() {
+      setShowPopup2(false);
+    }
+  
+    function handlePopupClose() {
+      setShowPopup(false);
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault()
         addQuestion(quizQuestion, quizAnswer1, quizAnswer2, quizAnswer3, quizAnswer4, selectedOption, imageUpload, location.state.quizKey);
+        setShowPopup(true);
     }
 
-    // when confirmModal modified, cloase the lobby and redirect to dashboard
     useEffect(()=>{
         if (confirmModal) {
           if (location.state.previousPage === '/create_quiz')
@@ -42,8 +54,31 @@ export const AddQuestion = () => {
     return (
       <div id="add-question-form-wrap">
         
-        {openModal && <Modal closeModal={setOpenModal} yesModal={setConfirmModal} message="Are you done adding questions? Make sure you added the current question!" />}
+        {openModal && <div id='exit-modal-add-question'> 
+        <Modal closeModal={setOpenModal} yesModal={setConfirmModal} message="Are you done adding questions? Make sure you added the current question!" /> </div>}
         
+        {location.state.previousPage === '/create_quiz' && showPopup2 &&
+        (
+          <Popup
+            message="Quiz successfully created"
+            duration={2000}
+            position="top-right"
+            icon = {<FaCheck className='flag-button'/>}
+            onClose={handlePopup2Close}
+          />
+          )}
+
+        {showPopup && 
+        (
+          <Popup
+            message="Question successfully added"
+            duration={2000}
+            position="top-right"
+            icon = {<FaCheck className='flag-button'/>}
+            onClose={handlePopupClose}
+          />
+        )}
+
         <h2>Add A New Question</h2>
         <form id="add-question-form" onSubmit={handleSubmit}>
           <p>

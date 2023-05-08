@@ -1,7 +1,7 @@
 
 .modal-wrapper {
-    width: 20vw;
-    height: 50vh;
+    width: 100vw;
+    height: 100vh;
     /* background-color: rgba(200, 200, 200); */
     position: fixed;
     display: flex;
@@ -19,6 +19,8 @@
     display: flex;
     flex-direction: column;
     padding: 25px;
+    margin-top: -150px;
+    margin-right: 130px;
 }
 
 .modal-content .modal-title {

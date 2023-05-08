@@ -94,3 +94,23 @@
     color: black;
 }
 
+@media all and (max-width: 1800px) and (min-width: 1250px) {
+    #close-lobby-modal {
+        margin-left: -80%;
+    }
+}
+
+@media all and (max-width: 1250px) and (min-width: 1000px) {
+    #close-lobby-modal {
+        margin-left: -40%;
+    }
+}
+
+@media all and (max-width: 1000px) and (min-width: 500px) {
+    #close-lobby-modal {
+        margin-left: -20%;
+    }
+}
+
+
+

@@ -1,11 +1,12 @@
 import ShowQuizzes from '../../components/showQuizzes/ShowQuizzes';
 import './Quizzes.css'
-import firebase from "firebase/app";
-import React from 'react'
-import { Link, useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+import Modal from '../../components/modal/Modal';
+import { useDeleteQuiz } from '../../hooks/useDeleteQuiz';
 
 
-export default class Quizzes extends React.Component {
+class Quizzes extends React.Component {
 
     constructor() {
         super();
@@ -44,21 +45,23 @@ export default class Quizzes extends React.Component {
     render () {
         return (
             <div className='quizzes-wrapper'>
+                
+                {this.props.openModal && <div> 
+                    <Modal closeModal={this.props.setOpenModal} yesModal={this.props.setConfirmModal} message="Are you sure you want to delete the quiz?" /> </div>}
+
                 <div className='quizzes-content'>
                     <div className='quizzes-header'>
                         <button id='quizzes-my-quizzes-btn'
                                 onClick={this.myQuizzesHandler}>My Quizzes</button>
                         <button id='quizzes-all-quizzes-btn'
                                 onClick={this.allQuizzesHandler}>All Quizzes</button>
-                        <button id='quizzes-create-quizz-btn'
-                                ><Link to='/create_quiz' 
-                                       id='quizzes-create-quizz-link'>Create a Quiz</Link></button>
+                        <button id='quizzes-create-quizz-btn' onClick={this.props.createQuizHandler}>Create a Quiz</button>
                     </div>
                 
                     <div className='quizzes-body'>
                         <div className="show-public-quizzes">
-                            {this.state.myQuizzes && <ShowQuizzes quizzesType='private' path={this.state.username} />}
-                            {!this.state.myQuizzes && <ShowQuizzes quizzesType='public' path='' />}
+                            {this.state.myQuizzes && <ShowQuizzes quizzesType='private' path={this.state.username} openModalHandler={this.props.openModalHandler} />}
+                            {!this.state.myQuizzes && <ShowQuizzes quizzesType='public' path='' openModalHandler={this.props.openModalHandler}/>}
                         </div>
                     </div>
                 </div>
@@ -66,3 +69,48 @@ export default class Quizzes extends React.Component {
         )
     }
 }
+
+function wrapClass (Component) {
+    return function WrappedComponent(props) {
+        const [openModal, setOpenModal] = useState(false)
+        const [confirmModal, setConfirmModal] = useState(false);
+        const [quizId, setQuizId] = useState(null)
+        const [quizAuthor, setQuizAuthor] = useState(null)
+        const { deleteQuiz} = useDeleteQuiz();
+        let navigate = useNavigate();
+
+        const deleteHandler = (quizId, quizAuthor) => {
+            deleteQuiz(quizId, quizAuthor);
+        }
+
+        useEffect(()=>{
+            if (confirmModal) {
+              setConfirmModal(false)
+              setOpenModal(false)
+              deleteHandler(quizId, quizAuthor)
+            }
+        
+          }, [confirmModal])  
+
+        const openModalHandler = (quizId, quizAuthor)=> {
+            setQuizId(quizId)
+            setQuizAuthor(quizAuthor)
+            setOpenModal(true)
+        }
+
+        const createQuizHandler = () => {
+            navigate('/create_quiz');
+        }
+
+    
+        return <Component setOpenModal={setOpenModal}
+                          setConfirmModal={setConfirmModal}
+                          openModal={openModal}
+                          setQuizId={setQuizId}
+                          setQuizAuthor={setQuizAuthor}
+                          openModalHandler={openModalHandler}
+                          createQuizHandler={createQuizHandler}/>
+    }
+}
+
+export default wrapClass(Quizzes); 

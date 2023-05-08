@@ -6,6 +6,9 @@ import firebase from "firebase/app";
 import { useCopyQuiz } from '../../hooks/useCopyQuiz';
 import { useDeleteQuiz } from '../../hooks/useDeleteQuiz';
 import { useNavigate } from 'react-router-dom';
+import Modal from '../modal/Modal';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 
 
@@ -80,6 +83,7 @@ class ShowQuizzes extends React.Component {
         
         return (
             <div id='show-quizzes-wrapper'>
+    
                 {this.state.quizzesData.length === 0 &&
                 <h4 id="empty-list-message">No Quiz Found</h4>}
                 
@@ -116,9 +120,8 @@ class ShowQuizzes extends React.Component {
                                         {this.state.username === row.data.Author &&
                                         <button onClick={() => this.props.updateHandler(row.key, row.data.Author, row.data.isPublic, row.data.Title)}>Update</button>}
                                         {this.state.username === row.data.Author &&
-                                        <button onClick={() => this.props.deleteHandler(row.key, row.data.Author)}>Delete</button>}
+                                        <button onClick={() => this.props.openModal(row.key, row.data.Author)}>Delete</button>}
                                     </td>
-
                                 </tr>
                             )
                         })}
@@ -133,7 +136,6 @@ class ShowQuizzes extends React.Component {
 function wrapClass (Component) {
     return function WrappedComponent(props) {
         const { copyQuiz } = useCopyQuiz();
-        const { deleteQuiz} = useDeleteQuiz();
         let navigate = useNavigate();
 
         const copyHandler = (quizId, quizAuthor) => {
@@ -145,17 +147,12 @@ function wrapClass (Component) {
             navigate('/update_quiz', {state:{quizId:quizId, quizAuthor:quizAuthor, isPublic:isPublic, quizTitle:quizTitle}});
         }
 
-        const deleteHandler = (quizId, quizAuthor) => {
-            deleteQuiz(quizId, quizAuthor);
-
-        }
-        
-
+    
         return <Component quizzesType={props.quizzesType} 
                           path={props.path} 
                           copyHandler={copyHandler}
                           updateHandler={updateHandler}
-                          deleteHandler={deleteHandler}/>
+                          openModal={props.openModalHandler}/>
     }
 }
 

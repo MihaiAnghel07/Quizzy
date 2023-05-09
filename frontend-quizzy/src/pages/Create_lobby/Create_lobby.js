@@ -8,6 +8,8 @@ import { useCloseLobby } from '../../hooks/useCloseLobby'
 import { useLocation, useNavigate } from 'react-router-dom';
 import QuizzesSelection from '../QuizzesSelection/QuizzesSelection'
 import { useUpdateLobby } from '../../hooks/useUpdateLobby'
+import Popup from '../../components/Popup/Popup'
+import { FaCheck } from 'react-icons/fa'
 
 
 
@@ -16,6 +18,7 @@ export default function Create_lobby() {
   const { closeLobby } = useCloseLobby()
   const [openModal, setOpenModal] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
   const { updateLobby } = useUpdateLobby();
   const { loadLobbyTemplateToDatabase } = useLoadingLobbyTemplate()
 
@@ -59,19 +62,33 @@ export default function Create_lobby() {
     if (location.state != null && location.state.quizId != null && location.state.quizAuthor != null) {
       updateLobby(lobbyCode, location.state.quizId, location.state.quizAuthor);
     } else {
-      // popup
+      setShowPopup(true)
     }
     // navigate to waiting page
     // TODO
 
-    // navigate('/quiz', {state: {quizId:location.state.quizId,
-    //                           quizTitle:location.state.quizTitle,
-    //                           quizAuthor:location.state.quizAuthor}});
+  }
 
+  function handlePopupClose() {
+    setShowPopup(false);
   }
 
   return (
     <div className='create-lobby-wrapper'>
+      {openModal && <div id='close-lobby-modal'>
+        <Modal closeModal={setOpenModal} yesModal={setConfirmModal} message="Are you sure you want to close the lobby?" /> </div>}
+      
+      {showPopup &&
+      (
+        <Popup
+          message="Select a quiz before starting the quiz!"
+          duration={2000}
+          position="top-right"
+          // icon = {<FaCheck className='flag-button'/>}
+          onClose={handlePopupClose}
+        />
+        )}
+          
       <div className='create-lobby-content'>
         <div id="print-lobbyCode">Lobby Code: {lobbyCode}</div>
         <div id="print-quiz-title">
@@ -92,7 +109,7 @@ export default function Create_lobby() {
           </div>
         </div>
         
-        {openModal && <Modal closeModal={setOpenModal} yesModal={setConfirmModal} message="Are you sure you want to close the lobby?" />}
+        
         
       </div>  
     </div>

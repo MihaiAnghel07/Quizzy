@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Redirect, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Redirect, Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
 import Home from './pages/home/Home';
 import Login from './pages/login/Login'
@@ -21,19 +21,44 @@ import QuizzesSelection from './pages/QuizzesSelection/QuizzesSelection';
 import PopupTest from './pages/PopupTest/PopupTest';
 import { AddQuestion } from './pages/AddQuestion/AddQuestion';
 import Faq from './pages/Faq/Faq';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import Modal from './components/modal/Modal';
 
 
 
-function App() {
+
+function App() { 
 
   const { user } = useAuthContext()
+  const [openModal, setOpenModal] = useState(false);
+  const [confirmModal, setConfirmModal] = useState(false);
+  const { dispatch } = useAuthContext()
+  let navigate = useNavigate();
+
+
+  // when confirmModal modified, cloase the lobby and redirect to dashboard
+  useEffect(()=>{
+    if (confirmModal) {
+      console.log(confirmModal)
+      setConfirmModal(false)
+      setOpenModal(false)
+      dispatch({ type: 'LOGOUT' })
+      navigate('/login', {replace:true})
+    }
+
+  }, [confirmModal])   
+
 
   return (
     <div className="App">
-      <BrowserRouter >
       
-        {user && <MySidebar />}
+        {user && <MySidebar setOpenModal={setOpenModal}/>}
         <div className="body" style={{ marginLeft: user ? '250px' : '0px' }}>  
+        
+        {openModal && <div id='exit-modal'> 
+          <Modal closeModal={setOpenModal} yesModal={setConfirmModal} message="Are you sure you want to exit?" /> </div>}
+          
           {!user && <Navbar />}
           
           <Routes>
@@ -42,7 +67,6 @@ function App() {
             <Route path="/signup" element={user ? <Navigate to="/" /> : (<div className='signup-page'><Signup /></div>)}/>
             <Route path="/dashboard" element= {user? <Dashboard /> : < Login/>} />
             <Route path="/account" element= {user? <Account /> : < Login/>} />
-            {/* <Route path="/faq" element= {user ? <FAQ /> : < Login/>} />*/}
             <Route path="/contact" element= {user? <Contact /> : < Login/>} /> 
             <Route path="/join_lobby" element= {user? <Join_lobby /> : < Login/>} />
             <Route path="/create_lobby" element= {user? <Create_lobby /> : < Login/>} />
@@ -57,11 +81,12 @@ function App() {
             <Route path="/faq" element= {user? <Faq /> : < Login/>} />
             
           </Routes>
-
+          
           {!user && <Footer />}
+          
         </div>
         
-      </BrowserRouter>
+      
     </div>
   );
 }

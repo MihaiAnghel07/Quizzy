@@ -12,11 +12,14 @@ import { AiOutlineMail } from 'react-icons/ai';
 import { CiLogout } from 'react-icons/ci';
 import { BsTelephoneFill } from 'react-icons/bs';
 import { useLogout } from '../../hooks/useLogout';
+import Modal from '../modal/Modal';
+import { useEffect } from 'react';
 
-export default function MySidebar() {
+export default function MySidebar(props) {
   const { user } = useAuthContext();
   const navigate = useNavigate();
   const { logout } = useLogout();
+
 
   const [selectedButton, setSelectedButton] = useState('dashboard');
 
@@ -76,7 +79,7 @@ export default function MySidebar() {
             Contact
           </button>
         </div>
-        <button id="sidebar-logout-button" onClick={logout}>
+        <button id="sidebar-logout-button" onClick={props.setOpenModal}>
           <CiLogout />
           Log out
         </button>

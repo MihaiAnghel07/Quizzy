@@ -2,9 +2,12 @@ import { createContext, useEffect, useReducer, useState } from "react";
 import { projectFirebaseAuth } from '../firebase/config';
 import firebase from "firebase/app";
 import { useGetUsername } from "../hooks/useGetUsername";
+import { useNavigate, Navigate} from "react-router-dom";
+import Login from "../pages/login/Login";
 
 
 export const AuthContext = createContext()
+
 
 const SetUsernameFunction = () => { 
     const { getUsername } = useGetUsername();
@@ -27,6 +30,7 @@ export const authReducer = (state, action) => {
             sessionStorage.removeItem('username')
             sessionStorage.removeItem("lobbyCode");
             projectFirebaseAuth.signOut()
+            
             return { ...state, user: null}
         default:
             return state

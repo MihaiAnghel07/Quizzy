@@ -8,6 +8,7 @@ import Timer from '../../components/Timer/Timer';
 import { FaFontAwesomeFlag, FaClock} from 'react-icons/fa'
 import { projectFirebaseRealtime, projectFirebaseStorage } from '../../firebase/config'
 import { useSetFlag } from '../../hooks/useSetFlag';
+import Rating from '../../components/Rating/Rating';
 
 
 
@@ -157,7 +158,22 @@ class Quiz extends React.Component {
     render() {
         return (
             <div className='quiz'>
-                {this.state.quizOver ? (<div className='score-section'>You scored {this.state.score} out of {this.state.quizData.length}</div>) : (
+                {this.state.quizOver ? 
+                    (
+                    <div className='score-section'>
+                        <h2>Quiz has ended!</h2>
+                        <h3 id='score'>You scored {this.state.score} out of {this.state.quizData.length}</h3>
+                        <div className='feedback-section'>
+                            <h3>Leave feedback</h3>
+                            <textarea id='feedback-text-area' rows="6" cols="40" maxLength="500"></textarea>
+                        </div>
+                        <div className='rating-section'>
+                            <h3>Rate this quiz</h3>
+                            <Rating></Rating>
+                        </div>
+                        <button id='quiz-end-finish-button'>Finish</button>
+                    </div>) 
+                    : (
                     <div className='quiz-section'>
                         <div className='timer-flag-section'>
                             <div className='flag-icon'>

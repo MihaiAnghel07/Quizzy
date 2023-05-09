@@ -128,3 +128,11 @@
 #quiz-title-metadata {
     max-width: 500px;
 }
+
+
+
+
+.score-section {
+    display: flex;
+    flex-direction: column;
+}

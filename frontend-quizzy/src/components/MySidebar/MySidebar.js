@@ -49,6 +49,7 @@ export default function MySidebar(props) {
         <img className="mySidebar-logo" src={logo} />
       </div>
       <div className="sidebar-items-container">
+        <div className='sidebar-username'> Logged in as {user}</div>
         <div className="sidebar-main-buttons">
           <button
             id={selectedButton === 'dashboard' ? 'sidebar-dashboard-button-selected' : 'sidebar-dashboard-button'}

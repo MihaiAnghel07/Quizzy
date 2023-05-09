@@ -5,7 +5,7 @@
   .star {
     cursor: pointer;
     font-size: 2rem;
-    color: #ccc;
+    color: aliceblue;
     transition: color 0.2s;
   }
   

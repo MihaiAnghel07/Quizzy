@@ -161,7 +161,7 @@ class Quiz extends React.Component {
     }
 
     handleFinishButtonClick() {
-        // const userId = 2023;
+        const userId = 2023;
         // const { userAnswers } = this.state.userAnswers;
         // const userAnswersRef = firebase.database().ref('userAnswers').child(userId);
         // userAnswersRef.update(userAnswers)

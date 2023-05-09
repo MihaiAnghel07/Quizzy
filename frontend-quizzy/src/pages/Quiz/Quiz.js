@@ -19,11 +19,13 @@ function handleTimerComplete() {
 class Quiz extends React.Component {
     constructor() {
         super();
+        this.handleSubmitButtonClick = this.handleFinishButtonClick.bind(this);
         this.state = {
             quizOver: false,
             score: 0,
             currentQuestionCount: 0,
             currentQuestionId: 0,
+            userAnswers: {},
             quizData: [
                 // {
                 //     question: 'Question 1',
@@ -136,7 +138,7 @@ class Quiz extends React.Component {
         
     }
 
-    handleAnswerButtonClick = (isCorrect) => {
+    handleAnswerButtonClick = (answerOption) => {
        // e.preventDefault();
         
         const nextQuestionCount = this.state.currentQuestionCount + 1
@@ -146,13 +148,32 @@ class Quiz extends React.Component {
             this.state.quizOver = true
         }
 
-        if (isCorrect) {
+        if (answerOption.isCorrect) {
             this.state.score += 1;
         }
+
+        // const { currentQuestionId, userAnswers } = this.state;
+        // const updatedUserAnswers = { ...userAnswers, [currentQuestionId]: answerOption };
+        // this.setState({ userAnswers: updatedUserAnswers });
         
 
         this.forceUpdate();
     }
+
+    handleFinishButtonClick() {
+        // const userId = 2023;
+        // const { userAnswers } = this.state.userAnswers;
+        // const userAnswersRef = firebase.database().ref('userAnswers').child(userId);
+        // userAnswersRef.update(userAnswers)
+        //   .then(() => {
+        //     console.log('User answers saved successfully');
+        //     // other logic for handling the end of the quiz
+        //   })
+        //   .catch((error) => {
+        //     console.error('Error saving user answers:', error);
+        //   });
+        // console.log(this.state.quizOver)
+      }
 
 
     render() {
@@ -171,7 +192,7 @@ class Quiz extends React.Component {
                             <h3>Rate this quiz</h3>
                             <Rating></Rating>
                         </div>
-                        <button id='quiz-end-finish-button'>Finish</button>
+                        <button id='quiz-end-finish-button' onClick={this.handleFinishButtonClick}>Finish</button>
                     </div>) 
                     : (
                     <div className='quiz-section'>
@@ -196,7 +217,7 @@ class Quiz extends React.Component {
                         </div>
                         {this.state.quizData.length !== 0 && <div className='answer-section'>
                             {this.state.quizData[this.state.currentQuestionCount].answerOptions.map((answerOption, key) => 
-                                <button key={key} onClick={() => this.handleAnswerButtonClick(answerOption.isCorrect)}>{answerOption.text}</button>)}
+                                <button key={key} onClick={() => this.handleAnswerButtonClick(answerOption)}>{answerOption.text}</button>)}
                         </div>}
                     </div> 
                 )}

@@ -1,3 +1,130 @@
 .update-quiz-wrapper {
-    margin-left: 100px;
+    margin-left: 125px;
+    margin-top: 100px;
+    margin-right: 100px;
+}
+
+.update-quiz-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.quiz-metadata {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+}
+
+.dropdown {
+    margin-left: 50px;
+    position: relative;
+    display: inline-block;
+}
+  
+.dropdown-toggle {
+    height: 60px;
+    background-color: orange;
+    color: white;
+    font-weight: bold;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+  
+.dropdown-toggle:hover {
+    background-color: rgb(240, 142, 14);
+}
+  
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 999;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 10px 0;
+    min-width: 100px;
+    max-height: 200px;
+    overflow-y: auto;
+    width: 100%;
+}
+  
+.dropdown-item {
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+  
+.dropdown-item:hover {
+    background-color: #f1f1f1;
+}
+
+.questions-container {
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+  
+.questions-container-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+}
+  
+.question-text-header {
+    border: 0px solid;
+    border-radius: 10px;
+    background-color: orange;
+    min-height: 35px;
+    margin-bottom: 10px;
+}
+
+.question-text-header:hover {
+    background-color: rgb(240, 142, 14);
+    cursor: pointer;
+}
+
+
+
+
+#save-button {
+    margin-left: 50px;
+    height: 60px;
+    background-color: orange;
+    color: white;
+    font-weight: bold;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+#save-button:hover {
+    background-color: rgb(240, 142, 14);
+} 
+
+#add-question-button {
+    margin-top: 45px;
+    margin-left: 50px;
+    height: 40px;
+    background-color: orange;
+    color: white;
+    font-weight: bold;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+#add-question-button:hover {
+    background-color: rgb(240, 142, 14);
+}
+
+#quiz-title-metadata {
+    max-width: 500px;
 }

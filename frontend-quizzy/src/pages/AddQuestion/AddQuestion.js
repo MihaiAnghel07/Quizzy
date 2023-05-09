@@ -47,6 +47,7 @@ export const AddQuestion = () => {
         <h2>Add A New Question</h2>
         <form id="add-question-form" onSubmit={handleSubmit}>
           <p>
+          Question text:
           <input 
             type="quizQuestion" 
             id="quizQuestion-add-question" 
@@ -56,12 +57,15 @@ export const AddQuestion = () => {
             required />
             <i className="validation"></i>
           </p>
+          
           <input 
             type='file' 
             id='upload-image-btn'
             onChange={(event) => {setImageUpload(event.target.files)}}>
-            </input>
+          </input>
+
           <p>
+          Answer 1:
           <input 
             type="quizAnswer1" 
             id="quizAnswer1-add-question" 
@@ -71,7 +75,9 @@ export const AddQuestion = () => {
             required />
             <i className="validation"></i>
           </p>
+
           <p>
+          Answer 2:
           <input 
             type="quizAnswer2" 
             id="quizAnswer2-add-question" 
@@ -81,7 +87,9 @@ export const AddQuestion = () => {
             required />
             <i className="validation"></i>
           </p>
+
           <p>
+          Answer 3:
           <input 
             type="quizAnswer3" 
             id="quizAnswer3-add-question" 
@@ -93,6 +101,7 @@ export const AddQuestion = () => {
           </p>
          
           <p>
+          Answer 4:
           <input 
             type="quizAnswer4" 
             id="quizAnswer4-add-question" 

@@ -51,7 +51,6 @@ class UpdateQuiz extends React.Component {
                 {this.state.quizTitle !== null &&
                 <div className='update-quiz-content'>
                     <div className='quiz-metadata'>
-
                         <input 
                             id='quiz-title-metadata'
                             value={this.props.quizTitle}
@@ -78,13 +77,15 @@ class UpdateQuiz extends React.Component {
                         </div>
 
                         <div>
-                            <button onClick={this.props.handleSave}>Save</button>
+                            <button id='save-button' onClick={this.props.handleSave}>Save</button>
+                        </div>
+                    </div>
+                    <div className='questions-container'>
+                        <div className='questions-container-header'>
+                            <h1>Questions</h1>
+                            <button id='add-question-button' onClick={this.props.handleAddQuestion}>Add question</button>
                         </div>
                         
-                        <div>
-                            <button onClick={this.props.handleAddQuestion}>Add question</button>
-                        </div>
-
                         {this.state.quizQuestions.map((question, key) => {
                             return (
                                 <div key={key} className="question-container">
@@ -97,21 +98,19 @@ class UpdateQuiz extends React.Component {
                                     {this.props.expandedId === key && (
                                     <div className="question-form">
                                         <QuestionEdit quizQuestion={question.data.question}
-                                                      quizAnswer1={question.data.answer1}
-                                                      quizAnswer2={question.data.answer2}
-                                                      quizAnswer3={question.data.answer3}
-                                                      quizAnswer4={question.data.answer4}
-                                                      questionKey={question.key}
-                                                      quizKey={this.props.quizId}
-                                                      quizAuthor={this.props.quizAuthor}
-                                                     />
+                                                    quizAnswer1={question.data.answer1}
+                                                    quizAnswer2={question.data.answer2}
+                                                    quizAnswer3={question.data.answer3}
+                                                    quizAnswer4={question.data.answer4}
+                                                    questionKey={question.key}
+                                                    quizKey={this.props.quizId}
+                                                    quizAuthor={this.props.quizAuthor}
+                                                    />
                                     </div>
                                     )}
                                 </div>
                             )
                         })}
-            
-
                     </div>
                 </div>}
             </div>

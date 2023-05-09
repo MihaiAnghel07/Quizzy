@@ -30,6 +30,7 @@ export default function QuestionEdit(props) {
     <div id="edit-question-form-wrap">
         <form id="edit-question-form" onSubmit={handleSubmit}>
         <p>
+        Question Text:
         <input 
             type="quizQuestion" 
             id="quizQuestion-edit-question" 
@@ -39,12 +40,18 @@ export default function QuestionEdit(props) {
             required />
             <i className="validation"></i>
         </p>
+
+        <p>
+        Image Upload:
         <input 
             type='file' 
             id='upload-image-btn'
             onChange={(event) => {setImageUpload(event.target.files)}}>
-            </input>
+        </input>
+        </p>
+        
         <p>
+        Answer 1:
         <input 
             type="quizAnswer1" 
             id="quizAnswer1-edit-question" 
@@ -54,7 +61,9 @@ export default function QuestionEdit(props) {
             required />
             <i className="validation"></i>
         </p>
+
         <p>
+        Answer 2:
         <input 
             type="quizAnswer2" 
             id="quizAnswer2-edit-question" 
@@ -64,7 +73,9 @@ export default function QuestionEdit(props) {
             required />
             <i className="validation"></i>
         </p>
+        
         <p>
+        Answer 3:
         <input 
             type="quizAnswer3" 
             id="quizAnswer3-edit-question" 
@@ -76,6 +87,7 @@ export default function QuestionEdit(props) {
         </p>
         
         <p>
+        Answer 4:
         <input 
             type="quizAnswer4" 
             id="quizAnswer4-edit-question" 

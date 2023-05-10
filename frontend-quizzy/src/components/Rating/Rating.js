@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import './Rating.css';
 
-function Rating() {
+function Rating(props) {
   const [rating, setRating] = useState(0);
 
   const handleRatingClick = (value) => {
     setRating(value);
-    console.log("Rating: " + rating)
+    props.setRatingHandler(value)
+    // console.log("Rating: " + rating)
     const stars = document.querySelectorAll('.star');
     stars.forEach((star, index) => {
       if (index <= value - 1) {

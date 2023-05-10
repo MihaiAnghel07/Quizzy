@@ -28,7 +28,7 @@ class ShowQuizzes extends React.Component {
 
     componentDidMount() {
         let username = sessionStorage.getItem("username");
-
+        console.log(this.props.search)
         if (this.props.quizzesType === 'private') {
             const ref = projectFirebaseRealtime.ref('Quizzes/' + username);
             ref.on('value', (snapshot) => {
@@ -40,6 +40,7 @@ class ShowQuizzes extends React.Component {
                         records.push({"key":key, "data":data}); 
                     })
                     this.setState({quizzesData: records});
+                    this.props.setQuizDataFilteredHandler(records);
                 }
             })
 
@@ -72,23 +73,25 @@ class ShowQuizzes extends React.Component {
                             }
                         })
                         this.setState({quizzesData: records});
+                        this.props.setQuizDataFilteredHandler(records);
                     })
                 }
             })
         }
  
     } 
+    
 
     render() {
         
         return (
+            
             <div id='show-quizzes-wrapper'>
-    
-                {this.state.quizzesData.length === 0 &&
+                {this.props.quizDataFiltered.length === 0 &&
                 <h4 id="empty-list-message">No Quiz Found</h4>}
                 
                 <Table >   
-                    {this.state.quizzesData.length !== 0 && <thead>
+                    {this.props.quizDataFiltered.length !== 0 && <thead>
                         <tr>
                             <th id="quiz-id">id</th>
                             <th id="quiz-title">Quiz</th>
@@ -101,8 +104,8 @@ class ShowQuizzes extends React.Component {
                         </tr>
                     </thead>}
 
-                    {this.state.quizzesData.length !== 0 && <tbody>
-                        {this.state.quizzesData.map((row, index) => {
+                    {this.props.quizDataFiltered.length !== 0 && <tbody>
+                        {this.props.quizDataFiltered.map((row, index) => {
                             return (
                                 <tr key={index}>
                                     <td>#{row.key}</td>
@@ -135,6 +138,8 @@ class ShowQuizzes extends React.Component {
 
 function wrapClass (Component) {
     return function WrappedComponent(props) {
+        const [quizDataFiltered, setQuizDataFiltered] = useState([])
+        const [quizData, setQuizData] = useState([])
         const { copyQuiz } = useCopyQuiz();
         let navigate = useNavigate();
 
@@ -147,12 +152,46 @@ function wrapClass (Component) {
             navigate('/update_quiz', {state:{quizId:quizId, quizAuthor:quizAuthor, isPublic:isPublic, quizTitle:quizTitle}});
         }
 
-    
+        const setQuizDataFilteredHandler = (quizData) => {
+            setQuizData(quizData)
+        }
+
+        useEffect(() => {
+            const auxQuizData = quizData.filter((el) => {
+                let auxTitle = el.data.Title.toLowerCase();
+                let auxAuthor = el.data.Author.toLowerCase();
+
+                
+                if (props.search === "")
+                    return el;
+
+                if (auxTitle.includes(props.search.toLowerCase()) || auxAuthor.includes(props.search.toLowerCase()))
+                    return el;
+                
+                if (('private'.includes(props.search.toLowerCase()) && el.data.isPublic === false) || ('public'.includes(props.search.toLowerCase()) && el.data.isPublic === true))
+                    return el;
+                
+                // de facut si pentru id
+                // if ((el.data.quizId.includes(props.search.toLowerCase()) && el.data.isPublic === false))
+                //     return el;
+                
+                
+            })
+            console.log(auxQuizData)
+            setQuizDataFiltered(auxQuizData)
+
+
+        }, [quizData, props.search])
+
+        
         return <Component quizzesType={props.quizzesType} 
                           path={props.path} 
                           copyHandler={copyHandler}
                           updateHandler={updateHandler}
-                          openModal={props.openModalHandler}/>
+                          openModal={props.openModalHandler}
+                          search={props.search}
+                          setQuizDataFilteredHandler={setQuizDataFilteredHandler}
+                          quizDataFiltered={quizDataFiltered}/>
     }
 }
 

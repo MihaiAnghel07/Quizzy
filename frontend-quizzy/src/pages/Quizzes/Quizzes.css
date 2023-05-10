@@ -91,3 +91,10 @@
 
 /* max-height: 100px;
 overflow: auto; */
+
+#search-input {
+    width: 200px;
+    height: 40px;
+    border-radius: 8px;
+    margin-left: 1%;
+}

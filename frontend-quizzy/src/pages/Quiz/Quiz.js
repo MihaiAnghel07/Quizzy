@@ -9,6 +9,7 @@ import { FaFontAwesomeFlag, FaClock} from 'react-icons/fa'
 import { projectFirebaseRealtime, projectFirebaseStorage } from '../../firebase/config'
 import { useSetFlag } from '../../hooks/useSetFlag';
 import Rating from '../../components/Rating/Rating';
+import { useSaveStatistics } from '../../hooks/useSaveStatistics';
 
 
 
@@ -19,45 +20,13 @@ function handleTimerComplete() {
 class Quiz extends React.Component {
     constructor() {
         super();
-        this.handleSubmitButtonClick = this.handleFinishButtonClick.bind(this);
         this.state = {
             quizOver: false,
             score: 0,
             currentQuestionCount: 0,
             currentQuestionId: 0,
-            userAnswers: {},
-            quizData: [
-                // {
-                //     question: 'Question 1',
-                //     answerOptions: [
-                //         {text: 'This is a very long answer for the purpose of testing the answer button scaling', isCorrect: true},
-                //         {text: 'Answer 2', isCorrect: false},
-                //         {text: 'Answer 3', isCorrect: false},
-                //         {text: 'This is an even longer answer for the purpose of testing if the text will go on the next line after a certain length has been reached, and it seems to work ok, might need some tweaking later idk.', isCorrect: false},
-                //     ],
-                //     hasImage: false
-                // },
-                // {
-                //     question: 'Question 2',
-                //     answerOptions: [
-                //         {text: 'Answer 5', isCorrect: true},
-                //         {text: 'Answer 6', isCorrect: false},
-                //         {text: 'Answer 7', isCorrect: false},
-                //         {text: 'Answer 8', isCorrect: false},
-                //     ],
-                //     hasImage: false
-                // },
-                // {
-                //     question: 'Question 3',
-                //     answerOptions: [
-                //         {text: 'Answer 9', isCorrect: true},
-                //         {text: 'Answer 10', isCorrect: false},
-                //         {text: 'Answer 11', isCorrect: false},
-                //         {text: 'Answer 12', isCorrect: false},
-                //     ],
-                //     hasImage: false
-                // }
-            ]
+            userAnswers: [],
+            quizData: []
         }
 
         let root = document.querySelector(':root');
@@ -67,6 +36,8 @@ class Quiz extends React.Component {
         root.style.setProperty('--scale2', '1.4');
         
         this.componentDidMount = this.componentDidMount.bind(this)
+        this.handleFinishButtonClick = this.handleFinishButtonClick.bind(this);
+        this.handleAnswerButtonClick = this.handleAnswerButtonClick.bind(this);
     }
     
     componentDidMount() {
@@ -81,6 +52,7 @@ class Quiz extends React.Component {
             const ref2 = projectFirebaseRealtime.ref('Quizzes/' + quizAuthor + '/' + quizId + '/Questions');
             ref2.once('value', (snapshot2) => {
                 if (snapshot2.exists()) {
+                   
                     let records = [];
                     let answerOptions = [];
                     let promises = [];
@@ -138,9 +110,18 @@ class Quiz extends React.Component {
         
     }
 
+
     handleAnswerButtonClick = (answerOption) => {
        // e.preventDefault();
-        
+
+       let question = this.state.quizData[this.state.currentQuestionCount].question;
+       let answer1 = this.state.quizData[this.state.currentQuestionCount].answerOptions[0];
+       let answer2 = this.state.quizData[this.state.currentQuestionCount].answerOptions[1];
+       let answer3 = this.state.quizData[this.state.currentQuestionCount].answerOptions[2];
+       let answer4 = this.state.quizData[this.state.currentQuestionCount].answerOptions[3];
+       let image = this.state.quizData[this.state.currentQuestionCount].url;
+       let isFlagged = this.props.isFlagged;
+
         const nextQuestionCount = this.state.currentQuestionCount + 1
         if (nextQuestionCount < this.state.quizData.length) {
             this.state.currentQuestionCount = nextQuestionCount
@@ -152,9 +133,16 @@ class Quiz extends React.Component {
             this.state.score += 1;
         }
 
-        // const { currentQuestionId, userAnswers } = this.state;
-        // const updatedUserAnswers = { ...userAnswers, [currentQuestionId]: answerOption };
-        // this.setState({ userAnswers: updatedUserAnswers });
+
+        const { currentQuestionId, userAnswers,} = this.state;
+
+        const updatedUserAnswers = userAnswers;
+        updatedUserAnswers.push({answerOption});
+        this.setState({ userAnswers: updatedUserAnswers });
+        this.props.saveStatisticsHandler(answerOption, question, answer1, answer2, answer3, answer4, image, isFlagged);
+        
+        if (isFlagged)
+            this.props.handleFlagClick(this.state.quizData[this.state.currentQuestionCount].questionId, isFlagged)
         
 
         this.forceUpdate();
@@ -162,17 +150,18 @@ class Quiz extends React.Component {
 
     handleFinishButtonClick() {
         const userId = 2023;
-        // const { userAnswers } = this.state.userAnswers;
-        // const userAnswersRef = firebase.database().ref('userAnswers').child(userId);
-        // userAnswersRef.update(userAnswers)
-        //   .then(() => {
-        //     console.log('User answers saved successfully');
-        //     // other logic for handling the end of the quiz
-        //   })
-        //   .catch((error) => {
-        //     console.error('Error saving user answers:', error);
-        //   });
-        // console.log(this.state.quizOver)
+        const userAnswers = this.state.userAnswers;
+        // console.log(this.state.userAnswers)
+        const userAnswersRef = firebase.database().ref('userAnswers').child(userId);
+        userAnswersRef.update(userAnswers)
+          .then(() => {
+            console.log('User answers saved successfully');
+            // other logic for handling the end of the quiz
+          })
+          .catch((error) => {
+            console.error('Error saving user answers:', error);
+          });
+        console.log(this.state.quizOver)
       }
 
 
@@ -190,15 +179,17 @@ class Quiz extends React.Component {
                         </div>
                         <div className='rating-section'>
                             <h3>Rate this quiz</h3>
-                            <Rating></Rating>
+                            <Rating setRatingHandler={this.props.setRatingHandler}/>
                         </div>
                         <button id='quiz-end-finish-button' onClick={this.handleFinishButtonClick}>Finish</button>
-                    </div>) 
-                    : (
+                    </div>
+                    ) 
+                    : 
+                    (
                     <div className='quiz-section'>
                         <div className='timer-flag-section'>
                             <div className='flag-icon'>
-                                <FaFontAwesomeFlag className='flag-button' title='Flag this question' onClick={() => this.props.handleFlagClick(this.state.quizData[this.state.currentQuestionCount].questionId)}/>
+                                <FaFontAwesomeFlag className='flag-button' title='Flag this question' onClick={() => this.props.handleFlagClick(this.state.quizData[this.state.currentQuestionCount].questionId, this.props.isFlagged)}/>
                             </div>
                             <div className='timer-content'>
                                 <Timer seconds={3600} onTimerComplete={handleTimerComplete}/>
@@ -231,9 +222,12 @@ function wrapClass (Component) {
     return function WrappedComponent(props) {
         const location = useLocation();
         const { setFlag } = useSetFlag();
+        const [rating, setRating] = useState(0);
+        const [isFlagged, setIsFlagged] = useState(false);
+        let {saveStatistics} = useSaveStatistics(); 
 
-        const handleFlagClick = (questionId) => {
-            setFlag(location.state.lobbyCode, questionId);
+        const handleFlagClick = (questionId, isFlagged) => {
+            //setFlag(location.state.lobbyCode, questionId);
             let root = document.querySelector(':root');
             let color = root.style.getPropertyValue('--flag-color')
             let color2 = root.style.getPropertyValue('--flag-color2')
@@ -244,11 +238,23 @@ function wrapClass (Component) {
             let scale2 = root.style.getPropertyValue('--scale2')
             root.style.setProperty('--scale', scale2);
             root.style.setProperty('--scale2', scale);
+            setIsFlagged(!isFlagged);
+        }
 
+        const setRatingHandler = (rating) => {
+            setRating(rating);
+        }
+
+        const saveStatisticsHandler = (answerOption, question, answer1, answer2, answer3, answer4, image, isFlagged) => {
+            saveStatistics(location.state.lobbyCode, answerOption, question, answer1, answer2, answer3, answer4, image, isFlagged);
         }
 
     
-        return <Component lobbyCode={location.state.lobbyCode} handleFlagClick={handleFlagClick} />
+        return <Component lobbyCode={location.state.lobbyCode} 
+                        handleFlagClick={handleFlagClick} 
+                        setRatingHandler={setRatingHandler} 
+                        saveStatisticsHandler={saveStatisticsHandler}
+                        isFlagged={isFlagged}/>
     }
 }
 

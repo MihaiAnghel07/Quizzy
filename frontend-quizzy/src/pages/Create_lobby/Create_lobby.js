@@ -20,10 +20,14 @@ export default function Create_lobby() {
   const [confirmModal, setConfirmModal] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const { updateLobby } = useUpdateLobby();
-  const { loadLobbyTemplateToDatabase } = useLoadingLobbyTemplate()
-
   let navigate = useNavigate();
   let location = useLocation();
+  const { loadLobbyTemplateToDatabase } = useLoadingLobbyTemplate()
+
+  const getTimeEpoch = () => {
+    return new Date().getTime().toString();                             
+  }
+
   // generate unique lobbyCode
   const { generateLobbyCode } = useGenerateLobbyCode()
   if (sessionStorage.getItem('lobbyCode') === null) {
@@ -36,7 +40,8 @@ export default function Create_lobby() {
       participants: [],
       questionIndex: 0,
       quizId: -1,
-      quizAuthor: null
+      quizAuthor: null,
+      lobbyId: getTimeEpoch()
     }
     loadLobbyTemplateToDatabase(lobbyTemplate)
   }
@@ -60,7 +65,7 @@ export default function Create_lobby() {
   const startQuizHandler = (e) => {
     e.preventDefault();
     if (location.state != null && location.state.quizId != null && location.state.quizAuthor != null) {
-      updateLobby(lobbyCode, location.state.quizId, location.state.quizAuthor);
+      updateLobby(lobbyCode, location.state.quizId, location.state.quizAuthor, location.state.quizTitle);
     } else {
       setShowPopup(true)
     }

@@ -8,7 +8,12 @@ export const useSignup = () => {
     const [error, setError] = useState(null)
     const [isPending, setIsPending] = useState(false)
     const { dispatch } = useAuthContext()
-    var err = null;
+    let err = null;
+
+    function convertEmailToLowercase(email) {
+        const [username, domain] = email.split('@');
+        return `${username.toLowerCase()}@${domain}`;
+    }
 
     const signup = async (username, email, password) => {
         setError(null)
@@ -35,12 +40,12 @@ export const useSignup = () => {
                     if (err == null) {
                         projectFirebaseRealtime.ref('Users/noUsers').set(firebase.database.ServerValue.increment(1));
                         let key = snapshot.child('noUsers').val();
-                        projectFirebaseRealtime.ref('Users/' + key).set({'username': username, 'email': email});  
+                        projectFirebaseRealtime.ref('Users/' + key).set({'username': username, 'email': convertEmailToLowercase(email)});  
                     }
                 
                 } else {
                     // add first entry
-                    projectFirebaseRealtime.ref('Users/0').set({'username': username, 'email': email});
+                    projectFirebaseRealtime.ref('Users/0').set({'username': username, 'email': convertEmailToLowercase(email)});
                     projectFirebaseRealtime.ref('Users/noUsers').set(firebase.database.ServerValue.increment(1));
                 }
 
@@ -51,13 +56,13 @@ export const useSignup = () => {
                     if (!res) {
                         throw new Error("Could not complete signup")
                     }
-                   
+
+                    //add also the username
+                    await firebase.auth().currentUser.updateProfile({displayName: username});
+                    
                     // dispatch login action
                     dispatch({ type: 'LOGIN', payload: res.user })
 
-                    //add also the username
-                    firebase.auth().currentUser.updateProfile({displayName: username});
-                    
                     setIsPending(false)
                     setError(null)
                     

@@ -19,7 +19,7 @@ export const useAddQuestion = () => {
                         'image': (imageUpload !== null && imageUpload.length !== 0) ? imageUpload[0].name : null,
                         'isFlagged': false};
 
-        let username = sessionStorage.getItem("username");
+        let username = localStorage.getItem("username");
         let newKey = getTimeEpoch();
         projectFirebaseRealtime.ref('Quizzes/' + username + '/' + quizKey + "/Questions/" + newKey).set(question);
 

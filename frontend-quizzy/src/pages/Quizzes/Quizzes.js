@@ -13,7 +13,7 @@ class Quizzes extends React.Component {
         this.state = {
             quizzesData: [],
             myQuizzes: true,
-            username: sessionStorage.getItem("username")
+            username: localStorage.getItem("username")
         }
         
         //this.componentDidMount = this.componentDidMount.bind(this)

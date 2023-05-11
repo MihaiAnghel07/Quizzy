@@ -7,6 +7,8 @@ import { projectFirebaseRealtime } from '../../firebase/config'
 import { AiOutlineUp, AiOutlineDown } from 'react-icons/ai'
 import QuestionEdit from '../../components/QuestionEdit/QuestionEdit';
 import { useUpdateQuiz } from '../../hooks/useUpdateQuiz';
+import { FaCheck } from 'react-icons/fa';
+import Popup from '../../components/Popup/Popup';
 
 
 class UpdateQuiz extends React.Component {
@@ -34,7 +36,6 @@ class UpdateQuiz extends React.Component {
 
             ref2.once('value', (childSnapshot) => {
                 childSnapshot.forEach((questionSnapshot) => {
-                    //console.log(questionSnapshot.key)
                     record.push({'key':questionSnapshot.key, 'data':questionSnapshot.val()})
                 })
             })
@@ -48,6 +49,18 @@ class UpdateQuiz extends React.Component {
     render() {
         return (
             <div className='update-quiz-wrapper'>
+                
+                {this.props.showPopup && 
+                (
+                <Popup
+                    message="Quiz successfully updated"
+                    duration={2000}
+                    position="top-right"
+                    icon = {<FaCheck className='flag-button'/>}
+                    onClose={this.props.handlePopupClose}
+                />
+                )}
+
                 {this.state.quizTitle !== null &&
                 <div className='update-quiz-content'>
                     <div className='quiz-metadata'>
@@ -127,6 +140,7 @@ function wrapClass (Component) {
         const [selectedOption, setSelectedOption] = useState('');
         const [isPublic, setIsPublic] = useState(location.state.isPublic);
         const [expandedId, setExpandedId] = useState(null);
+        const [showPopup, setShowPopup] = useState(false)
         const {updateQuiz} = useUpdateQuiz();
         
         const options = [
@@ -153,16 +167,23 @@ function wrapClass (Component) {
         };
 
         const handleSave = () => {
-            if (quizTitle !== null && quizTitle.length > 0)
+            if (quizTitle !== null && quizTitle.length > 0) {
                 updateQuiz(location.state.quizAuthor, location.state.quizId, quizTitle, isPublic);
-            else
+                setShowPopup(true);
+
+            } else {
                 alert("Quiz title cannot be empty!")
+            }
         }
         
         const handleAddQuestion = () => {
             console.log(location.state.quizId)
             navigate('/add_question', {state:{quizKey:location.state.quizId, quizAuthor:location.state.quizAuthor, previousPage:'/update_quiz'}})
         }
+
+        const handlePopupClose = () => {
+            setShowPopup(false);
+          }
 
         return <Component setQuizTitle={setQuizTitle}
                           isOpen={isOpen}
@@ -177,7 +198,9 @@ function wrapClass (Component) {
                           expandedId={expandedId}
                           handleSave={handleSave}
                           quizTitle={quizTitle}
-                          handleAddQuestion={handleAddQuestion} />
+                          handleAddQuestion={handleAddQuestion}
+                          showPopup={showPopup}
+                          handlePopupClose={handlePopupClose} />
     }
 }
 

@@ -14,8 +14,8 @@ export const useCopyQuiz= () => {
     };
 
     const copyQuiz = (quizId, quizAuthor) => {
-        let email = sessionStorage.getItem('user');
-        let username = firebase.auth().currentUser.displayName;
+        let email = localStorage.getItem('user');
+        let username = localStorage.getItem('username');
         let newKey = getTimeEpoch();
         
         projectFirebaseRealtime.ref('Quizzes/' + quizAuthor).child(quizId).get().then((snapshot) => {

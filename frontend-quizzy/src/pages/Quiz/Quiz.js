@@ -115,6 +115,7 @@ class Quiz extends React.Component {
        // e.preventDefault();
 
        let question = this.state.quizData[this.state.currentQuestionCount].question;
+       let questionId = this.state.quizData[this.state.currentQuestionCount].questionId;
        let answer1 = this.state.quizData[this.state.currentQuestionCount].answerOptions[0];
        let answer2 = this.state.quizData[this.state.currentQuestionCount].answerOptions[1];
        let answer3 = this.state.quizData[this.state.currentQuestionCount].answerOptions[2];
@@ -139,7 +140,7 @@ class Quiz extends React.Component {
         const updatedUserAnswers = userAnswers;
         updatedUserAnswers.push({answerOption});
         this.setState({ userAnswers: updatedUserAnswers });
-        this.props.saveStatisticsHandler(answerOption, question, answer1, answer2, answer3, answer4, image, isFlagged);
+        this.props.saveStatisticsHandler(answerOption, question, questionId, answer1, answer2, answer3, answer4, image, isFlagged);
         
         if (isFlagged)
             this.props.handleFlagClick(this.state.quizData[this.state.currentQuestionCount].questionId, isFlagged)
@@ -245,8 +246,8 @@ function wrapClass (Component) {
             setRating(rating);
         }
 
-        const saveStatisticsHandler = (answerOption, question, answer1, answer2, answer3, answer4, image, isFlagged) => {
-            saveStatistics(location.state.lobbyCode, answerOption, question, answer1, answer2, answer3, answer4, image, isFlagged);
+        const saveStatisticsHandler = (answerOption, question, questionId, answer1, answer2, answer3, answer4, image, isFlagged) => {
+            saveStatistics(location.state.lobbyCode, answerOption, question, questionId, answer1, answer2, answer3, answer4, image, isFlagged);
         }
 
     

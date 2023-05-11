@@ -11,7 +11,7 @@ export default class UpdateQuizForm extends React.Component {
         super();
         this.state = {
             quizData: [],
-            username: sessionStorage.getItem('username')
+            username: localStorage.getItem('username')
         }
 
 

@@ -20,7 +20,7 @@ class ShowQuizzesSelection extends React.Component {
     
 
     componentDidMount() {
-        let username = sessionStorage.getItem("username");
+        let username = localStorage.getItem("username");
 
         if (this.props.quizzesType === 'private') {
             const ref = projectFirebaseRealtime.ref('Quizzes/' + username);
@@ -125,9 +125,6 @@ function wrapClass (Component) {
         let navigate = useNavigate();
         
         const selectHandler = (quizId, quizAuthor, quizTitle) => {
-            console.log(quizId)
-            console.log(quizAuthor)
-            console.log(quizTitle)
             navigate('/create_lobby', {state:{quizId:quizId, quizAuthor:quizAuthor, quizTitle:quizTitle}, replace: true})
         }
 

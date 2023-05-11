@@ -10,7 +10,7 @@ export const AuthContext = createContext()
 
 const SetUsernameFunction = () => { 
     const { getUsername } = useGetUsername();
-    sessionStorage.setItem('username', getUsername());
+    localStorage.setItem('username', getUsername());
 }
 
 export const authReducer = (state, action) => {
@@ -18,16 +18,16 @@ export const authReducer = (state, action) => {
     switch (action.type) {
         case 'LOGIN' :
             console.log("SET: ", action.payload.email)
-            if (sessionStorage.getItem('user') == null) {
-                sessionStorage.setItem('user', action.payload.email)
+            if (localStorage.getItem('user') == null) {
+                localStorage.setItem('user', action.payload.email)
             }
-            console.log("GET: ", sessionStorage.getItem('user'))
-            console.log("GET2: ", sessionStorage.getItem('username'))
-            return { ...state, user: sessionStorage.getItem('user') }
+            console.log("GET: ", localStorage.getItem('user'))
+            console.log("GET2: ", localStorage.getItem('username'))
+            return { ...state, user: localStorage.getItem('user') }
         case 'LOGOUT' :
-            sessionStorage.removeItem('user')
-            sessionStorage.removeItem('username')
-            sessionStorage.removeItem("lobbyCode");
+            localStorage.removeItem('user')
+            localStorage.removeItem('username')
+            localStorage.removeItem("lobbyCode");
             projectFirebaseAuth.signOut()
             
             return { ...state, user: null}
@@ -43,18 +43,18 @@ export const AuthContextProvider = ({ children }) => {
     })
 
     useEffect (() => {
-        console.log("localStorage: ", sessionStorage.getItem('user'))
+        console.log("localStorage: ", localStorage.getItem('user'))
         if (currentUser == null) 
-            setCurrentUser(sessionStorage.getItem('user'));
+            setCurrentUser(localStorage.getItem('user'));
         
-        if (sessionStorage.getItem('user') !== null) {
-            dispatch({ type: 'LOGIN', payload: sessionStorage.getItem('user') })
+        if (localStorage.getItem('user') !== null) {
+            dispatch({ type: 'LOGIN', payload: localStorage.getItem('user') })
         }
             
     }, []);
 
     SetUsernameFunction();
-    console.log("username = ", sessionStorage.getItem("username"));
+    console.log("username = ", localStorage.getItem("username"));
     console.log("user = ", currentUser)
     console.log('AuthContext state:', state)
     

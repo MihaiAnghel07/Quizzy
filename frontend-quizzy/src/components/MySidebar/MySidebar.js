@@ -43,13 +43,14 @@ export default function MySidebar(props) {
     navigate('/contact');
   }
 
+
   return (
     <div className="mySidebar-wrapper">
       <div>
         <img className="mySidebar-logo" src={logo} />
       </div>
       <div className="sidebar-items-container">
-        <div className='sidebar-username'> Logged in as {user}</div>
+        <div className='sidebar-username'> Logged in as {localStorage.getItem("username")}</div>
         <div className="sidebar-main-buttons">
           <button
             id={selectedButton === 'dashboard' ? 'sidebar-dashboard-button-selected' : 'sidebar-dashboard-button'}

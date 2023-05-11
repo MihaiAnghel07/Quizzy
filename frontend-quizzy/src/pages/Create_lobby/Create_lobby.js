@@ -30,12 +30,12 @@ export default function Create_lobby() {
 
   // generate unique lobbyCode
   const { generateLobbyCode } = useGenerateLobbyCode()
-  if (sessionStorage.getItem('lobbyCode') === null) {
-    sessionStorage.setItem('lobbyCode', generateLobbyCode());
+  if (localStorage.getItem('lobbyCode') === null) {
+    localStorage.setItem('lobbyCode', generateLobbyCode());
     let lobbyTemplate = {
-      code: sessionStorage.getItem('lobbyCode'),
+      code: localStorage.getItem('lobbyCode'),
       gameStatus: "on hold",
-      host: sessionStorage.getItem('username'),
+      host: localStorage.getItem('username'),
       noParticipants: 0,
       participants: [],
       questionIndex: 0,
@@ -46,13 +46,13 @@ export default function Create_lobby() {
     loadLobbyTemplateToDatabase(lobbyTemplate)
   }
 
-  const [lobbyCode] = useState(sessionStorage.getItem("lobbyCode"));
+  const [lobbyCode] = useState(localStorage.getItem("lobbyCode"));
   
   // when confirmModal modified, cloase the lobby and redirect to dashboard
   useEffect(()=>{
     if (confirmModal) {
       closeLobby(lobbyCode);
-      sessionStorage.removeItem("lobbyCode");
+      localStorage.removeItem("lobbyCode");
       navigate('/dashboard', {replace: true});
     }
   }, [confirmModal])

@@ -11,7 +11,7 @@ export const useGetUsername = () => {
         const ref = projectFirebaseRealtime.ref('Users/');  
         ref.once('value', (snapshot) => {
             snapshot.forEach(snapshotChild => {
-                if (snapshotChild.val().email === sessionStorage.getItem('user')) {
+                if (snapshotChild.val().email === localStorage.getItem('user')) {
                     setUsername(snapshotChild.val().username);
                 }
             });

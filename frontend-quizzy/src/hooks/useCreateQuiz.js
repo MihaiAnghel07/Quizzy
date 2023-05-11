@@ -15,7 +15,7 @@ export const useCreateQuiz = () => {
         isPublic: false
     };
 
-    let username = sessionStorage.getItem("username");
+    let username = localStorage.getItem("username");
     
     const getTimeEpoch = () => {
         return new Date().getTime().toString();                             

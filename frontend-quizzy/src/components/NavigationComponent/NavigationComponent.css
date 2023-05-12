@@ -1,0 +1,40 @@
+.navigation-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    font-weight: 400;
+    color: #24292e;
+    margin-bottom: 20px;
+}
+
+.navigation-page-title {
+    color: #24292e;
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.navigation-back-item {
+    color: #24292e;
+    font-size: 20px;
+}
+
+.navigation-page-items {
+    color: #24292e;
+    font-size: 30px;
+}
+
+  
+.navigation-item {
+    cursor: pointer;
+}
+
+.navigation-item:hover {
+    color: orange;
+    transform: scale(1.2);
+}
+  
+.item-divider {
+    margin: 0 15px;
+}
+  

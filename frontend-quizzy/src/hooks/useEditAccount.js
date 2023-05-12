@@ -1,7 +1,5 @@
 import { projectFirebaseRealtime, projectFirebaseStorage, projectFirebaseAuth } from '../firebase/config'
 import { useState } from 'react'
-import { getStorage, ref, getDownloadURL, uploadString } from "firebase/storage";
-import axios from 'axios';
 
 
 export const useEditAccount = () => {
@@ -44,6 +42,8 @@ export const useEditAccount = () => {
             });
         }
 
+        // daca localstorage.lobbycode exista modificare host in structura de lobbies din firebase
+        
         
         if (error === null) {
 

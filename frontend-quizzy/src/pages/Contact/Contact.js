@@ -9,13 +9,13 @@ import NavigationComponent from '../../components/NavigationComponent/Navigation
 export default function Contact() {
   return (
     <div className='Contact-wrapper'>
-      {/* <NavigationComponent
+      <NavigationComponent
         pageTitle="Contact"
         pairs={[    ['Dashboard', '/dashboard'],
           ['Quizzes', '/quizzes'],
           ['Quiz Creation', '/quiz_creation']
         ]}
-      /> */}
+      />
       <div className='Contact-content'>
         <h4 className='Contact-header'>Contact</h4>
         <div className='Contact-body'>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Account.css'
 import Popup from '../../components/Popup/Popup';
 import { FaCheck } from 'react-icons/fa';
@@ -26,6 +26,10 @@ export default function Account() {
   const handlePopupClose = () => {
     setShowPopup(false)
   }
+
+  useEffect(() => {
+    setUsername(localStorage.getItem("username"));
+  }, [localStorage.getItem("username")]);
 
   return (
     <div className='account-wrapper'>

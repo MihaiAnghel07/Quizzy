@@ -1,4 +1,4 @@
-import { projectFirebaseRealtime } from '../firebase/config'
+import { projectFirebaseRealtime, projectFirebaseStorage } from '../firebase/config'
 import { useGetTimeEpoch } from './useGetTimeEpoch';
 import firebase from "firebase/app";
 
@@ -27,6 +27,60 @@ export const useCopyQuiz= () => {
             projectFirebaseRealtime.ref('Quizzes/' + username + '/' + newKey).set(quizTemplate);
         })
 
+        const ref3 = projectFirebaseStorage.ref("Images/");
+
+        ref3.child(quizAuthor).listAll().then((result) => {
+                        
+            result.prefixes.forEach((itemRef2) => {
+                itemRef2.listAll().then((result3) => {
+                    
+                    result3.prefixes.forEach((itemRef3) => {
+                        itemRef3.listAll().then((result4) => {
+                        
+                            result4.prefixes.forEach((itemRef4) => {
+                                itemRef4.listAll().then((result5) => {
+
+                                    result5.items.forEach(async (itemRef5) => {
+                                        
+                                        const parts = itemRef5.fullPath.split('/');
+                                        let newPath = null;
+                                        if (parts.length < 2) {
+                                          newPath = itemRef5.fullPath;
+                                        }
+
+                                        parts[1] = username;
+                                        newPath = parts.join('/');
+                                
+                                        const destinationRef = projectFirebaseStorage.ref(newPath);
+                                        
+                                        itemRef5.getDownloadURL()
+                                        .then((url) => {
+                                            return fetch(url);
+                                        })
+                                        .then((response) => {
+                                            return response.blob();
+                                        })
+                                        .then((blob) => {
+                                            return destinationRef.put(blob);
+                                        })
+                                        .then(() => {
+                                            console.log("Image copied successfully!");
+                                        })
+                                        .catch((error) => {
+                                            console.error("EROARE0:" + error);
+                                        });
+
+                                    })     
+                                })
+                            })    
+                        })
+                    })  
+                })       
+            })
+        }).catch((err)=> {
+            console.log("EROARE:" + err)
+        })
+        
     }
 
     return { copyQuiz }

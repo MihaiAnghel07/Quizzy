@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { projectFirebaseAuth, projectFirebaseRealtime } from "../firebase/config"
 import { useAuthContext } from "./useAuthContext"
+import {useGetTimeEpoch} from './useGetTimeEpoch'
 import firebase from "firebase/app";
 
 export const useSignup = () => {
@@ -8,6 +9,7 @@ export const useSignup = () => {
     const [error, setError] = useState(null)
     const [isPending, setIsPending] = useState(false)
     const { dispatch } = useAuthContext()
+    const {getTimeEpoch} = useGetTimeEpoch();
     let err = null;
 
     function convertEmailToLowercase(email) {
@@ -37,17 +39,18 @@ export const useSignup = () => {
                     })
 
                     // update user entry
-                    if (err == null) {
-                        projectFirebaseRealtime.ref('Users/noUsers').set(firebase.database.ServerValue.increment(1));
-                        let key = snapshot.child('noUsers').val();
-                        projectFirebaseRealtime.ref('Users/' + key).set({'username': username, 'email': convertEmailToLowercase(email)}); 
-                    }
-                
-                } else {
-                    // add first entry
-                    projectFirebaseRealtime.ref('Users/0').set({'username': username, 'email': convertEmailToLowercase(email)});
-                    projectFirebaseRealtime.ref('Users/noUsers').set(firebase.database.ServerValue.increment(1));
+                    // if (err == null) {
+                    //     projectFirebaseRealtime.ref('Users/noUsers').set(firebase.database.ServerValue.increment(1));
+                    //     let key = getTimeEpoch();
+                    //     projectFirebaseRealtime.ref('Users/' + key).set({'username': username, 'email': convertEmailToLowercase(email)}); 
+                    // }
                 }
+                // } else {
+                //     // add first entry
+                //     let key = getTimeEpoch();
+                //     projectFirebaseRealtime.ref('Users/' + key).set({'username': username, 'email': convertEmailToLowercase(email)});
+                //     projectFirebaseRealtime.ref('Users/noUsers').set(firebase.database.ServerValue.increment(1));
+                // }
 
                 if (err == null) {
                     //signup user
@@ -57,12 +60,17 @@ export const useSignup = () => {
                         throw new Error("Could not complete signup")
                     }
 
+                    projectFirebaseRealtime.ref('Users/noUsers').set(firebase.database.ServerValue.increment(1));
+                    let uid = projectFirebaseAuth.currentUser.uid;
+                    projectFirebaseRealtime.ref('Users/' + uid).set({'username': username, 'email': convertEmailToLowercase(email)}); 
+
                     //add also the username
                     await firebase.auth().currentUser.updateProfile({displayName: username});
                     
                     // dispatch login action
                     dispatch({ type: 'LOGIN', payload: res.user })
-                    localStorage.setItem("password", password); 
+                    localStorage.setItem("password", password);
+                    localStorage.setItem("uid", uid)
 
                     setIsPending(false)
                     setError(null)

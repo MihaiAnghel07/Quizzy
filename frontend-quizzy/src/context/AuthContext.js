@@ -30,6 +30,7 @@ export const authReducer = (state, action) => {
             localStorage.removeItem('username')
             localStorage.removeItem("lobbyCode");
             localStorage.removeItem("password"); 
+            localStorage.removeItem("uid"); 
             projectFirebaseAuth.signOut()
             
             return { ...state, user: null}
@@ -56,7 +57,6 @@ export const AuthContextProvider = ({ children }) => {
     }, []);
 
     SetUsernameFunction();
-    console.log("username = ", localStorage.getItem("username"));
     console.log("user = ", currentUser)
     console.log('AuthContext state:', state)
     

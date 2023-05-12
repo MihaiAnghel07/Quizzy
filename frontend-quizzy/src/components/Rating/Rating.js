@@ -7,7 +7,6 @@ function Rating(props) {
   const handleRatingClick = (value) => {
     setRating(value);
     props.setRatingHandler(value)
-    // console.log("Rating: " + rating)
     const stars = document.querySelectorAll('.star');
     stars.forEach((star, index) => {
       if (index <= value - 1) {

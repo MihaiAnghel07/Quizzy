@@ -40,7 +40,6 @@ function App() {
   // when confirmModal modified, cloase the lobby and redirect to dashboard
   useEffect(()=>{
     if (confirmModal) {
-      console.log(confirmModal)
       setConfirmModal(false)
       setOpenModal(false)
       dispatch({ type: 'LOGOUT' })

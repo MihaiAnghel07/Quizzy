@@ -19,6 +19,7 @@ export const useLogin = () => {
             // dispatch login action
             dispatch({ type: 'LOGIN', payload: res.user })
             localStorage.setItem("password", password);
+            localStorage.setItem("uid", res.user.uid);
 
             // update state
             //if (!isCancelled) {

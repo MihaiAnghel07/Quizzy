@@ -1,5 +1,7 @@
 import { projectFirebaseRealtime, projectFirebaseStorage, projectFirebaseAuth } from '../firebase/config'
 import { useState } from 'react'
+import { getStorage, ref, getDownloadURL, uploadString } from "firebase/storage";
+import axios from 'axios';
 
 
 export const useEditAccount = () => {
@@ -13,7 +15,7 @@ export const useEditAccount = () => {
 
         const ref = projectFirebaseRealtime.ref("Users/");
         const ref2 = projectFirebaseRealtime.ref("Quizzes/");
-        const ref3 = projectFirebaseStorage.ref("Images/" + localStorage.getItem("username"));
+        const ref3 = projectFirebaseStorage.ref("Images/");
 
         await ref.once("value", (snapshot) => {
             if (snapshot.exists()) {
@@ -65,35 +67,74 @@ export const useEditAccount = () => {
                 let update = {};
                 update[localStorage.getItem("username")] = null;
                 update[username] = data;
-                return ref2.update(update);
+                ref2.update(update);
             });
             ref2.child(localStorage.getItem("username")).remove();
 
             // update storage
-           ref3.listAll().then((result) => {
-                result.items.forEach((itemRef) => {
-                    console.log(itemRef.fullPath)
-                    const newRef = projectFirebaseStorage.ref(itemRef.fullPath.replace(ref3.fullPath, localStorage.getItem("username")));
-                    itemRef.move(newRef);
+            ref3.child(localStorage.getItem("username")).listAll().then((result) => {
+                        
+                result.prefixes.forEach((itemRef2) => {
+                    itemRef2.listAll().then((result3) => {
+                        
+                        result3.prefixes.forEach((itemRef3) => {
+                            itemRef3.listAll().then((result4) => {
+                            
+                                result4.prefixes.forEach((itemRef4) => {
+                                    itemRef4.listAll().then((result5) => {
+
+                                        result5.items.forEach(async (itemRef5) => {
+                                            
+                                            const parts = itemRef5.fullPath.split('/');
+                                            let newPath = null;
+                                            if (parts.length < 2) {
+                                              newPath = itemRef5.fullPath;
+                                            }
+
+                                            parts[1] = username;
+                                            newPath = parts.join('/');
+                                    
+                                            const destinationRef = projectFirebaseStorage.ref(newPath);
+                                            
+                                            itemRef5.getDownloadURL()
+                                            .then((url) => {
+                                                return fetch(url);
+                                            })
+                                            .then((response) => {
+                                                return response.blob();
+                                            })
+                                            .then((blob) => {
+                                                return destinationRef.put(blob);
+                                            })
+                                            .then(() => {
+                                                console.log("Image copied successfully!");
+                                                itemRef5.delete();
+                                            })
+                                            .catch((error) => {
+                                                console.error("EROARE0:" + error);
+                                            });
+
+                                        })     
+                                    })
+                                })    
+                            })
+                        })  
+                    })       
                 })
 
-           }).catch((err)=> {
-                console.log(err)
-           })
-           
-
-
+            }).catch((err)=> {
+                console.log("EROARE:" + err)
+            })
             
 
-
-            // projectFirebaseAuth.signInWithEmailAndPassword(localStorage.getItem("user"), localStorage.getItem("password"))
-            // .then(function(userCredential) {
-            //     userCredential.user.updateEmail(email)
-            //     userCredential.user.updatePassword(password)
-            // })
-            // .catch(err => {
-            //     setError(err)
-            // })
+            projectFirebaseAuth.signInWithEmailAndPassword(localStorage.getItem("user"), localStorage.getItem("password"))
+            .then(function(userCredential) {
+                userCredential.user.updateEmail(email)
+                // userCredential.user.updatePassword(password)
+            })
+            .catch(err => {
+                setError(err)
+            })
 
             localStorage.setItem("user", email)
             localStorage.setItem("username", username)

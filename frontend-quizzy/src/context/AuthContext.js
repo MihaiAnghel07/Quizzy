@@ -18,6 +18,7 @@ export const authReducer = (state, action) => {
     switch (action.type) {
         case 'LOGIN' :
             console.log("SET: ", action.payload.email)
+            console.log("parola: ", action.payload)
             if (localStorage.getItem('user') == null) {
                 localStorage.setItem('user', action.payload.email)
             }
@@ -28,6 +29,7 @@ export const authReducer = (state, action) => {
             localStorage.removeItem('user')
             localStorage.removeItem('username')
             localStorage.removeItem("lobbyCode");
+            localStorage.removeItem("password"); 
             projectFirebaseAuth.signOut()
             
             return { ...state, user: null}

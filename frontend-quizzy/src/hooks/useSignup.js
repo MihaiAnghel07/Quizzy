@@ -40,7 +40,7 @@ export const useSignup = () => {
                     if (err == null) {
                         projectFirebaseRealtime.ref('Users/noUsers').set(firebase.database.ServerValue.increment(1));
                         let key = snapshot.child('noUsers').val();
-                        projectFirebaseRealtime.ref('Users/' + key).set({'username': username, 'email': convertEmailToLowercase(email)});  
+                        projectFirebaseRealtime.ref('Users/' + key).set({'username': username, 'email': convertEmailToLowercase(email)}); 
                     }
                 
                 } else {
@@ -62,6 +62,7 @@ export const useSignup = () => {
                     
                     // dispatch login action
                     dispatch({ type: 'LOGIN', payload: res.user })
+                    localStorage.setItem("password", password); 
 
                     setIsPending(false)
                     setError(null)

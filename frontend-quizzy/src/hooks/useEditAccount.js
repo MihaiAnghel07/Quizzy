@@ -14,6 +14,9 @@ export const useEditAccount = () => {
         const ref = projectFirebaseRealtime.ref("Users/");
         const ref2 = projectFirebaseRealtime.ref("Quizzes/");
         const ref3 = projectFirebaseStorage.ref("Images/");
+        const ref4 = projectFirebaseRealtime.ref("Lobbies/");
+        const ref5 = projectFirebaseRealtime.ref("History/");
+        const ref6 = projectFirebaseRealtime.ref("History/participant/");
 
         await ref.once("value", (snapshot) => {
             if (snapshot.exists()) {
@@ -42,10 +45,21 @@ export const useEditAccount = () => {
             });
         }
 
-        // daca localstorage.lobbycode exista modificare host in structura de lobbies din firebase
-        
         
         if (error === null) {
+
+            // update 'Lobbies'entry
+            if (localStorage.getItem("lobbyCode") !== null) {
+                await ref4.child(localStorage.getItem("lobbyCode")).once('value').then((function(snapshot) {
+                    if (snapshot.val().host === localStorage.getItem("username")) {
+                        let data = snapshot.val();
+                        data.host = username;
+                        let update = {};
+                        update[localStorage.getItem("lobbyCode")] = data;
+                        ref4.update(update);
+                    }
+                })
+            )}
 
             // update 'Users' entry
             await ref.once("value", (snapshot) => {
@@ -59,7 +73,7 @@ export const useEditAccount = () => {
             });
 
             // update 'Quizzes' entry
-            ref2.child(localStorage.getItem("username")).once('value').then(function(snapshot) {
+            await ref2.child(localStorage.getItem("username")).once('value').then(function(snapshot) {
                 let data = snapshot.val();
                 for (const i in data) {
                     data[i].Author = username;
@@ -72,8 +86,7 @@ export const useEditAccount = () => {
             ref2.child(localStorage.getItem("username")).remove();
 
             // update storage
-            ref3.child(localStorage.getItem("username")).listAll().then((result) => {
-                        
+            await ref3.child(localStorage.getItem("username")).listAll().then((result) => {                        
                 result.prefixes.forEach((itemRef2) => {
                     itemRef2.listAll().then((result3) => {
                         
@@ -127,7 +140,56 @@ export const useEditAccount = () => {
             })
             
 
-            projectFirebaseAuth.signInWithEmailAndPassword(localStorage.getItem("user"), localStorage.getItem("password"))
+            //update history - host
+            await ref5.child('host').once('value').then(function(snapshot) {
+                if (snapshot.exists()) {
+                    if (snapshot.child(localStorage.getItem("username")).exists()) {
+                        let data = snapshot.child(localStorage.getItem("username")).val();
+                        let update = {};
+                        update[localStorage.getItem("username")] = null;
+                        update[username] = data;
+
+                        ref5.child("host").update(update);
+                    }
+                }
+            })
+
+            await ref5.child('host').once('value').then(async function(snapshot) {
+                if (snapshot.exists()) {
+                    
+                    snapshot.forEach((childSnapshot) => {
+
+                        childSnapshot.child("quizzes").forEach( (childSnapshot2) => {
+                            console.log(childSnapshot2.key)
+                            if (childSnapshot2.child(localStorage.getItem("username")).exists()) {
+                                
+                                let data = childSnapshot2.child(localStorage.getItem("username")).val();
+                                let update = {};
+                                update[localStorage.getItem("username")] = null;
+                                update[username] = data;
+
+                                const ref8 = projectFirebaseRealtime.ref("History/host/" + childSnapshot.key + "/quizzes/" + childSnapshot2.key);
+                                ref8.update(update);
+                            }
+                        })
+                    })  
+                }
+            })
+
+            // update history - participant
+            await ref6.child(localStorage.getItem("username")).once('value').then(function(snapshot) {
+                if (snapshot.exists()) {
+                    let data = snapshot.val();
+                    let update = {};
+                    update[localStorage.getItem("username")] = null;
+                    update[username] = data;
+                    ref6.update(update);
+                    ref6.child(localStorage.getItem("username")).remove();
+                }
+            })
+            
+
+            await projectFirebaseAuth.signInWithEmailAndPassword(localStorage.getItem("user"), localStorage.getItem("password"))
             .then(function(userCredential) {
                 userCredential.user.updateEmail(email)
                 // userCredential.user.updatePassword(password)

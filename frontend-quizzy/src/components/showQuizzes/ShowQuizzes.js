@@ -93,13 +93,12 @@ class ShowQuizzes extends React.Component {
                 <Table >   
                     {this.props.quizDataFiltered.length !== 0 && <thead>
                         <tr>
-                            <th id="quiz-id">id</th>
-                            <th id="quiz-title">Quiz</th>
+                            <th id="quiz-title">Question Set Title</th>
                             {this.props.quizzesType === 'public' && 
                             <th id="quiz-owner">Owner</th>}
                             {this.props.quizzesType === 'private' && 
                             <th id="quiz-visibility">Visibility</th>}
-                            <th id="quiz-commands">Command</th>
+                            <th id="quiz-commands">Options</th>
                             
                         </tr>
                     </thead>}
@@ -108,7 +107,6 @@ class ShowQuizzes extends React.Component {
                         {this.props.quizDataFiltered.map((row, index) => {
                             return (
                                 <tr key={index}>
-                                    <td>#{row.key}</td>
                                     <td>{row.data.Title}</td>
                                     {this.props.quizzesType === 'public' && 
                                     <td>{row.data.Author}</td>}
@@ -119,11 +117,11 @@ class ShowQuizzes extends React.Component {
                                     <td>
                                         {this.props.quizzesType === 'public' && 
                                         this.state.username !== row.data.Author &&
-                                        <button onClick={() => this.props.copyHandler(row.key, row.data.Author)}>Copy</button>}
+                                        <button id='showQuizzes-copy-button' onClick={() => this.props.copyHandler(row.key, row.data.Author)}>Copy</button>}
                                         {this.state.username === row.data.Author &&
-                                        <button onClick={() => this.props.updateHandler(row.key, row.data.Author, row.data.isPublic, row.data.Title)}>Update</button>}
+                                        <button id='showQuizzes-update-button' onClick={() => this.props.updateHandler(row.key, row.data.Author, row.data.isPublic, row.data.Title)}>Update</button>}
                                         {this.state.username === row.data.Author &&
-                                        <button onClick={() => this.props.openModal(row.key, row.data.Author)}>Delete</button>}
+                                        <button id='showQuizzes-delete-button' onClick={() => this.props.openModal(row.key, row.data.Author)}>Delete</button>}
                                     </td>
                                 </tr>
                             )

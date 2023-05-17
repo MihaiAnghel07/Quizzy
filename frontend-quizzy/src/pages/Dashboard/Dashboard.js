@@ -31,7 +31,7 @@ export default function Dashboard() {
     <div className='dashboard-container'>
       <button id='dashboard-join-lobby-button' onClick={handleJoinLobbyButtonClick}>Join Lobby</button>
       <button id='dashboard-create-lobby-button' onClick={handleCreateLobbyButtonClick}>Create Lobby</button>
-      <button id='dashboard-quizzes-button' onClick={handleQuizzesButtonClick}>Quizzes</button>
+      <button id='dashboard-quizzes-button' onClick={handleQuizzesButtonClick}>Question Sets</button>
     </div>
   )
 }

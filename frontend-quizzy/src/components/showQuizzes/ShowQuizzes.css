@@ -12,7 +12,7 @@ table {
     max-width: 800px;
     margin: 0 auto;
     font-family: Arial, sans-serif;
-    background-color: #f7c078;
+    background-color: #f3e1c9;
     border-radius: 8px;
   }
   
@@ -32,9 +32,23 @@ table {
   }
   
   tbody tr:nth-child(even) {
-    background-color: #f7c078;
+    background-color: #f3e1c9;
   }
   
   tbody tr:hover {
-    background-color: rgb(240, 142, 14);
+    background-color: #f1d7b3;
   }
+
+
+#showQuizzes-copy-button, #showQuizzes-update-button, #showQuizzes-delete-button {
+  background-color: orange;
+  font-size: 18px;
+  border: solid 0px;
+  border-radius: 20px;
+  margin-right: 10px;
+}
+
+#showQuizzes-copy-button:hover, #showQuizzes-update-button:hover, #showQuizzes-delete-button:hover {
+  transform: scale(1.2);
+  background-color: rgb(240, 142, 14);
+}

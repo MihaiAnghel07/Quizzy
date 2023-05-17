@@ -7,7 +7,6 @@ import { useDeleteQuiz } from '../../hooks/useDeleteQuiz';
 
 
 class Quizzes extends React.Component {
-
     constructor() {
         super();
         this.state = {
@@ -45,24 +44,27 @@ class Quizzes extends React.Component {
     render () {
         return (
             <div className='quizzes-wrapper'>
-                
                 {this.props.openModal && <div> 
                     <Modal closeModal={this.props.setOpenModal} yesModal={this.props.setConfirmModal} message="Are you sure you want to delete the quiz?" /> </div>}   
 
                 <div className='quizzes-content'>
                     <div className='quizzes-header'>
-                        <button id='quizzes-my-quizzes-btn'
-                                onClick={this.myQuizzesHandler}>My Quizzes</button>
-                        <button id='quizzes-all-quizzes-btn'
-                                onClick={this.allQuizzesHandler}>All Quizzes</button>
                         <input id="search-input"
                             placeholder='Search'
                             onChange={(e) => this.props.searchInputHandler(e.target.value)} 
-                            />
-                        <button id='quizzes-create-quizz-btn' onClick={this.props.createQuizHandler}>Create a Quiz</button>
+                        />
+
+                        <div className='quiz-filter-buttons'>
+                            <h3 id='filter-h3'>Filter:</h3>
+                            <button id='quizzes-my-quizzes-btn'
+                                    onClick={this.myQuizzesHandler}>My Question Sets</button>
+                            <button id='quizzes-all-quizzes-btn'
+                                    onClick={this.allQuizzesHandler}>All Question Sets</button>
+                        </div>
                     </div>
                 
                     <div className='quizzes-body'>
+                        <button id='quizzes-create-quizz-btn' onClick={this.props.createQuizHandler}>Create Question Set</button>
                         <div className="show-public-quizzes">
                             {this.state.myQuizzes && <ShowQuizzes quizzesType='private' path={this.state.username} openModalHandler={this.props.openModalHandler} search={this.props.searchInput}/>}
                             {!this.state.myQuizzes && <ShowQuizzes quizzesType='public' path='' openModalHandler={this.props.openModalHandler} search={this.props.searchInput}/>}

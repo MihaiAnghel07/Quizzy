@@ -25,7 +25,7 @@
 .dropdown-toggle {
     height: 60px;
     background-color: orange;
-    color: white;
+    color: black;
     font-weight: bold;
     border: none;
     padding: 10px 20px;
@@ -72,13 +72,16 @@
     display: flex;
     flex-direction: row;
     justify-content: left;
+    align-items: center;
 }
   
 .question-text-header {
+    display: flex;
+    align-items: center;
     border: 0px solid;
     border-radius: 10px;
     background-color: orange;
-    min-height: 35px;
+    min-height: 55px;
     margin-bottom: 10px;
 }
 
@@ -94,7 +97,7 @@
     margin-left: 50px;
     height: 60px;
     background-color: orange;
-    color: white;
+    color: black;
     font-weight: bold;
     border: none;
     padding: 10px 20px;
@@ -108,11 +111,10 @@
 } 
 
 #add-question-button {
-    margin-top: 45px;
     margin-left: 50px;
-    height: 40px;
+    height: 60px;
     background-color: orange;
-    color: white;
+    color: black;
     font-weight: bold;
     border: none;
     padding: 10px 20px;

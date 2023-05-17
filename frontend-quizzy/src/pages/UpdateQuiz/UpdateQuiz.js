@@ -95,7 +95,7 @@ class UpdateQuiz extends React.Component {
                     </div>
                     <div className='questions-container'>
                         <div className='questions-container-header'>
-                            <h1>Questions</h1>
+                            <h1>Questions ({this.state.quizQuestions.length})</h1>
                             <button id='add-question-button' onClick={this.props.handleAddQuestion}>Add question</button>
                         </div>
                         
@@ -105,7 +105,7 @@ class UpdateQuiz extends React.Component {
                                     <div className="question-text-header" onClick={() => this.props.handleQuestionClick(key)}>
                                     {this.props.expandedId === key && <AiOutlineUp/>}
                                     {this.props.expandedId != key && <AiOutlineDown/>}
-                                        {question.data.question}
+                                        {key + 1}.  {question.data.question}
                                     </div>
                                     
                                     {this.props.expandedId === key && (

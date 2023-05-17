@@ -23,7 +23,7 @@ function NavigationComponent({pageTitle, pairs }) {
                 <span className="navigation-item" onClick={() => handleNavigationItemClick(pair[1])}>
                     {pair[0]}
                 </span>
-                {index !== pairs.length - 1 && <span className="item-divider">{'>'}</span>}
+                {index !== pairs.length - 1 && <span className="item-divider">{'/'}</span>}
                 </React.Fragment>
             ))}
         </div>

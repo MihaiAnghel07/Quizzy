@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './ShowQuizzesSelection.css'
 import { Table } from 'react-bootstrap';
 import { projectFirebaseRealtime } from '../../firebase/config'
@@ -82,13 +82,12 @@ class ShowQuizzesSelection extends React.Component {
                 <Table >   
                     {this.state.quizzesData.length !== 0 && <thead>
                         <tr>
-                            <th id="quiz-id">id</th>
-                            <th id="quiz-title">Quiz</th>
+                            <th id="quiz-title">Question Set Title</th>
                             {this.props.quizzesType === 'public' && 
                             <th id="quiz-owner">Owner</th>}
                             {this.props.quizzesType === 'private' && 
                             <th id="quiz-visibility">Visibility</th>}
-                            <th id="quiz-commands">Command</th>
+                            <th id="quiz-commands">Options</th>
                             
                         </tr>
                     </thead>}
@@ -97,7 +96,6 @@ class ShowQuizzesSelection extends React.Component {
                         {this.state.quizzesData.map((row, index) => {
                             return (
                                 <tr key={index}>
-                                    <td>#{row.key}</td>
                                     <td>{row.data.Title}</td>
                                     {this.props.quizzesType === 'public' && 
                                     <td>{row.data.Author}</td>}
@@ -106,7 +104,7 @@ class ShowQuizzesSelection extends React.Component {
                                     {this.props.quizzesType === 'private' &&
                                     !row.data.isPublic && <td>Private</td>}
                                     <td>
-                                        <button onClick={() => this.props.selectHandler(row.key, row.data.Author, row.data.Title)}>Select</button>
+                                        <button id='showQuizzesSelection-select-button' onClick={() => this.props.selectHandler(row.key, row.data.Author, row.data.Title)}>Select</button>
                                     </td>
 
                                 </tr>
@@ -123,14 +121,50 @@ class ShowQuizzesSelection extends React.Component {
 function wrapClass (Component) {
     return function WrappedComponent(props) {
         let navigate = useNavigate();
+        const [quizDataFiltered, setQuizDataFiltered] = useState([])
+        const [quizData, setQuizData] = useState([])
         
         const selectHandler = (quizId, quizAuthor, quizTitle) => {
             navigate('/create_lobby', {state:{quizId:quizId, quizAuthor:quizAuthor, quizTitle:quizTitle}, replace: true})
         }
 
+        const setQuizDataFilteredHandler = (quizData) => {
+            setQuizData(quizData)
+        }
+
+        useEffect(() => {
+            const auxQuizData = quizData.filter((el) => {
+                let auxTitle = el.data.Title.toLowerCase();
+                let auxAuthor = el.data.Author.toLowerCase();
+
+                
+                if (props.search === "")
+                    return el;
+
+                if (auxTitle.includes(props.search.toLowerCase()) || auxAuthor.includes(props.search.toLowerCase()))
+                    return el;
+                
+                if (('private'.includes(props.search.toLowerCase()) && el.data.isPublic === false) || ('public'.includes(props.search.toLowerCase()) && el.data.isPublic === true))
+                    return el;
+                
+                // de facut si pentru id
+                // if ((el.data.quizId.includes(props.search.toLowerCase()) && el.data.isPublic === false))
+                //     return el;
+                
+                
+            })
+            console.log(auxQuizData)
+            setQuizDataFiltered(auxQuizData)
+
+
+        }, [quizData, props.search])
+
         return <Component quizzesType={props.quizzesType} 
                           path={props.path} 
-                          selectHandler={selectHandler}/>
+                          selectHandler={selectHandler}
+                          search={props.search}
+                          setQuizDataFilteredHandler={setQuizDataFilteredHandler}
+                          quizDataFiltered={quizDataFiltered}/>
     }
 }
 

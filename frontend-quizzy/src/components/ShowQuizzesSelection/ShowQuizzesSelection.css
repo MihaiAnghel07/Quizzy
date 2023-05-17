@@ -1,0 +1,12 @@
+#showQuizzesSelection-select-button {
+    background-color: orange;
+    font-size: 18px;
+    border: solid 0px;
+    border-radius: 20px;
+    margin-right: 10px;
+}
+
+#showQuizzesSelection-select-button:hover {
+    transform: scale(1.2);
+    background-color: rgb(240, 142, 14);
+}

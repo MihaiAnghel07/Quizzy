@@ -97,12 +97,12 @@ export default function Create_lobby() {
       <div className='create-lobby-content'>
         <div id="print-lobbyCode">Lobby Code: {lobbyCode}</div>
         <div id="print-quiz-title">
-          {location.state?.quizId ? <h2>{"Selected Quiz: " + location.state?.quizTitle}</h2> : 
-                                  <h2>No quiz selected</h2>}
+          {location.state?.quizId ? <h2>{"Selected Question Set: " + location.state?.quizTitle}</h2> : 
+                                  <h2>No Question Set Selected</h2>}
+                                  <li id='select-quiz-button' onClick={selectQuizHandler}>Select Question Set</li>
         </div>
         <div className='create-lobby-buttons'>
         <ul>
-          <li id='select-quiz-button' onClick={selectQuizHandler}>Select Quiz</li>
           <li id='start-quiz-button' onClick={startQuizHandler}>Start Quiz</li>
           <li id='close-lobby-button' onClick={setOpenModal}>Close Lobby</li>
         </ul>

@@ -24,6 +24,16 @@ export default function Create_lobby() {
   let location = useLocation();
   const { loadLobbyTemplateToDatabase } = useLoadingLobbyTemplate()
 
+  const [duration, setDuration] = useState('10')
+
+  const handleDurationChange = (e) => {
+    const input = e.target.value;
+
+    const validatedInputValue = input === '' ? '' : Math.min(Math.max(Number(input), 1), 60);
+    setDuration(validatedInputValue);
+  }
+
+
   const getTimeEpoch = () => {
     return new Date().getTime().toString();                             
   }
@@ -64,8 +74,8 @@ export default function Create_lobby() {
 
   const startQuizHandler = (e) => {
     e.preventDefault();
-    if (location.state != null && location.state.quizId != null && location.state.quizAuthor != null) {
-      updateLobby(lobbyCode, location.state.quizId, location.state.quizAuthor, location.state.quizTitle);
+    if (location.state != null && location.state.quizId != null && location.state.quizAuthor != null && duration != '') {
+      updateLobby(lobbyCode, location.state.quizId, location.state.quizAuthor, location.state.quizTitle, duration);
     } else {
       setShowPopup(true)
     }
@@ -100,6 +110,10 @@ export default function Create_lobby() {
           {location.state?.quizId ? <h2>{"Selected Question Set: " + location.state?.quizTitle}</h2> : 
                                   <h2>No Question Set Selected</h2>}
                                   <li id='select-quiz-button' onClick={selectQuizHandler}>Select Question Set</li>
+        </div>
+        <div className='quiz-duration'>
+          <p>Quiz duration (minutes):  </p>
+          <input id='quiz-duration-input' type='number' value={duration} onChange={handleDurationChange} min="1" max="60"></input>
         </div>
         <div className='create-lobby-buttons'>
         <ul>

@@ -50,6 +50,10 @@
   }
 
 .show-participants-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     padding-top: 50px;
     padding-bottom: 50px;
 }
@@ -57,6 +61,7 @@
 .show-participants {
     max-height: 500px;
     max-width: 700px;
+    min-width: 500px;
     overflow: auto;
     display: flex;
     flex-direction: column;
@@ -106,6 +111,26 @@
     text-decoration: none;
     color: black;
 }
+
+
+
+.quiz-duration {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+#quiz-duration-input {
+    width: 100px;
+    height: 50px;
+    margin-left: 20px;
+    border: solid 2px;
+    border-radius: 10px;
+    border-color: orange;
+    text-align: center;
+}
+
 
 @media all and (max-width: 1800px) and (min-width: 1250px) {
     #close-lobby-modal {

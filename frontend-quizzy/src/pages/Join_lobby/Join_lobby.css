@@ -9,7 +9,7 @@
 input[id="join-lobby-submit"] {
     border: none;
     display: block;
-    background-color: #3ca9e2;
+    background-color: orange;
     color: #fff;
     font-weight: bold;
     text-transform: uppercase;

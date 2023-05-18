@@ -63,6 +63,7 @@ class UpdateQuiz extends React.Component {
 
                 {this.state.quizTitle !== null &&
                 <div className='update-quiz-content'>
+                    <h2 id='quiz-title-header'>Question Set Title & Visibility</h2>
                     <div className='quiz-metadata'>
                         <input 
                             id='quiz-title-metadata'

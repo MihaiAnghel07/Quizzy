@@ -14,6 +14,7 @@ import { BsTelephoneFill } from 'react-icons/bs';
 import { useLogout } from '../../hooks/useLogout';
 import Modal from '../modal/Modal';
 import { useEffect } from 'react';
+import { BiHistory } from "react-icons/bi";
 
 export default function MySidebar(props) {
   const { user } = useAuthContext();
@@ -43,6 +44,11 @@ export default function MySidebar(props) {
     navigate('/contact');
   }
 
+  function handleHistoryButtonClick() {
+    setSelectedButton('history');
+    navigate('/history');
+  }
+
 
   return (
     <div className="mySidebar-wrapper">
@@ -58,6 +64,13 @@ export default function MySidebar(props) {
           >
             <FaHome />
             Dashboard
+          </button>
+          <button
+            id={selectedButton === 'history' ? 'sidebar-history-button-selected' : 'sidebar-history-button'}
+            onClick={handleHistoryButtonClick}
+          >
+            <BiHistory />
+            History
           </button>
           <button
             id={selectedButton === 'account' ? 'sidebar-account-button-selected' : 'sidebar-account-button'}

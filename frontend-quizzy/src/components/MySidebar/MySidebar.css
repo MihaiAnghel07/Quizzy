@@ -32,8 +32,8 @@
     width: 100%;
   }
   
-  #sidebar-dashboard-button, #sidebar-account-button, #sidebar-faq-button, #sidebar-contact-button, #sidebar-logout-button,
-  #sidebar-dashboard-button-selected, #sidebar-account-button-selected, #sidebar-faq-button-selected, #sidebar-contact-button-selected {
+  #sidebar-dashboard-button, #sidebar-history-button, #sidebar-account-button, #sidebar-faq-button, #sidebar-contact-button, #sidebar-logout-button,
+  #sidebar-dashboard-button-selected, #sidebar-history-button-selected, #sidebar-account-button-selected, #sidebar-faq-button-selected, #sidebar-contact-button-selected {
     background-color: transparent;
     border-radius: 10px;
     border: none;
@@ -50,7 +50,7 @@
     transition: all 0.2s ease-in-out;
   }
   
-  #sidebar-dashboard-button:hover, #sidebar-account-button:hover, #sidebar-faq-button:hover, #sidebar-contact-button:hover {
+  #sidebar-dashboard-button:hover, #sidebar-history-button:hover, #sidebar-account-button:hover, #sidebar-faq-button:hover, #sidebar-contact-button:hover {
     color: #0069d9;
     background-color: #f1f1f1;
     transform: scale(1.05);
@@ -61,7 +61,7 @@
     background-color: #f1f1f1;
   }
 
-  #sidebar-dashboard-button-selected, #sidebar-account-button-selected, #sidebar-faq-button-selected, #sidebar-contact-button-selected {
+  #sidebar-dashboard-button-selected, #sidebar-history-button-selected, #sidebar-account-button-selected, #sidebar-faq-button-selected, #sidebar-contact-button-selected {
     background-color: transparent;
     border-radius: 10px;
     border: none;

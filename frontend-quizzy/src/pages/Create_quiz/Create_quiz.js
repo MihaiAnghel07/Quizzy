@@ -30,7 +30,7 @@ export default function Create_quiz() {
         
         let root = document.querySelector(':root');
     
-        root.style.setProperty('--private-background-color', '#3ca9e2');
+        root.style.setProperty('--private-background-color', 'orange');
         root.style.setProperty('--private-color', '#ffffff');
 
         root.style.setProperty('--public-background-color', '#dddddd');
@@ -46,7 +46,7 @@ export default function Create_quiz() {
         root.style.setProperty('--private-background-color', '#dddddd');
         root.style.setProperty('--private-color', '#000000');
 
-        root.style.setProperty('--public-background-color', '#3ca9e2');
+        root.style.setProperty('--public-background-color', 'orange');
         root.style.setProperty('--public-color', '#ffffff');
         
     }
@@ -64,34 +64,43 @@ export default function Create_quiz() {
     return (
         <div id="create-quiz-form-wrap">
           
-          <h2>Create A New Quiz</h2>
+          <h2>Create A New Question Set</h2>
           <form id="create-quiz-form" onSubmit={handleSubmit}>
           <p>
+            Question Set Title:
             <input 
               type="quizTitle" 
               id="quizTitle-create-quiz" 
               name="quizTitle" 
-              placeholder="Quiz Tilte" 
+              placeholder="Question Set Tilte" 
               onChange={(e) => SetQuizTitle(e.target.value)} 
               required />
               <i className="validation"></i>
             </p>
+
             <p>
+              Question Text:
             <input 
               type="quizQuestion" 
               id="quizQuestion-create-quiz" 
               name="quizQuestion" 
-              placeholder="Quiz Question" 
+              placeholder="Question Text" 
               onChange={(e) => setQuizQuestion(e.target.value)} 
               required />
               <i className="validation"></i>
             </p>
+            <p>
+              <p>Question image Upload:</p>
+            
             <input 
               type='file' 
               id='upload-image-btn'
               onChange={(event) => {setImageUpload(event.target.files)}}>
               </input>
+            </p>
+
             <p>
+            Answer 1:
             <input 
               type="quizAnswer1" 
               id="quizAnswer1-create-quiz" 
@@ -101,7 +110,9 @@ export default function Create_quiz() {
               required />
               <i className="validation"></i>
             </p>
+
             <p>
+            Answer 2:
             <input 
               type="quizAnswer2" 
               id="quizAnswer2-create-quiz" 
@@ -111,7 +122,9 @@ export default function Create_quiz() {
               required />
               <i className="validation"></i>
             </p>
+
             <p>
+            Answer 3:
             <input 
               type="quizAnswer3" 
               id="quizAnswer3-create-quiz" 
@@ -123,6 +136,7 @@ export default function Create_quiz() {
             </p>
            
             <p>
+            Answer 4:
             <input 
               type="quizAnswer4" 
               id="quizAnswer4-create-quiz" 
@@ -133,7 +147,7 @@ export default function Create_quiz() {
               <i className="validation"></i>
             </p>
             
-            <div id="select-correct-answer-title">Select the correct answer:</div>
+            <div id="select-correct-answer-title">Set the correct answer:</div>
             
             <div className='select-correct-answer-section'>
               <label id="option1-label">Ans 1

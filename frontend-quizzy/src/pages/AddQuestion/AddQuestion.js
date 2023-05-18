@@ -87,17 +87,20 @@ export const AddQuestion = () => {
             type="quizQuestion" 
             id="quizQuestion-add-question" 
             name="quizQuestion" 
-            placeholder="Quiz Question" 
+            placeholder="Question Text" 
             onChange={(e) => setQuizQuestion(e.target.value)} 
             required />
             <i className="validation"></i>
           </p>
           
+          <p>
+            <p>Question image Upload:</p>
           <input 
             type='file' 
             id='upload-image-btn'
             onChange={(event) => {setImageUpload(event.target.files)}}>
           </input>
+          </p>
 
           <p>
           Answer 1:
@@ -148,7 +151,7 @@ export const AddQuestion = () => {
           </p>
           
     
-          <div id="select-correct-answer-title">Select the correct answer:</div>
+          <div id="select-correct-answer-title">Set the correct answer:</div>
           
           <div className='select-correct-answer-section'>
             <label id="option1-label">Ans 1

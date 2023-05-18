@@ -26,7 +26,9 @@ class Quiz extends React.Component {
             currentQuestionCount: 0,
             currentQuestionId: 0,
             userAnswers: [],
-            quizData: []
+            quizData: [],
+            duration: 0,
+            timerIsReady: false
         }
 
         let root = document.querySelector(':root');
@@ -44,11 +46,23 @@ class Quiz extends React.Component {
         let quizAuthor = null;
         let quizId = null;
      
+        // const storedDuration = sessionStorage.getItem('quizDuration');
+        // if (storedDuration) {
+        //     this.setState({ duration: Number(storedDuration), isReady: true });
+        // } else {
+        //     const duration = snapshot.child('duration').val();
+        //     this.setState({ duration: Number(duration), timerIsReady: true });
+        //     sessionStorage.setItem('quizDuration', duration);
+        // }
+
         const ref = projectFirebaseRealtime.ref('Lobbies/' + this.props.lobbyCode);
         ref.get().then((snapshot) => {
             quizId = snapshot.val().quizId;
             quizAuthor = snapshot.val().quizAuthor;
-            
+
+            const duration = snapshot.child('duration').val();
+            this.setState({ duration: Number(duration), timerIsReady: true });
+
             const ref2 = projectFirebaseRealtime.ref('Quizzes/' + quizAuthor + '/' + quizId + '/Questions');
             ref2.once('value', (snapshot2) => {
                 if (snapshot2.exists()) {
@@ -73,7 +87,7 @@ class Quiz extends React.Component {
                         answerOptions.push(answer3)
                         answerOptions.push(answer4)
 
-                        //records.push({'question': question, 'answerOptions':answerOptions, 'hasImage':hasImage})
+
                         if (hasImage) {
                             const image = projectFirebaseStorage.ref('Images/' + quizAuthor + '/' + quizId + '/Questions/' + childSnapshot.key + '/' + childSnapshot.val().image);
                             let promise = image.getDownloadURL().then((url) => {
@@ -99,20 +113,16 @@ class Quiz extends React.Component {
                         this.setState({quizData: records});
                     
                     });
-                    //this.setState({quizData: records});
-                    
-                    // de mapat datele
-                    // CE FA CEM CU TESTELE PUBLICE CARE SE MOFIFICA IN TIMOUL NQUIZULUI?
+
                 }
                 
             })
         });
-        
     }
 
 
     handleAnswerButtonClick = (answerOption) => {
-       // e.preventDefault();
+
 
        let question = this.state.quizData[this.state.currentQuestionCount].question;
        let questionId = this.state.quizData[this.state.currentQuestionCount].questionId;
@@ -152,12 +162,12 @@ class Quiz extends React.Component {
     handleFinishButtonClick() {
         const userId = 2023;
         const userAnswers = this.state.userAnswers;
-        // console.log(this.state.userAnswers)
+
         const userAnswersRef = firebase.database().ref('userAnswers').child(userId);
         userAnswersRef.update(userAnswers)
           .then(() => {
             console.log('User answers saved successfully');
-            // other logic for handling the end of the quiz
+
           })
           .catch((error) => {
             console.error('Error saving user answers:', error);
@@ -193,7 +203,7 @@ class Quiz extends React.Component {
                                 <FaFontAwesomeFlag className='flag-button' title='Flag this question' onClick={() => this.props.handleFlagClick(this.state.quizData[this.state.currentQuestionCount].questionId, this.props.isFlagged)}/>
                             </div>
                             <div className='timer-content'>
-                                <Timer seconds={3600} onTimerComplete={handleTimerComplete}/>
+                                {this.state.timerIsReady && <Timer seconds={this.state.duration * 60} onTimerComplete={handleTimerComplete}/>}
                                 <FaClock/>
                             </div>
                         </div>

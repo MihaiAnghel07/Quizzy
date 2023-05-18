@@ -131,6 +131,12 @@
     max-width: 500px;
 }
 
+#quiz-title-header {
+    display: flex;
+    align-content: start;
+    margin-bottom: 20px;
+}
+
 
 
 

@@ -1,7 +1,7 @@
 :root {
     --public-background-color: #dddddd;
     --public-color: #000000; 
-    --private-background-color: #3ca9e2;
+    --private-background-color: orange;
     --private-color: #ffffff
 }
 
@@ -40,15 +40,17 @@ body {
   font-family: "Open Sans", sans-serif;
   font-size: large;
   margin-left: 8px;
-  color: #8a8b8e;
+  color: #2b3e51;
 }
 
 #select-correct-answer-title {
+  display: flex;
+  justify-content: center;
   text-align: left;
   font-family: "Open Sans", sans-serif;
   font-size: 1.4rem;
   margin-bottom: 15px;
-  color: #8a8b8e;
+  color: #2b3e51;
 }
 
 
@@ -95,7 +97,7 @@ input[type="radio"] {
   a:link,
   a:visited,
   a:active {
-    color: #3ca9e2;
+    color: orange;
     -webkit-transition: all 0.2s ease;
     transition: all 0.2s ease;
   }
@@ -167,7 +169,7 @@ input[type="radio"] {
   input[type="quizAnswer3"]:focus,
   input[type="quizAnswer4"]:focus,
   input[type="quizCorrectAnswer"]:focus {
-    border-color: #3ca9e2;
+    border-color: orange;
   }
 
   input[type="quizTitle"]:focus:invalid,

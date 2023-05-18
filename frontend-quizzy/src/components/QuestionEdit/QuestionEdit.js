@@ -42,7 +42,7 @@ export default function QuestionEdit(props) {
         </p>
 
         <p>
-        Image Upload:
+        Question Image Upload:
         <input 
             type='file' 
             id='upload-image-btn'

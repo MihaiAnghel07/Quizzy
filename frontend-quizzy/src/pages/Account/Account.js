@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import './Account.css'
 import Popup from '../../components/Popup/Popup';
-import { FaCheck } from 'react-icons/fa';
 import { useEditAccount } from '../../hooks/useEditAccount';
+import Modal from '../../components/modal/Modal';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useDeleteAccount } from '../../hooks/useDeleteAccount';
 
 
 export default function Account() {
@@ -10,86 +12,164 @@ export default function Account() {
   const [email, setEmail] = useState(localStorage.getItem("user"));
   const [password, setPassword] = useState(localStorage.getItem("password"));
   const [showPopup, setShowPopup] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [confirmModal, setConfirmModal] = useState(false);
+  const [openModal2, setOpenModal2] = useState(false);
+  const [confirmModal2, setConfirmModal2] = useState(false);
+  const [aux, setAux] = useState(false);
+  const [message, setMessage] = useState("No field has been modified")
   const {editAccount, isPending, error} = useEditAccount();
+  const {deleteAccount, isPending2, error2} = useDeleteAccount();
+  let navigate = useNavigate();
+  let location = useLocation();
  
-  
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (username == localStorage.getItem("username") && email == localStorage.getItem("user")) {
-      setShowPopup(true)
-    } else {
-      editAccount(username, email, password);
+      setShowPopup(true);
+    } else { 
+      setOpenModal(true);
     }
+
   }
 
   const handlePopupClose = () => {
     setShowPopup(false)
   }
 
+  const handleChangePassword = (e) => {
+    e.preventDefault();
+    navigate('/change_password');
+  }
+
+  const handleDeleteAccount = (e) => {
+    e.preventDefault();
+    setOpenModal2(true);
+  }
+
   useEffect(() => {
     setUsername(localStorage.getItem("username"));
   }, [localStorage.getItem("username")]);
 
-  return (
-    <div className='account-wrapper'>
-      {showPopup && 
-        (
-          <Popup
-            message="No field has been modified"
-            duration={2000}
-            position="top-right"
-            // icon = {<FaCheck className='flag-button'/>}
-            onClose={handlePopupClose}
-          />
-        )}
+  useEffect(()=>{
+    if (confirmModal) {
+      setOpenModal(false);
+      setConfirmModal(false);
+      editAccount(username, email, password);
+    }
 
-      <form id="account-form" onSubmit={handleSubmit}>
-        <p>Username:
-          <input 
-            type="username" 
-            id="username-account" 
-            name="username-account" 
-            onChange={(e) => setUsername(e.target.value)} 
-            value={username}
-            required />
-            <i className="validation"></i>
-        </p>
-        <p>Email
-          <input 
-            type="email" 
-            id="email-account" 
-            name="email-account" 
-            onChange={(e) => setEmail(e.target.value)} 
-            value={email}
-            required />
-            <i className="validation"></i>
-        </p>
-        <p>Password
-          <input 
-            type="password" 
-            id="password-account" 
-            name="password-account" 
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
-            required />
-            <i className="validation"></i>
-        </p>
+  }, [confirmModal])
+
+  useEffect(()=>{
+    if (confirmModal2) {
+      setOpenModal2(false);
+      setConfirmModal2(false);
+      deleteAccount();
+    }
+
+  }, [confirmModal2])
+
+  // used for adding a small delay between "Edit Account" command and popup show
+  useEffect(()=>{
+    if (!isPending && aux) {
+      setMessage("Your account has been updated");
+      setShowPopup(true);
+    
+    } else if (isPending) {
+      setAux(true);
+    }
+
+  }, [isPending])
+
+
+  useEffect(()=>{
+    if (localStorage.getItem("tmpItem")) {
+      setMessage(localStorage.getItem("tmpItem"));
+      setShowPopup(true);
+      localStorage.removeItem("tmpItem");
+    }
+
+  }, [localStorage.getItem("tmpItem")])
+
+
+
+  return (
+    <div>
+      <h2 id="account-page-title">Account</h2>
+      <div className='account-wrapper'>
+        {showPopup && 
+          (
+            <Popup
+              message={message}
+              duration={2000}
+              position="top-right"
+              onClose={handlePopupClose}
+            />
+          )}
+
+        {openModal && 
+          <div id='modal-edit-account'> 
+            <Modal closeModal={setOpenModal} yesModal={setConfirmModal} message="Are you sure you want edit your account?" /> 
+          </div>
+        }
+
+        {openModal2 && 
+          <div id='modal-edit-account'> 
+            <Modal closeModal={setOpenModal2} yesModal={setConfirmModal2} message="Are you sure you want to delete your account? All quizzes and history will be deleted" /> 
+          </div>
+        }
         
-        {/* <p> */}
+        <form id="account-form" onSubmit={handleSubmit}>
+          <p>Username:
+            <input 
+              type="username" 
+              id="username-account" 
+              name="username-account" 
+              onChange={(e) => setUsername(e.target.value)} 
+              value={username}
+              required />
+              <i className="validation"></i>
+          </p>
+          <p>Email
+            <input 
+              type="email" 
+              id="email-account" 
+              name="email-account" 
+              onChange={(e) => setEmail(e.target.value)} 
+              value={email}
+              required />
+              <i className="validation"></i>
+          </p>
+            
+          <p>
+            <button 
+              type="button" 
+              id="change-password-btn"
+              onClick={handleChangePassword}>Change password
+            </button>
+          </p>
+
+          <p>
+            <button 
+              type="button" 
+              id="delete-account-btn"
+              onClick={handleDeleteAccount}>Delete Account
+            </button>
+          </p>
+
           {!isPending && <input 
             type="submit" 
             id="edit-account-submit" 
             value="Edit  Account" />}
-        {/* </p> */}
-        {/* <p> */}
+
           {isPending && <input 
             type="submit" 
             id="edit-account-submit" 
             value="loading" />}
-        {/* </p> */}
-        {error &&<p className='account-showError'>{error}</p>}
-      </form>
+
+          {error &&<p className='account-showError'>{error}</p>}
+        </form>
+      </div>
     </div>
   )
 }

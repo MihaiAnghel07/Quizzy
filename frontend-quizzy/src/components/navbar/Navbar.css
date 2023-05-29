@@ -11,6 +11,8 @@
 .navbar-logo {
   height: 50px;
   width: auto;
+  scale: 1.3;
+  margin-left: 50px;
 }
 
 .navbar-logo:hover {

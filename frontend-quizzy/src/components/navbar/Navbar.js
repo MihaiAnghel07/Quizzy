@@ -38,7 +38,7 @@ export default function Navbar() {
           <button id='navbar-home-button' onClick={handleHomeButtonClick}>Home</button>
           <button id='navbar-login-button' onClick={handleLoginButtonClick}>Log in</button>
           <button id='navbar-signup-button' onClick={handleSignupButtonClick}>Sign up</button>
-          <button id='navbar-dashboard-button' onClick={handleDashboardButtonClick}>Dashboard</button>
+          {/* <button id='navbar-dashboard-button' onClick={handleDashboardButtonClick}>Dashboard</button> */}
         </div>
     </div>
   )

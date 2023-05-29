@@ -52,5 +52,24 @@
     
   }
   
+  #modal-edit-account {
+    margin-left: -50%;
+  }
+
+  #account-page-title{
+    margin-top: 50px;
+    margin-bottom: -20px;
+    margin-left: -32%;
+  }
+
+  #change-password-btn, #delete-account-btn {
+    width: 150px;
+    height: 40px;
+    font: 0.65em sans-serif;
+  }
+
+  #delete-account-btn {
+    color: red;
+  }
 
   

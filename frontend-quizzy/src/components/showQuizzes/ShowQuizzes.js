@@ -28,7 +28,7 @@ class ShowQuizzes extends React.Component {
 
     componentDidMount() {
         let username = localStorage.getItem("username");
-        console.log(this.props.search)
+        
         if (this.props.quizzesType === 'private') {
             const ref = projectFirebaseRealtime.ref('Quizzes/' + username);
             ref.on('value', (snapshot) => {
@@ -146,7 +146,6 @@ function wrapClass (Component) {
         }
 
         const updateHandler = (quizId, quizAuthor, isPublic, quizTitle) => {
-            console.log("update");
             navigate('/update_quiz', {state:{quizId:quizId, quizAuthor:quizAuthor, isPublic:isPublic, quizTitle:quizTitle}});
         }
 
@@ -169,13 +168,8 @@ function wrapClass (Component) {
                 if (('private'.includes(props.search.toLowerCase()) && el.data.isPublic === false) || ('public'.includes(props.search.toLowerCase()) && el.data.isPublic === true))
                     return el;
                 
-                // de facut si pentru id
-                // if ((el.data.quizId.includes(props.search.toLowerCase()) && el.data.isPublic === false))
-                //     return el;
-                
-                
             })
-            console.log(auxQuizData)
+            
             setQuizDataFiltered(auxQuizData)
 
 

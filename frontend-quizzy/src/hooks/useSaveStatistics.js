@@ -9,10 +9,8 @@ export const useSaveStatistics = () => {
         return new Date().getTime().toString();                             
     }
 
-    const saveStatistics = async (lobbyCode, answerOption, question, questionId, answer1, answer2, answer3, answer4, image, isFlagged) => {
+    const saveStatistics = async (lobbyCode, answerOption, question, questionId, answer1, answer2, answer3, answer4, hasImage, image, isFlagged) => {
         let host = null;
-        let quizId = null;
-        let quizAuthor = null;
         let lobbyId = null;
         let quizTitle = null;
         const questionTemplate = []
@@ -21,9 +19,10 @@ export const useSaveStatistics = () => {
         'answer2': {'text':answer2.text, 'isCorrect': answer2.isCorrect, 'isSelected': answerOption.text === answer2.text},
         'answer3': {'text':answer3.text, 'isCorrect': answer3.isCorrect, 'isSelected': answerOption.text === answer3.text},
         'answer4': {'text':answer4.text, 'isCorrect': answer4.isCorrect, 'isSelected': answerOption.text === answer4.text},
-        // 'image': image,
+        'hasImage': hasImage,
+        'image': image,
         'isFlagged': isFlagged})
-       
+    
 
         let participantUsername = localStorage.getItem("username");
         const ref = projectFirebaseRealtime.ref("Lobbies/" + lobbyCode);
@@ -31,8 +30,6 @@ export const useSaveStatistics = () => {
       
         await ref.once('value', (snapshot) => {
             host = snapshot.val().host;
-            quizId = snapshot.val().quizId;
-            quizAuthor = snapshot.val().quizAuthor;
             lobbyId = snapshot.val().lobbyId;
             quizTitle = snapshot.val().quizTitle;
         
@@ -72,6 +69,17 @@ export const useSaveStatistics = () => {
             }
 
         }) 
+
+        // updatam statisticile per intrebare
+        if ((answer1.isCorrect && answerOption.text === answer1.text)
+             || (answer2.isCorrect && answerOption.text === answer2.text)
+             || (answer3.isCorrect && answerOption.text === answer3.text)
+             || (answer4.isCorrect && answerOption.text === answer4.text))
+            projectFirebaseRealtime.ref("Statistics/host/" + host + '/quizzes/' + lobbyId + '/' + questionId + '/correctAnswers').set(firebase.database.ServerValue.increment(1))
+        else
+            projectFirebaseRealtime.ref("Statistics/host/" + host + '/quizzes/' + lobbyId + '/' + questionId + '/wrongAnswers').set(firebase.database.ServerValue.increment(1))
+
+                                
     
     }
        

@@ -39,7 +39,6 @@ class UpdateQuiz extends React.Component {
                     record.push({'key':questionSnapshot.key, 'data':questionSnapshot.val()})
                 })
             })
-            console.log(record)
             this.setState({quizTitle:quizTitle, quizQuestions:record, isPublic:isPublic});
             
         }) 
@@ -178,7 +177,6 @@ function wrapClass (Component) {
         }
         
         const handleAddQuestion = () => {
-            console.log(location.state.quizId)
             navigate('/add_question', {state:{quizKey:location.state.quizId, quizAuthor:location.state.quizAuthor, previousPage:'/update_quiz'}})
         }
 

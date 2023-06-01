@@ -160,7 +160,6 @@ export const useEditAccount = () => {
                     snapshot.forEach((childSnapshot) => {
 
                         childSnapshot.child("quizzes").forEach( (childSnapshot2) => {
-                            console.log(childSnapshot2.key)
                             if (childSnapshot2.child(localStorage.getItem("username")).exists()) {
                                 
                                 let data = childSnapshot2.child(localStorage.getItem("username")).val();

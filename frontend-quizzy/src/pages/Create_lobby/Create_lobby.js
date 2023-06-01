@@ -10,6 +10,7 @@ import QuizzesSelection from '../QuizzesSelection/QuizzesSelection'
 import { useUpdateLobby } from '../../hooks/useUpdateLobby'
 import Popup from '../../components/Popup/Popup'
 import { FaCheck } from 'react-icons/fa'
+import { useSetHistoryInitialState } from '../../hooks/useSetHistoryInitialState'
 
 
 
@@ -20,6 +21,7 @@ export default function Create_lobby() {
   const [confirmModal, setConfirmModal] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const { updateLobby } = useUpdateLobby();
+  const { setHistoryInitialState } = useSetHistoryInitialState();
   let navigate = useNavigate();
   let location = useLocation();
   const { loadLobbyTemplateToDatabase } = useLoadingLobbyTemplate()
@@ -72,10 +74,16 @@ export default function Create_lobby() {
     navigate('/quizzes_selection');
   }
 
+  const getTimestamp = () => {
+    return new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(Date.now())
+  }
+
   const startQuizHandler = (e) => {
     e.preventDefault();
     if (location.state != null && location.state.quizId != null && location.state.quizAuthor != null && duration != '') {
-      updateLobby(lobbyCode, location.state.quizId, location.state.quizAuthor, location.state.quizTitle, duration);
+      updateLobby(lobbyCode, location.state.quizId, location.state.quizAuthor, location.state.quizTitle, duration, getTimestamp());
+      setHistoryInitialState(lobbyCode);
+
     } else {
       setShowPopup(true)
     }

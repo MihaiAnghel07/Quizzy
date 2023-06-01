@@ -17,13 +17,9 @@ export const authReducer = (state, action) => {
     
     switch (action.type) {
         case 'LOGIN' :
-            console.log("SET: ", action.payload.email)
-            console.log("parola: ", action.payload)
             if (localStorage.getItem('user') == null) {
                 localStorage.setItem('user', action.payload.email)
             }
-            console.log("GET: ", localStorage.getItem('user'))
-            console.log("GET2: ", localStorage.getItem('username'))
             return { ...state, user: localStorage.getItem('user') }
         case 'LOGOUT' :
             localStorage.removeItem('user')
@@ -46,7 +42,6 @@ export const AuthContextProvider = ({ children }) => {
     })
 
     useEffect (() => {
-        console.log("localStorage: ", localStorage.getItem('user'))
         if (currentUser == null) 
             setCurrentUser(localStorage.getItem('user'));
         

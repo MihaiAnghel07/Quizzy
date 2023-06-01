@@ -77,7 +77,7 @@ export default function MySidebar(props) {
             onClick={handleAccountButtonClick}
           >
             <VscAccount />
-            Account
+            Edit Account
           </button>
           <button
             id={selectedButton === 'faq' ? 'sidebar-faq-button-selected' : 'sidebar-faq-button'}

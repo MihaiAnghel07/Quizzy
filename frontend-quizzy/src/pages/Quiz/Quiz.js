@@ -96,13 +96,13 @@ class Quiz extends React.Component {
                                 answerOptions2.push(answer2)
                                 answerOptions2.push(answer3)
                                 answerOptions2.push(answer4)
-                                records.push({'questionId':questionId, 'question': question, 'answerOptions':answerOptions2, 'hasImage':hasImage, 'url': url, 'isFlagged':isFlagged})
+                                records.push({'questionId':questionId, 'question': question, 'answerOptions':answerOptions2, 'hasImage':hasImage, 'image':childSnapshot.val().image, 'url': url, 'isFlagged':isFlagged})
                                 
                             })
                             promises.push(promise)
                         
                         } else {
-                            records.push({'questionId':questionId, 'question': question, 'answerOptions':answerOptions, 'hasImage': hasImage, 'isFlagged': isFlagged})
+                            records.push({'questionId':questionId, 'question': question, 'answerOptions':answerOptions, 'hasImage': hasImage, 'image':childSnapshot.val().image, 'isFlagged': isFlagged})
                         }
                         
                         answerOptions = [];
@@ -130,7 +130,8 @@ class Quiz extends React.Component {
        let answer2 = this.state.quizData[this.state.currentQuestionCount].answerOptions[1];
        let answer3 = this.state.quizData[this.state.currentQuestionCount].answerOptions[2];
        let answer4 = this.state.quizData[this.state.currentQuestionCount].answerOptions[3];
-       let image = this.state.quizData[this.state.currentQuestionCount].url;
+       let hasImage = this.state.quizData[this.state.currentQuestionCount].hasImage;
+       let image = this.state.quizData[this.state.currentQuestionCount].image;
        let isFlagged = this.props.isFlagged;
 
         const nextQuestionCount = this.state.currentQuestionCount + 1
@@ -145,12 +146,12 @@ class Quiz extends React.Component {
         }
 
 
-        const { currentQuestionId, userAnswers,} = this.state;
+        const { currentQuestionId, userAnswers} = this.state;
 
         const updatedUserAnswers = userAnswers;
         updatedUserAnswers.push({answerOption});
         this.setState({ userAnswers: updatedUserAnswers });
-        this.props.saveStatisticsHandler(answerOption, question, questionId, answer1, answer2, answer3, answer4, image, isFlagged);
+        this.props.saveStatisticsHandler(answerOption, question, questionId, answer1, answer2, answer3, answer4, hasImage, image, isFlagged);
         
         if (isFlagged)
             this.props.handleFlagClick(this.state.quizData[this.state.currentQuestionCount].questionId, isFlagged)
@@ -256,8 +257,8 @@ function wrapClass (Component) {
             setRating(rating);
         }
 
-        const saveStatisticsHandler = (answerOption, question, questionId, answer1, answer2, answer3, answer4, image, isFlagged) => {
-            saveStatistics(location.state.lobbyCode, answerOption, question, questionId, answer1, answer2, answer3, answer4, image, isFlagged);
+        const saveStatisticsHandler = (answerOption, question, questionId, answer1, answer2, answer3, answer4, hasImage, image, isFlagged) => {
+            saveStatistics(location.state.lobbyCode, answerOption, question, questionId, answer1, answer2, answer3, answer4, hasImage, image, isFlagged);
         }
 
     

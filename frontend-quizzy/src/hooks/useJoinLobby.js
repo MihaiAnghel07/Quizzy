@@ -42,12 +42,11 @@ export const useJoinLobby = () => {
                     if (snapshot.exists()) {
 
                         // update noParticipants
-                        console.log(snapshot.child('noParticipants').val());
                         let noParticipants = snapshot.child('noParticipants').val() + 1;
                         projectFirebaseRealtime.ref('Lobbies/' + lobbyCode).update({'noParticipants': noParticipants});
                         
                         // update participants list
-                        projectFirebaseRealtime.ref('Lobbies/' + lobbyCode + '/participants/' + (noParticipants - 1)).set({'name':localStorage.getItem('user'), 'score': 0});
+                        projectFirebaseRealtime.ref('Lobbies/' + lobbyCode + '/participants/' + (noParticipants - 1)).set({'name':localStorage.getItem('username'), 'score': 0});
 
                         // incepere activitate lobby
                         // ATENTIE! folosim navigate in hook. De cercetat daca exista o varianta mai buna

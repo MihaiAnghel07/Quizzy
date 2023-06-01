@@ -95,7 +95,7 @@ export default function Account() {
 
   return (
     <div>
-      <h2 id="account-page-title">Account</h2>
+      <h2 id="account-page-title">Edit Account</h2>
       <div className='account-wrapper'>
         {showPopup && 
           (
@@ -141,26 +141,11 @@ export default function Account() {
               <i className="validation"></i>
           </p>
             
-          <p>
-            <button 
-              type="button" 
-              id="change-password-btn"
-              onClick={handleChangePassword}>Change password
-            </button>
-          </p>
-
-          <p>
-            <button 
-              type="button" 
-              id="delete-account-btn"
-              onClick={handleDeleteAccount}>Delete Account
-            </button>
-          </p>
 
           {!isPending && <input 
             type="submit" 
             id="edit-account-submit" 
-            value="Edit  Account" />}
+            value="Save" />}
 
           {isPending && <input 
             type="submit" 
@@ -169,6 +154,23 @@ export default function Account() {
 
           {error &&<p className='account-showError'>{error}</p>}
         </form>
+
+        <p>
+          <button 
+            type="button" 
+            id="change-password-btn"
+            onClick={handleChangePassword}>Change password
+          </button>
+        </p>
+
+        <p>
+          <button 
+            type="button" 
+            id="delete-account-btn"
+            onClick={handleDeleteAccount}>Delete Account
+          </button>
+        </p>
+        
       </div>
     </div>
   )

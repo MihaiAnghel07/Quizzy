@@ -153,7 +153,6 @@ function wrapClass (Component) {
                 
                 
             })
-            console.log(auxQuizData)
             setQuizDataFiltered(auxQuizData)
 
 

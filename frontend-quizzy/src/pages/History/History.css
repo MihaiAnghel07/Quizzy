@@ -1,0 +1,66 @@
+.history-wrapper {
+    margin-left: 40px;
+}
+
+#history-host-btn, #history-participant-btn, #history-host-btn2, #history-participant-btn2 {
+    color: black;
+    border-radius: 8px;
+    background-color: orange;
+    width: 120px;
+    height: 40px;
+    border: 0px solid;
+    font-weight: bold;
+    padding: 6px;
+    text-align: center;
+    font-size: 14px;
+}
+
+#history-participant-btn, #history-participant-btn2 {
+    margin-left: 7px;
+}
+
+#history-host-btn2 {
+    background-color: rgb(240, 142, 14);
+    transition: 250ms;
+    transform: scale(1.05);
+}
+
+#history-participant-btn2 {
+    background-color: rgb(240, 142, 14);
+    transition: 250ms;
+    transform: scale(1.05);
+}
+
+#history-host-btn:hover {
+    background-color: rgb(240, 142, 14);
+    transition: 250ms;
+    transform: scale(1.05);
+}
+
+#history-participant-btn:hover {
+    background-color: rgb(240, 142, 14);
+    transition: 250ms;
+    transform: scale(1.05);
+}
+
+.history-filter-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.history-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.history-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}

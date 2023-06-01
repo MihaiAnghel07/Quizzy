@@ -158,8 +158,6 @@ public class SignUpActivity extends AppCompatActivity {
 
 
     private boolean isEmailValid(String email) {
-        // Add your email validation logic here, e.g., using a regular expression or library
-        // For simplicity, we'll use a basic email pattern matching
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 }

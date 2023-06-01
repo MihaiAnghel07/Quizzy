@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
             // User is logged in, redirect to HomeActivity or any other desired activity
             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
             startActivity(intent);
-            finish(); // Optional: Finish the MainActivity so that it's not in the back stack
+            finish(); // Finish the MainActivity so that it's not in the back stack
         } else {
             setContentView(R.layout.activity_main);
 

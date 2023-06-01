@@ -90,7 +90,6 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    // Update the method signature to return the username as a String
     private void getUsernameFromDatabaseAndGoToHomeActivity(String userId) {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
         DatabaseReference usernameRef = usersRef.child(userId).child("username");

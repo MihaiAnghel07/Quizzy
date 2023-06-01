@@ -47,13 +47,13 @@ public class HomeActivity extends AppCompatActivity {
 
         // Set the button click listeners
         joinLobbyButton.setOnClickListener(v -> {
-            // Implement the logic for the Join Lobby button click
-            // Start the corresponding activity or perform the desired action
+            // Start Join Lobby activity
+            Intent newIntent = new Intent(HomeActivity.this, JoinLobbyActivity.class);
+            startActivity(newIntent);
         });
 
         historyButton.setOnClickListener(v -> {
-            // Implement the logic for the History button click
-            // Start the corresponding activity or perform the desired action
+            // Start History activity
         });
 
         logoutButton.setOnClickListener(v -> {
@@ -61,7 +61,7 @@ public class HomeActivity extends AppCompatActivity {
             PreferenceHelper.setLoginStatus(this, false);
             PreferenceHelper.setUsername(this, "USER_NONE");
 
-            // Show a logout message
+            // Display logout message
             Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show();
 
             // Start the main activity

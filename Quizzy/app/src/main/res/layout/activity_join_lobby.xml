@@ -1,0 +1,25 @@
+<!-- join_lobby_activity.xml -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".JoinLobbyActivity">
+
+    <EditText
+        android:id="@+id/lobbyCodeEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:hint="Enter Lobby Code"
+        android:maxLines="1" />
+
+    <Button
+        android:id="@+id/joinLobbyButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lobbyCodeEditText"
+        android:layout_marginTop="16dp"
+        android:text="Join Lobby" />
+
+</RelativeLayout>

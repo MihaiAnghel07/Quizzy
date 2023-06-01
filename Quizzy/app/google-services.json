@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "891932150203",
+    "firebase_url": "https://quizzy-58a7b-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "quizzy-58a7b",
+    "storage_bucket": "quizzy-58a7b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:891932150203:android:58a2e5712bf07bdbc2dc9e",
+        "android_client_info": {
+          "package_name": "com.example.quizzy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "891932150203-v2r45clip84attj2jiujp8v3ju9k2qo0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDVnee2_s8m-7r6pQlkBqluESPT6cuHUQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "891932150203-v2r45clip84attj2jiujp8v3ju9k2qo0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:891932150203:android:99bcd42e6140df77c2dc9e",
+        "android_client_info": {
+          "package_name": "com.quizzy.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "891932150203-v2r45clip84attj2jiujp8v3ju9k2qo0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDVnee2_s8m-7r6pQlkBqluESPT6cuHUQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "891932150203-v2r45clip84attj2jiujp8v3ju9k2qo0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -54,6 +54,8 @@ public class HomeActivity extends AppCompatActivity {
 
         historyButton.setOnClickListener(v -> {
             // Start History activity
+            Intent newIntent = new Intent(HomeActivity.this, HistoryActivity.class);
+            startActivity(newIntent);
         });
 
         logoutButton.setOnClickListener(v -> {

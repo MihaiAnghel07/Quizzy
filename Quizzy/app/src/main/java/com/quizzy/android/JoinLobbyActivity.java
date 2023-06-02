@@ -2,6 +2,7 @@ package com.quizzy.android;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.text.TextUtils;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -57,22 +59,48 @@ public class JoinLobbyActivity extends AppCompatActivity {
         lobbiesRef.child(lobbyCode).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 if (task.getResult().exists()) {
-                    // Lobby exists, update participants and noParticipants
+                    // Lobby exists, check if participant is already in the lobby
                     String username = PreferenceHelper.getUsername(this);
-                    int participantIndex = task.getResult().child("noParticipants").getValue(Integer.class);
 
-                    // Update the lobby participants with username and score
-                    DatabaseReference participantsRef = lobbiesRef.child(lobbyCode)
-                            .child("participants")
-                            .child(String.valueOf(participantIndex));
+                    boolean participantAlreadyInLobby = false;
 
-                    participantsRef.child("name").setValue(username);
-                    participantsRef.child("score").setValue(0);
+                    for (DataSnapshot participantSnapshot : task.getResult().child("participants").getChildren()) {
+                        String participantName = participantSnapshot.child("name").getValue(String.class);
+                        if (participantName != null && participantName.equals(username)) {
+                            participantAlreadyInLobby = true;
+                            break;
+                        }
+                    }
 
-                    // Increment the number of participants in the lobby
-                    lobbiesRef.child(lobbyCode).child("noParticipants").setValue(participantIndex + 1);
+                    if (participantAlreadyInLobby) {
+                        Toast.makeText(JoinLobbyActivity.this, "You are already in the lobby", Toast.LENGTH_SHORT).show();
+                    } else {
+                        String gameStatus = task.getResult().child("gameStatus").getValue(String.class);
 
-                    // TODO: Start the lobby activity
+                        if (gameStatus != null && gameStatus.equals("in progress")) {
+                            Toast.makeText(JoinLobbyActivity.this, "The quiz has already started", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Lobby exists, update participants and noParticipants
+                            int participantIndex = task.getResult().child("noParticipants").getValue(Integer.class);
+
+                            // Update the lobby participants with username and score
+                            DatabaseReference participantsRef = lobbiesRef.child(lobbyCode)
+                                    .child("participants")
+                                    .child(String.valueOf(participantIndex));
+
+                            participantsRef.child("name").setValue(username);
+                            participantsRef.child("score").setValue(0);
+
+                            // Increment the number of participants in the lobby
+                            lobbiesRef.child(lobbyCode).child("noParticipants").setValue(participantIndex + 1);
+
+                            // Start the lobby activity
+                            Intent intent = new Intent(JoinLobbyActivity.this, LobbyActivity.class);
+                            intent.putExtra("lobbyCode", lobbyCode);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
                 } else {
                     Toast.makeText(JoinLobbyActivity.this, "Lobby does not exist", Toast.LENGTH_SHORT).show();
                 }
@@ -81,4 +109,5 @@ public class JoinLobbyActivity extends AppCompatActivity {
             }
         });
     }
+
 }

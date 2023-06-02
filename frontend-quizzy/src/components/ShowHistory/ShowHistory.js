@@ -39,7 +39,7 @@ class ShowHistory extends React.Component {
                     records.push({"key":key, "data":data}); 
                 })
                 this.setState({historyData: records});
-                console.log(records)
+                // console.log(records)
             }
         })
     } 
@@ -54,21 +54,26 @@ class ShowHistory extends React.Component {
                 <h4 id="empty-list-message">No history Found</h4>}
                 
                 {this.state.historyData.map((row, key) => {
-                    console.log(row.data)
                     return (
-                        <div key={key} className="gtt">
-                            {Object.keys(row.data).filter((item) => item !== "quizTitle" && item !== "timestamp")}
+                        <div key={row.key} className="quiz-item">
+                            {/* {Object.keys(row.data).filter((item) => item !== "quizTitle" && item !== "timestamp")} */}
                         
-                            <div className="question-text-header" onClick={() => this.props.handleQuestionClick(key)}>
-                                {this.props.expandedId === key && <AiOutlineUp/>}
-                                {this.props.expandedId != key && <AiOutlineDown/>}
+                            <div className="quiz-text-header" onClick={() => this.props.handleQuestionClick(key)}>
+                                <div className='quiz-text-header-title'>
+                                    {this.props.expandedId === key && <AiOutlineUp/>}
+                                    {this.props.expandedId !== key && <AiOutlineDown/>}
                                     {key + 1}.  {row.data.quizTitle}
+                                </div> 
+
+                                <div className='quiz-text-header-timestamp'>{row.data.timestamp}</div>    
+                                    
                             </div>
 
                             {this.props.expandedId === key && (
                                 
-                                <div className="question-form">
-                                    {this.props.historyType === "participant" && <ShowQuiz questions={row.data.questions}/>}
+                                <div className="quiz-content">
+                                    {this.props.historyType === "participant" && <ShowQuiz questions={row.data.questions}
+                                                                                            quizId={row.key}/>}
                                 </div>
                             )}
 

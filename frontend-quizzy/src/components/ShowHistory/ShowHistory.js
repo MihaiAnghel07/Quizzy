@@ -1,10 +1,10 @@
 import React from 'react'
 import './ShowHistory.css'
 import { projectFirebaseRealtime } from '../../firebase/config'
-import { Table } from 'react-bootstrap';
 import { useState } from 'react';
 import { AiOutlineDown, AiOutlineUp } from 'react-icons/ai';
-import ShowQuiz from '../ShowQuiz/ShowQuiz';
+import ShowParticipantHistory from '../ShowParticipantHistory/ShowParticipantHistory';
+import ShowHostHistory from '../ShowHostHistory/ShowHostHistory';
 
 
 class ShowHistory extends React.Component {
@@ -54,10 +54,9 @@ class ShowHistory extends React.Component {
                 <h4 id="empty-list-message">No history Found</h4>}
                 
                 {this.state.historyData.map((row, key) => {
+                    console.log(row);
                     return (
                         <div key={row.key} className="quiz-item">
-                            {/* {Object.keys(row.data).filter((item) => item !== "quizTitle" && item !== "timestamp")} */}
-                        
                             <div className="quiz-text-header" onClick={() => this.props.handleQuestionClick(key)}>
                                 <div className='quiz-text-header-title'>
                                     {this.props.expandedId === key && <AiOutlineUp/>}
@@ -72,8 +71,9 @@ class ShowHistory extends React.Component {
                             {this.props.expandedId === key && (
                                 
                                 <div className="quiz-content">
-                                    {this.props.historyType === "participant" && <ShowQuiz questions={row.data.questions}
+                                    {this.props.historyType === "participant" && <ShowParticipantHistory questions={row.data.questions}
                                                                                             quizId={row.key}/>}
+                                    {this.props.historyType === "host" && <ShowHostHistory />}
                                 </div>
                             )}
 

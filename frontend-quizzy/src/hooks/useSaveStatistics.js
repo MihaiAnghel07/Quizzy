@@ -20,7 +20,7 @@ export const useSaveStatistics = () => {
         'answer3': {'text':answer3.text, 'isCorrect': answer3.isCorrect, 'isSelected': answerOption.text === answer3.text},
         'answer4': {'text':answer4.text, 'isCorrect': answer4.isCorrect, 'isSelected': answerOption.text === answer4.text},
         'hasImage': hasImage,
-        'image': image,
+        'image': hasImage ? image : null,
         'isFlagged': isFlagged})
     
 

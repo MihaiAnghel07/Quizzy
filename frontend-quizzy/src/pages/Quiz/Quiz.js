@@ -131,7 +131,7 @@ class Quiz extends React.Component {
        let answer3 = this.state.quizData[this.state.currentQuestionCount].answerOptions[2];
        let answer4 = this.state.quizData[this.state.currentQuestionCount].answerOptions[3];
        let hasImage = this.state.quizData[this.state.currentQuestionCount].hasImage;
-       let image = this.state.quizData[this.state.currentQuestionCount].image;
+       let image = hasImage ? this.state.quizData[this.state.currentQuestionCount].image : null;
        let isFlagged = this.props.isFlagged;
 
         const nextQuestionCount = this.state.currentQuestionCount + 1

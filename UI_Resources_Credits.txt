@@ -2,4 +2,7 @@ Cross icon by Icons8  - https://icons8.com/icon/11997/close
 Check icon by Icons8 - https://icons8.com/icon/sz8cPVwzLrMP/check-mark
 
 
+<a href="https://www.flaticon.com/free-icons/yes" title="yes icons">Yes icons created by juicy_fish - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/delete" title="delete icons">Delete icons created by Pixel perfect - Flaticon</a>
+
 

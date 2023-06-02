@@ -1,16 +1,22 @@
-.show-quiz-question {
+
+.show-participant-history-question {
     padding-top: 20px;
 }
 
-.show-quiz-answer4 {
+.show-participant-history-answer4 {
     padding-bottom: 20px;
+    word-wrap: break-word;
 }
 
-.show-quiz-summary {
+.show-participant-history-summary {
     padding-top: 30px;
     padding-bottom: 5px; 
 }
 
-.show-quiz-score {
+.show-participant-history-score {
     padding-bottom: 40px;
+}
+
+.show-participant-history-answer1, .show-participant-history-answer2, .show-participant-history-answer3{
+    word-wrap: break-word;
 }

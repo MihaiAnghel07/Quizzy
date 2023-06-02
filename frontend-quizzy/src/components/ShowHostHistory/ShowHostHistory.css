@@ -1,0 +1,29 @@
+.show-host-history-participants {
+    padding-bottom: 50px;
+    
+}
+
+.show-host-history-participants-list:last-child {
+    margin-bottom:0;
+    /* padding-bottom: 50px; */
+}
+
+.show-host-history-summary {
+    padding-top: 30px;
+    padding-bottom: 5px; 
+}
+
+.show-host-history-participants {
+    margin-top: 60px;
+}
+
+.show-host-history-participant-item{
+    padding-left: 30px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    
+}
+
+.show-host-history-participant-item:hover{
+   cursor: pointer;
+}

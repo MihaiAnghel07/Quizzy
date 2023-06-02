@@ -39,7 +39,6 @@ class ShowHistory extends React.Component {
                     records.push({"key":key, "data":data}); 
                 })
                 this.setState({historyData: records});
-                // console.log(records)
             }
         })
     } 
@@ -49,12 +48,12 @@ class ShowHistory extends React.Component {
         
         return (
             
-            <div id='show-history-wrapper'>
+            <div className='show-history-wrapper'>
                {this.state.historyData.length === 0 && 
                 <h4 id="empty-list-message">No history Found</h4>}
                 
                 {this.state.historyData.map((row, key) => {
-                    console.log(row);
+                    
                     return (
                         <div key={row.key} className="quiz-item">
                             <div className="quiz-text-header" onClick={() => this.props.handleQuestionClick(key)}>
@@ -73,7 +72,7 @@ class ShowHistory extends React.Component {
                                 <div className="quiz-content">
                                     {this.props.historyType === "participant" && <ShowParticipantHistory questions={row.data.questions}
                                                                                             quizId={row.key}/>}
-                                    {this.props.historyType === "host" && <ShowHostHistory />}
+                                    {this.props.historyType === "host" && <ShowHostHistory data={row.data} quizId={row.key}/>}
                                 </div>
                             )}
 

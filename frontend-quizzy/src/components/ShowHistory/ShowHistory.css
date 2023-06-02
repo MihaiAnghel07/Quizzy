@@ -1,7 +1,8 @@
+
 .quiz-item {
     margin-top: 20px;
     margin-bottom: 20px;
-    width: 100%;
+    width: 950px;
     border: 1px solid #ddd;
     border-radius: 15px;
     overflow: hidden;
@@ -22,8 +23,9 @@
 }
 
 .quiz-text-header-title {
-    width: 500px;
+    width: 600px;
     margin-left: 10px;
+    word-wrap: break-word;
 }
 
 .quiz-text-header-timestamp {
@@ -31,6 +33,7 @@
 }
 
 .quiz-content {
+    /* width: 100%; */
     padding-left: 10px;
     background-color: rgb(255, 243, 220);
 }

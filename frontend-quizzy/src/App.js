@@ -26,6 +26,7 @@ import { useEffect } from 'react';
 import Modal from './components/modal/Modal';
 import History from './pages/History/History';
 import ChangePassword from './pages/ChangePassword/ChangePassword';
+import ParticipantRaport from './pages/ParticipantRaport/ParticipantRaport';
 
 
 
@@ -82,6 +83,7 @@ function App() {
             <Route path="/faq" element= {user? <Faq /> : < Login/>} />
             <Route path="/history" element= {user? <History /> : < Login/>} />
             <Route path="/change_password" element= {user? <ChangePassword /> : < Login/>} />
+            <Route path="/participant_raport" element= {user? <ParticipantRaport /> : < Login/>} />
             
           </Routes>
           

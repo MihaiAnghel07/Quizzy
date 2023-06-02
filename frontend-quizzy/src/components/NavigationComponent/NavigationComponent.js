@@ -7,6 +7,9 @@ function NavigationComponent({pageTitle, pairs }) {
   const navigate = useNavigate();
 
   function handleNavigationItemClick(link) {
+    // TODO de facut sa nu se incarce ultima pagina din link (uneori crapa pagina pentru
+    // ca pentru a incarca oagia a fost nevoie de anumite date (props etc), iar daca noi dam click
+    // direct pe link-ul paginii fara sa ii parsam anumite argumente, crapa)
     navigate(link);
   }
 
@@ -16,7 +19,6 @@ function NavigationComponent({pageTitle, pairs }) {
 
   return (
     <div className="navigation-wrapper">
-        <div className='navigation-page-title'>{pageTitle}</div>
         <div className='navigation-page-items'>
             {pairs && pairs.map((pair, index) => (
                 <React.Fragment key={index}>
@@ -27,12 +29,14 @@ function NavigationComponent({pageTitle, pairs }) {
                 </React.Fragment>
             ))}
         </div>
+
+        <div className='navigation-page-title'>{pageTitle}</div>
         
-        <div className='navigation-back-item'>
+        {/* <div className='navigation-back-item'>
             {pairs && <span className="navigation-item" onClick={handleBackClick}>
                 &lt; Back
             </span>}
-        </div>
+        </div> */}
     </div>
   );
 }

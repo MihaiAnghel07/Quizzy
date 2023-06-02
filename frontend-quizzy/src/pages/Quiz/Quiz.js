@@ -10,6 +10,7 @@ import { projectFirebaseRealtime, projectFirebaseStorage } from '../../firebase/
 import { useSetFlag } from '../../hooks/useSetFlag';
 import Rating from '../../components/Rating/Rating';
 import { useSaveStatistics } from '../../hooks/useSaveStatistics';
+import { useSaveRatingAndFeedback } from '../../hooks/useSaveRatingAndFeedback';
 
 
 
@@ -123,7 +124,6 @@ class Quiz extends React.Component {
 
     handleAnswerButtonClick = (answerOption) => {
 
-
        let question = this.state.quizData[this.state.currentQuestionCount].question;
        let questionId = this.state.quizData[this.state.currentQuestionCount].questionId;
        let answer1 = this.state.quizData[this.state.currentQuestionCount].answerOptions[0];
@@ -161,20 +161,8 @@ class Quiz extends React.Component {
     }
 
     handleFinishButtonClick() {
-        const userId = 2023;
-        const userAnswers = this.state.userAnswers;
-
-        const userAnswersRef = firebase.database().ref('userAnswers').child(userId);
-        userAnswersRef.update(userAnswers)
-          .then(() => {
-            console.log('User answers saved successfully');
-
-          })
-          .catch((error) => {
-            console.error('Error saving user answers:', error);
-          });
-        console.log(this.state.quizOver)
-      }
+        this.props.saveRatingAndFeedbackHandler(this.props.rating, this.props.feedback);
+    }
 
 
     render() {
@@ -187,7 +175,7 @@ class Quiz extends React.Component {
                         <h3 id='score'>You scored {this.state.score} out of {this.state.quizData.length}</h3>
                         <div className='feedback-section'>
                             <h3>Leave feedback</h3>
-                            <textarea id='feedback-text-area' rows="6" cols="40" maxLength="500"></textarea>
+                            <textarea id='feedback-text-area' rows="6" cols="40" maxLength="500" onChange={(e) => this.props.setFeedback(e.target.value)}></textarea>
                         </div>
                         <div className='rating-section'>
                             <h3>Rate this quiz</h3>
@@ -236,7 +224,12 @@ function wrapClass (Component) {
         const { setFlag } = useSetFlag();
         const [rating, setRating] = useState(0);
         const [isFlagged, setIsFlagged] = useState(false);
+        const [feedback, setFeedback] = useState("");
+        const [quizId, setQuizId] = useState(null);
+        const [host, setHost] = useState(null);
+        const { saveRatingAndFeedback } = useSaveRatingAndFeedback();
         let {saveStatistics} = useSaveStatistics(); 
+        const {navigate} = useNavigate();
 
         const handleFlagClick = (questionId, isFlagged) => {
             //setFlag(location.state.lobbyCode, questionId);
@@ -258,7 +251,26 @@ function wrapClass (Component) {
         }
 
         const saveStatisticsHandler = (answerOption, question, questionId, answer1, answer2, answer3, answer4, hasImage, image, isFlagged) => {
+            if (quizId === null) {
+                setQuizIdAndHostFunc();
+            }
             saveStatistics(location.state.lobbyCode, answerOption, question, questionId, answer1, answer2, answer3, answer4, hasImage, image, isFlagged);
+        }
+
+        const setQuizIdAndHostFunc = async () => {
+            const ref = projectFirebaseRealtime.ref("Lobbies/" + location.state.lobbyCode);
+            await ref.once("value", (snapshot) => {
+                if (snapshot.exists()) {
+                    setQuizId(snapshot.val().lobbyId);
+                    setHost(snapshot.val().host);
+                }
+            })
+
+        }
+
+        const saveRatingAndFeedbackHandler = (rating, feedback) => {
+            saveRatingAndFeedback(host, quizId, rating, feedback);
+            //navigate('/dashboard', {replace:true});
         }
 
     
@@ -266,7 +278,11 @@ function wrapClass (Component) {
                         handleFlagClick={handleFlagClick} 
                         setRatingHandler={setRatingHandler} 
                         saveStatisticsHandler={saveStatisticsHandler}
-                        isFlagged={isFlagged}/>
+                        isFlagged={isFlagged}
+                        rating={rating}
+                        setFeedback={setFeedback}
+                        feedback={feedback}
+                        saveRatingAndFeedbackHandler={saveRatingAndFeedbackHandler}/>
     }
 }
 

@@ -106,6 +106,7 @@ public class LobbyActivity extends AppCompatActivity {
     private void startQuizActivity() {
         // Start the quiz activity
         Intent intent = new Intent(LobbyActivity.this, QuizActivity.class);
+        intent.putExtra("lobbyCode", getIntent().getStringExtra("lobbyCode"));
         startActivity(intent);
         finish();
     }

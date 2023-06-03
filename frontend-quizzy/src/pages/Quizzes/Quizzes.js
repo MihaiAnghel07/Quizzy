@@ -12,7 +12,9 @@ class Quizzes extends React.Component {
         this.state = {
             quizzesData: [],
             myQuizzes: true,
-            username: localStorage.getItem("username")
+            username: localStorage.getItem("username"),
+            myQuizzesBtn: "quizzes-my-quizzes-btn2",
+            allQuizzesBtn: "quizzes-all-quizzes-btn"
         }
         
         //this.componentDidMount = this.componentDidMount.bind(this)
@@ -22,9 +24,10 @@ class Quizzes extends React.Component {
     myQuizzesHandler = (e) => {
         e.preventDefault();
         this.state.myQuizzes = true;
-        let root = document.querySelector(':root');
-        root.style.setProperty('--btn-background-color', '#ffe4c4');
-        root.style.setProperty('--btn-hover-background-color', '#fad5a7');
+        this.setState({myQuizzesBtn:"history-host-btn2", allQuizzesBtn: "quizzes-all-quizzes-btn"})
+        // let root = document.querySelector(':root');
+        // root.style.setProperty('--btn-background-color', '#ffe4c4');
+        // root.style.setProperty('--btn-hover-background-color', '#fad5a7');
 
         this.forceUpdate();
 
@@ -33,9 +36,10 @@ class Quizzes extends React.Component {
     allQuizzesHandler = (e) => {
         e.preventDefault();
         this.state.myQuizzes = false;
-        let root = document.querySelector(':root');
-        root.style.setProperty('--btn-background-color', '#fad5a7');
-        root.style.setProperty('--btn-hover-background-color', '#ffe4c4');
+        this.setState({myQuizzesBtn:"history-host-btn", allQuizzesBtn: "quizzes-all-quizzes-btn2"})
+        // let root = document.querySelector(':root');
+        // root.style.setProperty('--btn-background-color', '#fad5a7');
+        // root.style.setProperty('--btn-hover-background-color', '#ffe4c4');
         this.forceUpdate();
 
     }
@@ -56,9 +60,9 @@ class Quizzes extends React.Component {
 
                         <div className='quiz-filter-buttons'>
                             <h3 id='filter-h3'>Filter:</h3>
-                            <button id='quizzes-my-quizzes-btn'
+                            <button id={this.state.myQuizzesBtn}
                                     onClick={this.myQuizzesHandler}>My Question Sets</button>
-                            <button id='quizzes-all-quizzes-btn'
+                            <button id={this.state.allQuizzesBtn}
                                     onClick={this.allQuizzesHandler}>All Question Sets</button>
                         </div>
                     </div>

@@ -1,0 +1,22 @@
+.view-feedbacks-wrapper {
+    margin-left: 40px;
+}
+
+.view-feedbacks-navigation-component {
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.view-feedbacks-body {
+    padding: 50px 30px 30px 50px;
+    background-color: rgb(255, 243, 220);
+    width: 70%;
+    margin-left: 15%;
+    margin-bottom: 5%;
+    border-radius: 6px;
+    box-shadow: 0px 30px 50px 0px rgba(0, 0, 0, 0.2);
+}
+
+.view-feedbacks-no-feedback-found {
+    margin-left: 30%;
+}

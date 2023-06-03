@@ -10,7 +10,8 @@ function NavigationComponent({pageTitle, pairs }) {
     // TODO de facut sa nu se incarce ultima pagina din link (uneori crapa pagina pentru
     // ca pentru a incarca oagia a fost nevoie de anumite date (props etc), iar daca noi dam click
     // direct pe link-ul paginii fara sa ii parsam anumite argumente, crapa)
-    navigate(link);
+    if (pairs[pairs.length - 1][1] !== link)
+      navigate(link);
   }
 
   function handleBackClick() {

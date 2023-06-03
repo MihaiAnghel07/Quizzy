@@ -1,10 +1,11 @@
 
 .show-participant-history-question {
     padding-top: 20px;
+    word-wrap: break-word;
 }
 
 .show-participant-history-answer4 {
-    padding-bottom: 20px;
+    padding-bottom: 60px;
     word-wrap: break-word;
 }
 
@@ -19,4 +20,9 @@
 
 .show-participant-history-answer1, .show-participant-history-answer2, .show-participant-history-answer3{
     word-wrap: break-word;
+}
+
+.flag-button-history{
+    transform: scale(1.4);
+    color: orange
 }

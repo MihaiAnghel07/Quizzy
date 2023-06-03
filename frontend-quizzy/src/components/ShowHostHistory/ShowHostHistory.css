@@ -27,3 +27,23 @@
 .show-host-history-participant-item:hover{
    cursor: pointer;
 }
+
+.show-host-history-score-graph {
+    scale: 0.97;
+}
+
+.show-host-history-statistics-btn{
+    width: 230px;
+    height: 40px;
+    margin-left: 20px;
+    font: 0.85em sans-serif;
+    background-color: rgb(247, 229, 197);
+    transition: background-color 0.2s ease;
+    border-radius: 5px;
+}
+
+.show-host-history-statistics-btn:hover{
+    background-color: rgb(247, 223, 181);
+    scale: 1.05;
+    transition: 250ms;
+}

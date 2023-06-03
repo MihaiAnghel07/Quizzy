@@ -2,6 +2,7 @@ import React from 'react'
 import './ShowParticipantHistory.css'
 import { projectFirebaseStorage } from '../../firebase/config'
 import { RxCheck, RxCross2 } from "react-icons/rx";
+import { FaFontAwesomeFlag } from 'react-icons/fa';
 
 
 class ShowParticipantHistory extends React.Component {
@@ -62,8 +63,14 @@ class ShowParticipantHistory extends React.Component {
                 {this.state.records.map((row, index) => {
                     return (
                         <div key={index} className='show-participant-history-wrapper'>
-                            <div className='show-participant-history-question'>{index}. Question: {row.question}</div>
-                            {row.hasImage && <img src={row.url} width='600' height='300' alt='question'/>}
+
+                            <span className='show-participant-history-question'>
+                                <span>{row.isFlagged && <FaFontAwesomeFlag className='flag-button-history' title='Flag this question'/>} </span>
+                                {index}. Question: {row.question}</span>
+                            
+                            <div></div>
+
+                            {row.hasImage && <img src={row.url} width='50%' height='30%' alt='question'/>}
                             <div className='show-participant-history-answer1'>Answer1: {row.answer1.text}{row.answer1.isSelected && (row.answer1.isCorrect ? <RxCheck style={{color:'green'}}/> : <RxCross2 style={{color:'red'}}/>)}</div>
                             <div className='show-participant-history-answer2'>Answer2: {row.answer2.text}{row.answer2.isSelected && (row.answer2.isCorrect ? <RxCheck style={{color:'green'}}/> : <RxCross2 style={{color:'red'}}/>)}</div>
                             <div className='show-participant-history-answer3'>Answer3: {row.answer3.text}{row.answer3.isSelected && (row.answer3.isCorrect ? <RxCheck style={{color:'green'}}/> : <RxCross2 style={{color:'red'}}/>)}</div>

@@ -14,7 +14,7 @@ export const useCopyQuiz= () => {
     };
 
     const copyQuiz = (quizId, quizAuthor) => {
-        let email = localStorage.getItem('user');
+
         let username = localStorage.getItem('username');
         let newKey = getTimeEpoch();
         
@@ -49,8 +49,9 @@ export const useCopyQuiz= () => {
                                         }
 
                                         parts[1] = username;
+                                        parts[2] = newKey;
                                         newPath = parts.join('/');
-                                
+                                        console.log(newPath)
                                         const destinationRef = projectFirebaseStorage.ref(newPath);
                                         
                                         itemRef5.getDownloadURL()

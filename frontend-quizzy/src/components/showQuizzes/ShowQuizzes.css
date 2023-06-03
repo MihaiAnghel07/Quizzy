@@ -2,14 +2,14 @@
     margin-top: 5%;
 }
 
-/* #show-quizzes-wrapper {
-    margin-top: 50px;
-} */
+#show-quizzes-wrapper {
+    margin-left: 40px;
+}
 
 table {
     border-collapse: collapse;
     width: 100%;
-    max-width: 800px;
+    max-width: 750px;
     margin: 0 auto;
     font-family: Arial, sans-serif;
     background-color: #f3e1c9;
@@ -25,6 +25,10 @@ table {
   td {
     text-align: left;
   }
+
+  td:first-child {
+    word-break: break-all;
+  }
   
   th {
     font-weight: bold;
@@ -37,6 +41,12 @@ table {
   
   tbody tr:hover {
     background-color: #f1d7b3;
+  }
+
+  thead tr th {
+    position: sticky;
+    top: 0;
+    background-color: orange;
   }
 
 

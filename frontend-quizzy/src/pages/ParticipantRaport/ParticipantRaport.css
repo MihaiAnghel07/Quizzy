@@ -1,8 +1,21 @@
-.participant-raport-wrapper{
-    margin-left: 50px;
+.participant-raport-wrapper {
+    margin-left: 40px;
+    /* background-color: blueviolet; */
+    
 }
 
-.show-participant-raport{
-    padding-left: 10px;
+.show-participant-raport {
+    padding-left: 30px;
+    padding-right: 30px;
     background-color: rgb(255, 243, 220);
+    width: 70%;
+    margin-left: 15%;
+    margin-bottom: 5%;
+    border-radius: 6px;
+    box-shadow: 0px 30px 50px 0px rgba(0, 0, 0, 0.2);
+}
+
+.participant-raport-navigation-component {
+    margin-top: 20px;
+    margin-left: 20px;
 }

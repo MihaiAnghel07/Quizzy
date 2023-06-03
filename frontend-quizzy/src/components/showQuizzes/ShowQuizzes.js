@@ -86,11 +86,11 @@ class ShowQuizzes extends React.Component {
         
         return (
             
-            <div id='show-quizzes-wrapper'>
+            <div id='show-quizzes-wrapper'  style={{ maxHeight: '500px', overflowY: 'auto' }}>
                 {this.props.quizDataFiltered.length === 0 &&
                 <h4 id="empty-list-message">No Quiz Found</h4>}
                 
-                <Table >   
+                <Table>   
                     {this.props.quizDataFiltered.length !== 0 && <thead>
                         <tr>
                             <th id="quiz-title">Question Set Title</th>

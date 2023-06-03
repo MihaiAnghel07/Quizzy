@@ -26,7 +26,7 @@ export default function Create_lobby() {
   let location = useLocation();
   const { loadLobbyTemplateToDatabase } = useLoadingLobbyTemplate()
 
-  const [duration, setDuration] = useState('10')
+  const [duration, setDuration] = useState(10)
 
   const handleDurationChange = (e) => {
     const input = e.target.value;

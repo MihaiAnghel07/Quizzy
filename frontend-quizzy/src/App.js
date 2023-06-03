@@ -27,6 +27,8 @@ import Modal from './components/modal/Modal';
 import History from './pages/History/History';
 import ChangePassword from './pages/ChangePassword/ChangePassword';
 import ParticipantRaport from './pages/ParticipantRaport/ParticipantRaport';
+import StatisticsPerQuestion from './pages/StatisticsPerQuestion/StatisticsPerQuestion';
+import ViewFeedbacks from './pages/ViewFeedbacks/ViewFeedbacks';
 
 
 
@@ -84,6 +86,8 @@ function App() {
             <Route path="/history" element= {user? <History /> : < Login/>} />
             <Route path="/change_password" element= {user? <ChangePassword /> : < Login/>} />
             <Route path="/participant_raport" element= {user? <ParticipantRaport /> : < Login/>} />
+            <Route path="/statistics_per_question" element= {user? <StatisticsPerQuestion /> : < Login/>} />
+            <Route path="/view_feedbacks" element= {user? <ViewFeedbacks /> : < Login/>} />
             
           </Routes>
           

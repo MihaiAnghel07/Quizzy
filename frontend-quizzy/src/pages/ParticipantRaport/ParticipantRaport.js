@@ -36,22 +36,26 @@ class ParticipantRaport extends React.Component {
     render() {
         return (
             <div className='participant-raport-wrapper'>
-                <NavigationComponent
-                    pageTitle="Participant Raport"
-                    pairs={[['History', '/history'],
-                    ['Participant Raport', '/participant_raport']
-                    ]}
-            />
-            {this.state.records.map((el) => {
-                if (el.key === "questions") {
-                    return (
-                        <div className="show-participant-raport" key={el.key}>
-                            <ShowParticipantHistory questions={el.data} quizId={this.props.quizId}/>
-                        </div>
-                    )
-                }
+                
+                <div className='participant-raport-navigation-component'>
+                    <NavigationComponent
+                        pageTitle="Participant Raport"
+                        pairs={[['History', '/history'],
+                                ['Participant Raport', '/participant_raport']
+                        ]}
+                    />
+                </div>
 
-            })}
+                {this.state.records.map((el) => {
+                    if (el.key === "questions") {
+                        return (
+                            <div className="show-participant-raport" key={el.key}>
+                                <ShowParticipantHistory questions={el.data} quizId={this.props.quizId}/>
+                            </div>
+                        )
+                    }
+
+                })}
                 
             </div>
         )

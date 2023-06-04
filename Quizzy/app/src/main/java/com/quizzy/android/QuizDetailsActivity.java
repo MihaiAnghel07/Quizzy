@@ -106,7 +106,6 @@ public class QuizDetailsActivity extends AppCompatActivity {
                     }
 
 
-
                     for (DataSnapshot answerSnapshot : questionSnapshot.getChildren()) {
                         String answerKey = answerSnapshot.getKey();
                         if (answerKey.startsWith("answer")) {
@@ -122,7 +121,6 @@ public class QuizDetailsActivity extends AppCompatActivity {
                             answerTextView.setCompoundDrawablePadding(8);
                             if (isCorrect && isSelected) {
                                 score++;
-                                scoreTextView.setText("Score: " + String.valueOf(score) + "/" + String.valueOf(questionCount));
                             }
 
                             if (!isCorrect && isSelected) {
@@ -141,6 +139,7 @@ public class QuizDetailsActivity extends AppCompatActivity {
                     TextView emptyTextView = new TextView(QuizDetailsActivity.this);
                     questionListLayout.addView(emptyTextView);
                 }
+                scoreTextView.setText("Score: " + String.valueOf(score) + "/" + String.valueOf(questionCount));
             }
 
             @Override

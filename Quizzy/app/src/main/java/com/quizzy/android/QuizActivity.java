@@ -273,6 +273,9 @@ public class QuizActivity extends AppCompatActivity {
                 // Redirect the user to a new activity
                 System.out.println("SCORE: " + score);
                 Intent intent = new Intent(QuizActivity.this, FeedbackActivity.class);
+                intent.putExtra("title", "You scored " + score + " out of " + questionCount);
+                intent.putExtra("quizId", lobbyId);
+                intent.putExtra("quizAuthor", quizAuthor);
                 startActivity(intent);
                 finish();
             }
@@ -337,7 +340,12 @@ public class QuizActivity extends AppCompatActivity {
                     boolean correct = snapshot.child("isCorrect").getValue(Boolean.class);
                     if (correct) {
                         score++;
+                        // Try calculating the score in the feedback activity, by interrogating
+                        // the database, the same as in quiz details activity
+                        System.out.println("You guessed it!");
                     }
+                    currentQuestionIndex++;
+                    loadNextQuestion();
                 }
             }
 
@@ -348,8 +356,9 @@ public class QuizActivity extends AppCompatActivity {
         });
 
         // Increment the question index and load the next question
-        currentQuestionIndex++;
-        loadNextQuestion();
+        //(moved the code below in the singleEventListener above, so the score is synchronized)
+        //currentQuestionIndex++;
+        //loadNextQuestion();
     }
 
 
@@ -357,8 +366,19 @@ public class QuizActivity extends AppCompatActivity {
         if (currentQuestionIndex >= questionCount) {
             // Quiz completed, handle the completion logic
             // Redirect the user to feedback activity
+
+            // Wait for score to be updated after last question
+//            try {
+//                Thread.sleep(2000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+
             System.out.println("SCORE: " + score);
             Intent intent = new Intent(QuizActivity.this, FeedbackActivity.class);
+            intent.putExtra("title", "You scored " + score + " out of " + questionCount);
+            intent.putExtra("quizId", lobbyId);
+            intent.putExtra("quizAuthor", quizAuthor);
             startActivity(intent);
             finish();
             return;

@@ -9,3 +9,8 @@ Check icon by Icons8 - https://icons8.com/icon/sz8cPVwzLrMP/check-mark
 <a href="https://www.flaticon.com/free-icons/star" title="star icons">Star icons created by Pixel perfect - Flaticon</a>
 
 
+<a target="_blank" href="https://icons8.com/icon/1112/timer">Timer</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+
+
+<a href="https://www.flaticon.com/free-icons/tick" title="tick icons">Tick icons created by Deylotus Creative Design - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/done" title="done icons">Done icons created by Anggara - Flaticon</a>

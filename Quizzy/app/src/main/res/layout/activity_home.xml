@@ -13,7 +13,8 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:text="Hello, "
-        android:gravity="center"/>
+        android:gravity="center"
+        android:layout_marginTop="50dp"/>
 
     <TextView
         android:id="@+id/usernameTextView"
@@ -22,7 +23,8 @@
         android:layout_below="@id/greetingTextView"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:layout_marginBottom="50dp"/>
 
     <Button
         android:id="@+id/joinLobbyButton"
@@ -30,7 +32,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/usernameTextView"
         android:layout_marginTop="100dp"
-        android:text="Join Lobby" />
+        android:text="Join Lobby"
+        android:height="75dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"/>
 
     <Button
         android:id="@+id/historyButton"
@@ -38,7 +43,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/joinLobbyButton"
         android:layout_marginTop="16dp"
-        android:text="History" />
+        android:text="History"
+        android:height="75dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="50dp"/>
 
     <Button
         android:id="@+id/logout_button"
@@ -46,6 +55,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/historyButton"
         android:layout_marginTop="16dp"
-        android:text="Log Out" />
+        android:text="Log Out"
+        android:height="50dp"
+        android:layout_marginLeft="75dp"
+        android:layout_marginRight="75dp"
+        android:textColor="@color/red"/>
 
 </RelativeLayout>

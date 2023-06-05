@@ -126,9 +126,13 @@ public class QuizDetailsActivity extends AppCompatActivity {
                             if (!isCorrect && isSelected) {
                                 answerTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_cross_mark2, 0);
                                 answerTextView.setTextColor(Color.RED);
-                            } else if (isCorrect) {
+                            } else if (isCorrect && isSelected) {
                                 answerTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_check_mark2, 0);
                                 answerTextView.setTextColor(Color.GREEN);
+                            } else if (isCorrect && !isSelected) {
+                                answerTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_correct_answer, 0);
+                                answerTextView.setTextColor(Color.rgb(255, 165, 0));
+
                             }
 
                             questionLayout.addView(answerTextView);

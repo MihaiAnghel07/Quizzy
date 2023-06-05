@@ -10,7 +10,8 @@
         android:text="Quiz History"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:padding="16dp"/>
+        android:padding="16dp"
+        android:gravity="center"/>
 
     <ScrollView
         android:layout_width="match_parent"

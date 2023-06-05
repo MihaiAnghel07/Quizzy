@@ -12,7 +12,11 @@
         android:layout_height="wrap_content"
         android:inputType="number"
         android:hint="Enter Lobby Code"
-        android:maxLines="1" />
+        android:maxLines="1"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:gravity="center"
+        android:layout_marginTop="100dp"/>
 
     <Button
         android:id="@+id/joinLobbyButton"
@@ -20,6 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/lobbyCodeEditText"
         android:layout_marginTop="16dp"
-        android:text="Join Lobby" />
+        android:text="Join Lobby"
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"/>
 
 </RelativeLayout>

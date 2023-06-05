@@ -1,8 +1,11 @@
 package com.quizzy.android;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -52,6 +55,7 @@ public class QuizActivity extends AppCompatActivity {
     private int currentQuestionIndex = 0;
     private int questionCount = 0;
     private int selectedAnswerIndex = -1;
+    private boolean currentQuestionIsFlagged = false;
 
     private TextView questionNumberTextView;
     private TextView timerTextView;
@@ -120,6 +124,11 @@ public class QuizActivity extends AppCompatActivity {
 
         answer4Button.setOnClickListener(view -> {
             handleAnswerButtonClick(3);
+        });
+
+        // Attach listened for flag button
+        flagButton.setOnClickListener(view -> {
+            handleFlagButtonClick();
         });
     }
 
@@ -265,6 +274,10 @@ public class QuizActivity extends AppCompatActivity {
 
                 // Update the timer TextView
                 timerTextView.setText(timeLeft);
+
+                if (minutes < 1) {
+                    timerTextView.setTextColor(Color.RED);
+                }
             }
 
             @Override
@@ -291,6 +304,24 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void handleAnswerButtonClick(int answerIndex) {
+        // Set isFlagged field in firebase for current question
+        DatabaseReference flagQuestionRef = FirebaseDatabase.getInstance().getReference()
+                .child("History")
+                .child("host")
+                .child(quizAuthor)
+                .child("quizzes")
+                .child(lobbyId)
+                .child(username)
+                .child("questions")
+                .child(String.valueOf(questions.get(currentQuestionIndex).getId()))
+                .child("isFlagged");
+
+        flagQuestionRef.setValue(currentQuestionIsFlagged);
+
+        // Reset flag
+        flagButton.setText("Flag");
+        currentQuestionIsFlagged = false;
+
         // Save the selected answer for participant history
         DatabaseReference participantQuestionRef = FirebaseDatabase.getInstance().getReference()
                 .child("History")
@@ -384,6 +415,15 @@ public class QuizActivity extends AppCompatActivity {
             return;
         }
 
+        if (currentQuestionIndex == 0) {
+            // Wait for first image to load
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         displayQuestionAndAnswers(questions.get(currentQuestionIndex).getQuestion(),
                                     questions.get(currentQuestionIndex).getHasImage(),
                                     questions.get(currentQuestionIndex).getImage(),
@@ -392,6 +432,42 @@ public class QuizActivity extends AppCompatActivity {
                                     questions.get(currentQuestionIndex).getAnswer3(),
                                     questions.get(currentQuestionIndex).getAnswer4(),
                                     questions.get(currentQuestionIndex).getId());
+    }
+
+    private void handleFlagButtonClick() {
+        if (currentQuestionIsFlagged) {
+            Toast.makeText(QuizActivity.this, "Question flag removed", Toast.LENGTH_SHORT).show();
+            flagButton.setText("Flag");
+            currentQuestionIsFlagged = false;
+        } else {
+            Toast.makeText(QuizActivity.this, "Question has been flagged", Toast.LENGTH_SHORT).show();
+            flagButton.setText("Unflag");
+            currentQuestionIsFlagged = true;
+        }
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Display confirmation dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to leave the quiz?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // If the user confirms, call the super method to allow the back navigation
+                        QuizActivity.super.onBackPressed();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // If the user cancels, dismiss the dialog
+                        dialog.dismiss();
+                    }
+                });
+
+        // Create and show the dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 }

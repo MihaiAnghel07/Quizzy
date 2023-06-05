@@ -2,6 +2,7 @@ import { useState } from "react";
 import { projectFirebaseRealtime } from '../firebase/config'
 import { useAuthContext } from "./useAuthContext";
 import { useNavigate } from "react-router-dom";
+import firebase from "firebase/app";
 
 
 export const useJoinLobby = () => {
@@ -26,13 +27,11 @@ export const useJoinLobby = () => {
 
     const delay = ms => new Promise (
         resolve => setTimeout(resolve, ms)
-      );
+    );
     
-
     const join = async (lobbyCode) => {
         setError(null)
         setIsPending(true)
-        
 
         if (validateLobbyCode(lobbyCode)) {
 
@@ -40,22 +39,59 @@ export const useJoinLobby = () => {
                 const ref = projectFirebaseRealtime.ref('Lobbies');
                 ref.child(lobbyCode).get().then(async (snapshot) => {
                     if (snapshot.exists()) {
-
-                        // update noParticipants
-                        let noParticipants = snapshot.child('noParticipants').val() + 1;
-                        projectFirebaseRealtime.ref('Lobbies/' + lobbyCode).update({'noParticipants': noParticipants});
                         
-                        // update participants list
-                        projectFirebaseRealtime.ref('Lobbies/' + lobbyCode + '/participants/' + (noParticipants - 1)).set({'name':localStorage.getItem('username'), 'score': 0});
+                        if (snapshot.val().gameStatus === "on hold") {
+                            
+                            let alreadyExist = false;
+                            snapshot.child("participants").forEach((childSnapshot) => {
+                                if (childSnapshot.exists()) {
+                                    if (childSnapshot.val().name === localStorage.getItem("username")) {
+                                        alreadyExist = true;
+                                    }
+                                }
+                            })
 
-                        // incepere activitate lobby
-                        // ATENTIE! folosim navigate in hook. De cercetat daca exista o varianta mai buna
-                        setIsPending(true)
-                        await delay(700);
-                        navigate('/participant_lobby', {state:{lobbyCode:lobbyCode}});
+                            if (!alreadyExist) {
+                                // update noParticipants
+                                await projectFirebaseRealtime.ref('Lobbies/' + lobbyCode + '/noParticipants').set(firebase.database.ServerValue.increment(1))
+                                const ref2 = projectFirebaseRealtime.ref('Lobbies/' + lobbyCode + '/noParticipants');
+                                ref2.once("value", (snapshot2) => {
+                                    // update participants list
+                                    projectFirebaseRealtime.ref('Lobbies/' + lobbyCode + '/participants/' + (snapshot2.val() - 1)).set({'name':localStorage.getItem('username'), 'score': 0});
+
+                                })
+
+                                localStorage.removeItem("quizDuration");
+                                localStorage.removeItem("currentQuestionCount");
+
+                                const props = {
+                                    lobbyCode: lobbyCode,
+                                };
+
+                                const queryString = Object.keys(props)
+                                    .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(props[key])}`)
+                                    .join('&');
+
+                                const url = `/participant_lobby?${queryString}`;
+
+                                setIsPending(true)
+                                await delay(700);
+                                // const newTab = window.open(url, '_blank');
+                                // newTab.focus();
+                                navigate('/participant_lobby', {state:{lobbyCode:lobbyCode}});
+
+
+                            } else {
+                                setError("You are already in this lobby");
+                            }   
+                        
+                        } else if (snapshot.val().gameStatus === "in progress") {
+                            setError("The quiz has already started");
+                        }
+                                
 
                     } else {
-                        setError("Nu exista un lobby cu acest cod!")
+                        setError("There is no lobby with this code!")
                     }
                 })
                

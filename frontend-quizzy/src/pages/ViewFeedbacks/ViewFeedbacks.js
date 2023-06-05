@@ -53,7 +53,7 @@ class ViewFeedbacks extends React.Component {
                     {this.state.records.map((el, key) => {
                         return (
                             <div className='view-feedbacks-item' key={el.key}>
-                                {key}. {el.feedback}
+                                {key+1}. {el.feedback}
                             </div>
                         )
                     })}

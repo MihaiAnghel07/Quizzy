@@ -29,6 +29,8 @@ body {
 
 .private-public-btns {
     margin-left: 70px;
+    padding-left: 10%;
+    
 }
 
 .select-correct-answer-section {
@@ -116,7 +118,7 @@ input[type="radio"] {
   
   #create-quiz-form-wrap {
     background-color: #fff;
-    width: 30%;
+    width: 45%;
     margin: 30px auto;
     text-align: center;
     padding: 20px 0 0 0;

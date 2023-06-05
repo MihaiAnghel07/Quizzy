@@ -47,7 +47,6 @@ export const useSetHistoryInitialState = () => {
                     projectFirebaseRealtime.ref("History/participant/" + participant.name  + '/quizzes/' + snapshot.val().lobbyId + '/questions/')
                         .set(questions);
 
-
                     // fac o copie a imaginilor pentru a avea acces la eledupa terminarea quiz-ului propriu-zis
                     const ref3 = projectFirebaseStorage.ref("Images/" + snapshot.val().quizAuthor + "/" + snapshot.val().quizId);
 

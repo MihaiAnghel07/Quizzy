@@ -31,8 +31,22 @@ class ShowParticipantHistory extends React.Component {
 
             // preiau imaginile din baza de date
             if (this.props.questions[key].hasImage) {
-                let host = localStorage.getItem("username");
-                const image = projectFirebaseStorage.ref('History/participant/' + host + '/quizzes/' + this.props.quizId + '/questions/' + key + '/' + this.props.questions[key].image);
+                let host;
+                let image;
+                
+                if (this.props.participant) {
+                    // daca afisez din host (click pe lista de participanti)
+                    let participant = this.props.participant;
+                    host = localStorage.getItem("username");
+                    image = projectFirebaseStorage.ref('History/host/' + host + '/quizzes/' + this.props.quizId + '/' + participant + '/questions/' + key + '/' + this.props.questions[key].image);
+                    
+                } else {
+                    // daca afisez istoricul hostului ca participant
+                    host = localStorage.getItem("username");
+                    image = projectFirebaseStorage.ref('History/participant/' + host + '/quizzes/' + this.props.quizId + '/questions/' + key + '/' + this.props.questions[key].image);
+
+                }
+
                                
                 await image.getDownloadURL().then((url) => {
                     this.props.questions[key] = {
@@ -66,7 +80,7 @@ class ShowParticipantHistory extends React.Component {
 
                             <span className='show-participant-history-question'>
                                 <span>{row.isFlagged && <FaFontAwesomeFlag className='flag-button-history' title='Flag this question'/>} </span>
-                                {index}. Question: {row.question}</span>
+                                {index + 1}. Question: {row.question}</span>
                             
                             <div></div>
 
@@ -86,9 +100,12 @@ class ShowParticipantHistory extends React.Component {
 
 function wrapClass (Component) {
     return function WrappedComponent(props) {
+
+        
         
         return <Component questions={props.questions}
-                          quizId={props.quizId}/>
+                          quizId={props.quizId}
+                          participant={props.participant}/>
     }
 }
 

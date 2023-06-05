@@ -9,6 +9,7 @@ import QuestionEdit from '../../components/QuestionEdit/QuestionEdit';
 import { useUpdateQuiz } from '../../hooks/useUpdateQuiz';
 import { FaCheck } from 'react-icons/fa';
 import Popup from '../../components/Popup/Popup';
+import NavigationComponent from '../../components/NavigationComponent/NavigationComponent';
 
 
 class UpdateQuiz extends React.Component {
@@ -49,6 +50,15 @@ class UpdateQuiz extends React.Component {
         return (
             <div className='update-quiz-wrapper'>
                 
+                <div className='update-quiz-navigation-component'>
+                    <NavigationComponent
+                        pageTitle="Update Quiz"
+                        pairs={[['Quizzes', '/quizzes'],
+                                ['Update Quiz', '/update_quiz']
+                        ]}
+                    />
+                </div>
+
                 {this.props.showPopup && 
                 (
                 <Popup
@@ -71,9 +81,16 @@ class UpdateQuiz extends React.Component {
                             />
                         
                         <div className="dropdown">
-                            <button className="dropdown-toggle" onClick={this.props.toggleDropdown}>
-                                Visibility: {this.props.isPublic? 'Public': 'Private'}
+                            {this.props.isOpen &&<button className="dropdown-toggle" onClick={this.props.toggleDropdown} >
+                                <AiOutlineUp/> Visibility: {this.props.isPublic? 'Public': 'Private'}
                             </button>
+                            }
+
+                            {!this.props.isOpen &&<button className="dropdown-toggle" onClick={this.props.toggleDropdown} >
+                                <AiOutlineDown/> Visibility: {this.props.isPublic? 'Public': 'Private'}
+                            </button>
+                            }
+
                             {this.props.isOpen && (
                                 <div className="dropdown-menu">
                                 {this.props.options.map((option) => (

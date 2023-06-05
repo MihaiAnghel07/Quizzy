@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Create_lobby.css'
 import { useGenerateLobbyCode } from '../../hooks/useGenerateLobbyCode'
 import { useLoadingLobbyTemplate } from '../../hooks/useLoadingLobbyTemplate'
@@ -20,7 +20,8 @@ export default function Create_lobby() {
   const [openModal, setOpenModal] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
-  const { updateLobby } = useUpdateLobby();
+  const [showPopup2, setShowPopup2] = useState(false);
+  const { updateLobby, error } = useUpdateLobby();
   const { setHistoryInitialState } = useSetHistoryInitialState();
   let navigate = useNavigate();
   let location = useLocation();
@@ -78,11 +79,15 @@ export default function Create_lobby() {
     return new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(Date.now())
   }
 
-  const startQuizHandler = (e) => {
+  const startQuizHandler = async (e) => {
     e.preventDefault();
     if (location.state != null && location.state.quizId != null && location.state.quizAuthor != null && duration != '') {
-      updateLobby(lobbyCode, location.state.quizId, location.state.quizAuthor, location.state.quizTitle, duration, getTimestamp());
-      setHistoryInitialState(lobbyCode);
+      await updateLobby(lobbyCode, location.state.quizId, location.state.quizAuthor, location.state.quizTitle, duration, getTimestamp());
+      if (error == null || error == "") {
+        setHistoryInitialState(lobbyCode);
+      } else if (error != ""){
+        setShowPopup2(true)
+      }
 
     } else {
       setShowPopup(true)
@@ -94,6 +99,10 @@ export default function Create_lobby() {
 
   function handlePopupClose() {
     setShowPopup(false);
+  }
+
+  function handlePopupClose2() {
+    setShowPopup2(false);
   }
 
   return (
@@ -110,7 +119,18 @@ export default function Create_lobby() {
           // icon = {<FaCheck className='flag-button'/>}
           onClose={handlePopupClose}
         />
-        )}
+      )}
+
+      {showPopup2 &&
+      (
+        <Popup
+          message={error}
+          duration={2000}
+          position="top-right"
+          // icon = {<FaCheck className='flag-button'/>}
+          onClose={handlePopupClose2}
+        />
+      )}
           
       <div className='create-lobby-content'>
         <div id="print-lobbyCode">Lobby Code: {lobbyCode}</div>

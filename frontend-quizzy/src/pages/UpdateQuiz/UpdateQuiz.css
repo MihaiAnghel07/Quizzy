@@ -1,6 +1,6 @@
 .update-quiz-wrapper {
     margin-left: 125px;
-    margin-top: 100px;
+    margin-top: 40px;
     margin-right: 100px;
 }
 
@@ -32,6 +32,8 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
+    font: 0.7em sans-serif;
+    font-weight: 600;
 }
   
 .dropdown-toggle:hover {
@@ -104,6 +106,8 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
+    font: 0.7em sans-serif;
+    font-weight: 600;
 }
 
 #save-button:hover {
@@ -121,6 +125,8 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
+    font: 0.7em sans-serif;
+    font-weight: 600;
 }
 
 #add-question-button:hover {
@@ -143,4 +149,10 @@
 .score-section {
     display: flex;
     flex-direction: column;
+}
+
+.update-quiz-navigation-component{
+    margin-top: -20px;
+    margin-left: -50px;
+    margin-bottom: 80px;
 }

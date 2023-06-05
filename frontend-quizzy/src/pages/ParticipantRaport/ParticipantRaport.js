@@ -17,6 +17,7 @@ class ParticipantRaport extends React.Component {
     }
 
     componentDidMount() {
+
         const ref = projectFirebaseRealtime.ref('History/participant/' + this.props.participant + '/quizzes/' + this.props.quizId);
         ref.once('value', (snapshot) => {
             if (snapshot.exists()) {
@@ -50,7 +51,7 @@ class ParticipantRaport extends React.Component {
                     if (el.key === "questions") {
                         return (
                             <div className="show-participant-raport" key={el.key}>
-                                <ShowParticipantHistory questions={el.data} quizId={this.props.quizId}/>
+                                <ShowParticipantHistory questions={el.data} quizId={this.props.quizId} participant={this.props.participant}/>
                             </div>
                         )
                     }

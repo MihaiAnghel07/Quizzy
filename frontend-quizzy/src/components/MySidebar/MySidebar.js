@@ -25,8 +25,29 @@ export default function MySidebar(props) {
   const [selectedButton, setSelectedButton] = useState('dashboard');
 
   function handleDashboardButtonClick() {
-    setSelectedButton('dashboard');
-    navigate('/dashboard');
+    if (sessionStorage.getItem("quizOnGoing")) {
+      let startTime = new Date().getTime();
+
+      if (window.confirm("Are you sure you want to leave the quiz? You will not be able to re-attempt the quiz!")) {
+        localStorage.removeItem("currentQuestionCount");
+        localStorage.removeItem("quizDuration");
+        sessionStorage.removeItem("quizOnGoing");
+        localStorage.removeItem("alertTime");
+        setSelectedButton('dashboard');
+        navigate('/dashboard', {replace: true});
+
+      } else {
+        const duration = Math.round((new Date().getTime() - startTime) / 1000);
+        console.log(`Confirmation dialog lasted for ${duration} seconds.`);
+        localStorage.setItem("alertTime", (parseInt(localStorage.getItem("alertTime") == null? 0 : localStorage.getItem("alertTime")) +  duration));
+      }
+    
+    } else {
+      setSelectedButton('dashboard');
+      navigate('/dashboard');
+    }
+
+    
   }
 
   function handleAccountButtonClick() {

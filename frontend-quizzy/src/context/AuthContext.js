@@ -26,7 +26,11 @@ export const authReducer = (state, action) => {
             localStorage.removeItem('username')
             localStorage.removeItem("lobbyCode");
             localStorage.removeItem("password"); 
-            localStorage.removeItem("uid"); 
+            localStorage.removeItem("uid");
+            localStorage.removeItem("currentQuestionCount");
+            localStorage.removeItem("quizDuration");
+            sessionStorage.removeItem("quizOnGoing");
+            localStorage.removeItem("alertTime");
             projectFirebaseAuth.signOut()
             
             return { ...state, user: null}

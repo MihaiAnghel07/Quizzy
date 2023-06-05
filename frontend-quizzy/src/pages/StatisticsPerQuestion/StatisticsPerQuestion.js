@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './StatisticsPerQuestion.css'
 import { useLocation } from 'react-router-dom';
 import NavigationComponent from '../../components/NavigationComponent/NavigationComponent';
@@ -13,6 +13,7 @@ import {
     Legend,
   } from 'chart.js';
   import { Bar } from 'react-chartjs-2';
+import BouncingDotsLoader from '../../components/BouncingDotsLoader/BouncingDotsLoader';
 
   
   ChartJS.register(
@@ -79,12 +80,16 @@ class StatisticsPerQuestion extends React.Component {
         this.componentDidMount = this.componentDidMount.bind(this)
     }
 
+    
+
     async componentDidMount() {
         let statistics = [];
         let questions = [];
         let statistics2 = [];
 
-        const ref = projectFirebaseRealtime.ref("Statistics/host/" + localStorage.getItem("username") + "/quizzes/" + this.props.quizId);
+        await this.props.delay(800);
+
+        const ref = projectFirebaseRealtime.ref("Statistics/host/" + this.props.username + "/quizzes/" + this.props.quizId);
         await ref.once("value", (snapshot) => {
             if (snapshot.exists()) {
                 statistics = snapshot.val();
@@ -92,7 +97,7 @@ class StatisticsPerQuestion extends React.Component {
         })
 
         let iteration = 0
-        const ref2 = projectFirebaseRealtime.ref("History/host/" + localStorage.getItem("username") + "/quizzes/" + this.props.quizId);
+        const ref2 = projectFirebaseRealtime.ref("History/host/" + this.props.username + "/quizzes/" + this.props.quizId);
         await ref2.once("value", (snapshot) => {
             if (snapshot.exists()) {
                 snapshot.forEach((childSnapshot) => {
@@ -125,6 +130,12 @@ class StatisticsPerQuestion extends React.Component {
                 </div>
                 
                 <div className='statistics-per-question-body'>
+                    
+                    {this.state.records.length == 0 && <div>
+                        <h4 className='statistics-per-question-loading'>Loading 
+                        <span id="statistics-per-question-bouncing-dots-loader"><BouncingDotsLoader/></span></h4>
+                    </div>}
+
                     {this.state.records.map((record, key) => {
                     
                         // declaram graficul
@@ -149,7 +160,7 @@ class StatisticsPerQuestion extends React.Component {
                         };
 
                         return (
-                            <div className='statistics-per-question-item' key={record.key}>
+                            <div className='statistics-per-question-item' key={key}>
                                 {key}. {record.text}
 
                                 {graphData && 
@@ -173,9 +184,21 @@ class StatisticsPerQuestion extends React.Component {
 
 function wrapClass (Component) {
     return function WrappedComponent(props) {
+        const [username, setUsername] = useState(null);
         let location = useLocation();
 
-        return <Component quizId={location.state.quizId}/>
+        
+        useEffect(() => {
+            if (localStorage.getItem("username") != null)
+                setUsername(localStorage.getItem("username"));
+
+        }, [localStorage.getItem("username")])
+
+        const delay = ms => new Promise (
+            resolve => setTimeout(resolve, ms)
+        );
+
+        return <Component quizId={location.state.quizId} username={username} delay={delay}/>
     }
 }
 

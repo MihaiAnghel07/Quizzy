@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './ShowHistory.css'
 import { projectFirebaseRealtime } from '../../firebase/config'
 import { useState } from 'react';
@@ -41,6 +41,7 @@ class ShowHistory extends React.Component {
                 this.setState({historyData: records});
             }
         })
+
     } 
     
 
@@ -66,12 +67,11 @@ class ShowHistory extends React.Component {
                                 <div className='quiz-text-header-timestamp'>{row.data.timestamp}</div>    
                                     
                             </div>
-
+                            
                             {this.props.expandedId === key && (
                                 
                                 <div className="quiz-content">
-                                    {this.props.historyType === "participant" && <ShowParticipantHistory questions={row.data.questions}
-                                                                                            quizId={row.key}/>}
+                                    {this.props.historyType === "participant" && <ShowParticipantHistory questions={row.data.questions} quizId={row.key}/>}
                                     {this.props.historyType === "host" && <ShowHostHistory data={row.data} quizId={row.key}/>}
                                 </div>
                             )}
@@ -88,9 +88,8 @@ class ShowHistory extends React.Component {
 
 function wrapClass (Component) {
     return function WrappedComponent(props) {
-
         const [expandedId, setExpandedId] = useState(null);
-
+        
         const handleQuestionClick = (id) => {
             if (expandedId === id) {
                 setExpandedId(null);

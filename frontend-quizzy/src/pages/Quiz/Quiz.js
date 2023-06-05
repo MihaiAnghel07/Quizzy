@@ -11,16 +11,13 @@ import { useSetFlag } from '../../hooks/useSetFlag';
 import Rating from '../../components/Rating/Rating';
 import { useSaveStatistics } from '../../hooks/useSaveStatistics';
 import { useSaveRatingAndFeedback } from '../../hooks/useSaveRatingAndFeedback';
+import Modal from '../../components/modal/Modal';
 
 
-
-function handleTimerComplete() {
-    alert('Time is up!');
-  }
 
 class Quiz extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             quizOver: false,
             score: 0,
@@ -41,27 +38,38 @@ class Quiz extends React.Component {
         this.componentDidMount = this.componentDidMount.bind(this)
         this.handleFinishButtonClick = this.handleFinishButtonClick.bind(this);
         this.handleAnswerButtonClick = this.handleAnswerButtonClick.bind(this);
+        this.handleTimerComplete = this.handleTimerComplete.bind(this);
+        this.returnTimeHandler = this.returnTimeHandler.bind(this);
     }
-    
+
+
     componentDidMount() {
         let quizAuthor = null;
         let quizId = null;
-     
-        // const storedDuration = sessionStorage.getItem('quizDuration');
-        // if (storedDuration) {
-        //     this.setState({ duration: Number(storedDuration), isReady: true });
-        // } else {
-        //     const duration = snapshot.child('duration').val();
-        //     this.setState({ duration: Number(duration), timerIsReady: true });
-        //     sessionStorage.setItem('quizDuration', duration);
-        // }
 
+        sessionStorage.setItem("quizOnGoing", true);
+
+        // in caz de refresh, trebuie sa revenim la intrabarea la care eram inainte
+        if (this.props.currentQuestionCount != null) {
+            this.state.currentQuestionCount = parseInt(this.props.currentQuestionCount);
+        }             
+          
         const ref = projectFirebaseRealtime.ref('Lobbies/' + this.props.lobbyCode);
         ref.get().then((snapshot) => {
             quizId = snapshot.val().quizId;
             quizAuthor = snapshot.val().quizAuthor;
+            console.log(snapshot.val())
+            let duration;
+            if (localStorage.getItem("quizDuration") == null) {
+                duration = snapshot.child('duration').val() * 60;
+                localStorage.setItem("quizDuration", duration);
+            
+            } else {
+                // -1 sec pentru delay-ul refresh-ului
+                duration = localStorage.getItem("quizDuration") - 1;
+            }
 
-            const duration = snapshot.child('duration').val();
+
             this.setState({ duration: Number(duration), timerIsReady: true });
 
             const ref2 = projectFirebaseRealtime.ref('Quizzes/' + quizAuthor + '/' + quizId + '/Questions');
@@ -111,8 +119,9 @@ class Quiz extends React.Component {
                     })
 
                     Promise.all(promises).then(() => {
+                        // daca vreau ca intrebarile sa fie in ordine, decomentez linia asta
+                        records.sort((a,b) => (a.questionId > b.questionId) ? 1 : ((b.questionId > a.questionId) ? -1 : 0))
                         this.setState({quizData: records});
-                    
                     });
 
                 }
@@ -137,8 +146,14 @@ class Quiz extends React.Component {
         const nextQuestionCount = this.state.currentQuestionCount + 1
         if (nextQuestionCount < this.state.quizData.length) {
             this.state.currentQuestionCount = nextQuestionCount
+            this.props.setQuestionIndexHandler(nextQuestionCount);
+
         } else {
             this.state.quizOver = true
+            localStorage.removeItem("currentQuestionCount");
+            localStorage.removeItem("quizDuration");
+            sessionStorage.removeItem("quizOnGoing");
+            localStorage.removeItem("alertTime");
         }
 
         if (answerOption.isCorrect) {
@@ -146,8 +161,7 @@ class Quiz extends React.Component {
         }
 
 
-        const { currentQuestionId, userAnswers} = this.state;
-
+        const {userAnswers} = this.state;
         const updatedUserAnswers = userAnswers;
         updatedUserAnswers.push({answerOption});
         this.setState({ userAnswers: updatedUserAnswers });
@@ -161,7 +175,31 @@ class Quiz extends React.Component {
     }
 
     handleFinishButtonClick() {
+        localStorage.removeItem("quizDuration");
+        localStorage.removeItem("currentQuestionCount");
+        sessionStorage.removeItem("quizOnGoing");
+        localStorage.removeItem("alertTime");
         this.props.saveRatingAndFeedbackHandler(this.props.rating, this.props.feedback);
+    }
+
+    handleTimerComplete() {
+        this.state.quizOver = true;
+        localStorage.removeItem("quizDuration");
+        localStorage.removeItem("currentQuestionCount");
+        sessionStorage.removeItem("quizOnGoing");
+        localStorage.removeItem("alertTime");
+        
+        this.forceUpdate();
+    }
+
+    returnTimeHandler(timeLeft) {
+        localStorage.setItem("quizDuration", timeLeft);
+        if (this.state.quizOver) {
+            localStorage.removeItem("quizDuration");
+            localStorage.removeItem("currentQuestionCount");
+            sessionStorage.removeItem("quizOnGoing");
+            localStorage.removeItem("alertTime");
+        }
     }
 
 
@@ -192,7 +230,7 @@ class Quiz extends React.Component {
                                 <FaFontAwesomeFlag className='flag-button' title='Flag this question' onClick={() => this.props.handleFlagClick(this.state.quizData[this.state.currentQuestionCount].questionId, this.props.isFlagged)}/>
                             </div>
                             <div className='timer-content'>
-                                {this.state.timerIsReady && <Timer seconds={this.state.duration * 60} onTimerComplete={handleTimerComplete}/>}
+                                {this.state.timerIsReady && <Timer seconds={this.state.duration} onTimerComplete={this.handleTimerComplete} returnTimeHandler={this.returnTimeHandler}/>}
                                 <FaClock/>
                             </div>
                         </div>
@@ -203,7 +241,7 @@ class Quiz extends React.Component {
 
                             {this.state.quizData.length !== 0 && <div className='question-text'>{this.state.quizData[this.state.currentQuestionCount].question}</div>}
                             {this.state.quizData.length !== 0 && this.state.quizData[this.state.currentQuestionCount].hasImage &&
-                            <img src={this.state.quizData[this.state.currentQuestionCount].url} width='700' height='400'/>}
+                            <img src={this.state.quizData[this.state.currentQuestionCount].url} width='50%' height='10%'/>}
                         
                         </div>
                         {this.state.quizData.length !== 0 && <div className='answer-section'>
@@ -221,7 +259,6 @@ class Quiz extends React.Component {
 function wrapClass (Component) {
     return function WrappedComponent(props) {
         const location = useLocation();
-        const { setFlag } = useSetFlag();
         const [rating, setRating] = useState(0);
         const [isFlagged, setIsFlagged] = useState(false);
         const [feedback, setFeedback] = useState("");
@@ -229,7 +266,8 @@ function wrapClass (Component) {
         const [host, setHost] = useState(null);
         const { saveRatingAndFeedback } = useSaveRatingAndFeedback();
         let {saveStatistics} = useSaveStatistics(); 
-        const {navigate} = useNavigate();
+        let navigate = useNavigate();
+    
 
         const handleFlagClick = (questionId, isFlagged) => {
             //setFlag(location.state.lobbyCode, questionId);
@@ -270,9 +308,54 @@ function wrapClass (Component) {
 
         const saveRatingAndFeedbackHandler = (rating, feedback) => {
             saveRatingAndFeedback(host, quizId, rating, feedback);
-            //navigate('/dashboard', {replace:true});
+            navigate('/dashboard', {replace:true});
         }
 
+        const setQuestionIndexHandler = (index) => {
+            localStorage.setItem("currentQuestionCount", index);
+        }
+
+    
+        
+        function handlePopState(event) {
+            let startTime = new Date().getTime();
+
+            // Display a confirmation dialog to ask the user if they want to leave
+            let leavePage = window.confirm('Are you sure you want to leave this page?');
+            console.log(leavePage)
+
+            if (!leavePage) {
+                // If the user chooses to stay, prevent the default behavior of the popstate event
+                window.history.pushState(null, document.title, location.href);
+                event.preventDefault();
+                const duration = Math.round((new Date().getTime() - startTime) / 1000);
+                console.log(`Confirmation dialog lasted for ${duration} seconds.`);
+                localStorage.setItem(
+                    "alertTime",
+                    parseInt(localStorage.getItem("alertTime") == null ? 0 : localStorage.getItem("alertTime")) + duration
+                );
+
+            } else {
+                localStorage.removeItem("currentQuestionCount");
+                // localStorage.removeItem("quizDuration");
+                sessionStorage.removeItem("quizOnGoing");
+                localStorage.removeItem("alertTime");
+                // navigate('/dashboard', {replace:true})
+            }
+
+            // Unbind the event listener after it has been triggered
+            //window.removeEventListener('popstate', handlePopState);
+        };
+
+        //window.addEventListener('popstate', handlePopState);
+        
+        useEffect(() => {
+            window.addEventListener('popstate', handlePopState);
+      
+            return () => {
+              window.removeEventListener('popstate', handlePopState);
+            };
+        }, []);
     
         return <Component lobbyCode={location.state.lobbyCode} 
                         handleFlagClick={handleFlagClick} 
@@ -282,7 +365,10 @@ function wrapClass (Component) {
                         rating={rating}
                         setFeedback={setFeedback}
                         feedback={feedback}
-                        saveRatingAndFeedbackHandler={saveRatingAndFeedbackHandler}/>
+                        saveRatingAndFeedbackHandler={saveRatingAndFeedbackHandler}
+                        setQuestionIndexHandler={setQuestionIndexHandler}
+                        currentQuestionCount={localStorage.getItem("currentQuestionCount")}
+                        />
     }
 }
 

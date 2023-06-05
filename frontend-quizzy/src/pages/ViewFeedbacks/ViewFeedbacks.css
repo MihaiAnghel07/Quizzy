@@ -20,3 +20,8 @@
 .view-feedbacks-no-feedback-found {
     margin-left: 30%;
 }
+
+.view-feedbacks-item{
+    margin-top: 20px;
+    margin-bottom: 40px;
+}

@@ -4,6 +4,7 @@ import ShowQuizzes from '../../components/showQuizzes/ShowQuizzes';
 import firebase from "firebase/app";
 import ShowQuizzesSelection from '../../components/ShowQuizzesSelection/ShowQuizzesSelection';
 import { useLocation } from 'react-router-dom';
+import NavigationComponent from '../../components/NavigationComponent/NavigationComponent';
 
 
 class QuizzesSelection extends React.Component {
@@ -13,6 +14,8 @@ class QuizzesSelection extends React.Component {
         this.state = {
             quizzesData: [],
             myQuizzes: true,
+            myQuizzesBtn: "quizzes-my-quizzes-btn2",
+            allQuizzesBtn: "quizzes-all-quizzes-btn"
         }
        
         //this.componentDidMount = this.componentDidMount.bind(this)
@@ -22,9 +25,7 @@ class QuizzesSelection extends React.Component {
     myQuizzesHandler = (e) => {
         e.preventDefault();
         this.state.myQuizzes = true;
-        let root = document.querySelector(':root');
-        root.style.setProperty('--btn-background-color', '#ffe4c4');
-        root.style.setProperty('--btn-hover-background-color', '#fad5a7');
+        this.setState({myQuizzesBtn:"quizzes-my-quizzes-btn2", allQuizzesBtn: "quizzes-all-quizzes-btn"})
 
         this.forceUpdate();
 
@@ -33,9 +34,8 @@ class QuizzesSelection extends React.Component {
     allQuizzesHandler = (e) => {
         e.preventDefault();
         this.state.myQuizzes = false;
-        let root = document.querySelector(':root');
-        root.style.setProperty('--btn-background-color', '#fad5a7');
-        root.style.setProperty('--btn-hover-background-color', '#ffe4c4');
+        this.setState({myQuizzesBtn:"quizzes-my-quizzes-btn", allQuizzesBtn: "quizzes-all-quizzes-btn2"})
+
         this.forceUpdate();
 
     }
@@ -44,6 +44,16 @@ class QuizzesSelection extends React.Component {
     render () {
         return (
             <div className='quizzes-wrapper'>
+
+                <div className='quizzes-navigation-component'>
+                    <NavigationComponent
+                        pageTitle="Quizzes Selection"
+                        pairs={[['Create Lobby', '/create_lobby'],
+                                ['Quizzes Selection', '/quizzes_selection']
+                        ]}
+                    />
+                </div>
+
                 <div className='quizzes-content'>
                     <div className='quizzes-header'>
                         <input id="search-input"
@@ -52,9 +62,9 @@ class QuizzesSelection extends React.Component {
                         />
                         <div className='quiz-filter-buttons'>
                             <h3 id='filter-h3'>Filter:</h3>
-                            <button id='quizzes-my-quizzes-btn'
+                            <button id={this.state.myQuizzesBtn}
                                     onClick={this.myQuizzesHandler}>My Question Sets</button>
-                            <button id='quizzes-all-quizzes-btn'
+                            <button id={this.state.allQuizzesBtn}
                                     onClick={this.allQuizzesHandler}>All Question Sets</button>
                         </div>
                     </div>

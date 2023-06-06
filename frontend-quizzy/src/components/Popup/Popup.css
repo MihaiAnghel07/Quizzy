@@ -5,7 +5,7 @@
 }
 
 .popup-message {
-    color: aliceblue;
+    color: black;
 }
 
 .popup-icon {
@@ -16,13 +16,14 @@
     position: fixed;
     right: -200px;
     width: 300px;
-    background-color: orange;
+    background-color: whitesmoke;
     color: white;
     padding: 10px;
     border-radius: 5px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     transition: all 0.5s ease-in-out;
     z-index: 999;
+    border: 3px solid rgb(232, 173, 64);
   }
   
   .popup.top-left {
@@ -48,4 +49,5 @@
   .popup.show {
     right: 20px;
   }
+ 
   

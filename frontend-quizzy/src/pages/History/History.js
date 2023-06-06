@@ -40,6 +40,12 @@ class History extends React.Component {
       <div className='history-wrapper'>
         <div className='history-content'>
           <div className='history-header'>
+
+          <input id="search-input"
+              placeholder='Search'
+              onChange={(e) => this.props.searchInputHandler(e.target.value)} 
+          />
+
             <div className='history-filter-buttons'>
               <h3 id='filter-h3'>Filter:</h3>
               <button id={this.state.hostBtnId}
@@ -51,8 +57,8 @@ class History extends React.Component {
 
           <div className='history-body'>
             <div className="body-show-history">
-                {this.state.hostHistory && <ShowHistory historyType="host" /> }
-                {!this.state.hostHistory && <ShowHistory historyType="participant" />}
+                {this.state.hostHistory && <ShowHistory historyType="host" search={this.props.search}/> }
+                {!this.state.hostHistory && <ShowHistory historyType="participant" search={this.props.search}/>}
                 
             </div>
           </div>
@@ -87,16 +93,13 @@ function wrapClass (Component) {
           setOpenModal(true)
       }
 
-      const createQuizHandler = () => {
-          navigate('/create_quiz');
-      }
-
       const searchInputHandler = (input) => {
           setSearchInput(input)
       }
 
   
-      return <Component />
+      return <Component searchInputHandler={searchInputHandler}
+                        search={searchInput} />
   }
 }
 

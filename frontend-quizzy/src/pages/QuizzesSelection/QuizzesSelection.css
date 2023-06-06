@@ -1,0 +1,53 @@
+.quizzes-navigation-component{
+  margin: 20px 0 50px 60px;
+}
+
+#showQuizzesSelection-select-button {
+  background-color: orange;
+  font-size: 18px;
+  border: solid 0px;
+  border-radius: 20px;
+  margin-right: 10px;
+}
+
+#showQuizzesSelection-select-button:hover {
+  transform: scale(1.2);
+  background-color: rgb(240, 142, 14);
+}
+
+#quizzes-my-quizzes-btn, #quizzes-all-quizzes-btn {
+    color: black;
+    border-radius: 8px;
+    background-color: orange;
+    width: 120px;
+    height: 40px;
+    border: 0px solid;
+    font-weight: bold;
+    padding: 6px;
+    text-align: center;
+    font-size: 14px;
+}
+
+#quizzes-all-quizzes-btn:hover {
+    background-color: rgb(240, 142, 14);
+    transition: 250ms;
+    transform: scale(1.05);
+}
+
+#quizzes-my-quizzes-btn:hover {
+  background-color: rgb(240, 142, 14);
+  transition: 250ms;
+  transform: scale(1.05);
+}
+
+#quizzes-my-quizzes-btn2 {
+  background-color: rgb(240, 142, 14);
+  transition: 250ms;
+  transform: scale(1.05);
+}
+
+#quizzes-all-quizzes-btn2 {
+  background-color: rgb(240, 142, 14);
+  transition: 250ms;
+  transform: scale(1.05);
+}

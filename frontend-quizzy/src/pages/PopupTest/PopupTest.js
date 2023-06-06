@@ -21,7 +21,7 @@ function PopupTest() {
           message="This is a Popup message."
           duration={2000}
           position="bottom-right"
-          icon = {<FaCheck className='flag-button'/>}
+          icon = {<FaCheck className='flag-button' style={{color:"rgb(232, 173, 64)"}}/>}
           onClose={handlePopupClose}
         />
       )}

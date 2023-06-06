@@ -33,6 +33,7 @@ class ShowQuizzesSelection extends React.Component {
                         records.push({"key":key, "data":data}); 
                     })
                     this.setState({quizzesData: records});
+                    this.props.setQuizDataFilteredHandler(records);
                 }
             })
 
@@ -65,6 +66,7 @@ class ShowQuizzesSelection extends React.Component {
                             }
                         })
                         this.setState({quizzesData: records});
+                        this.props.setQuizDataFilteredHandler(records);
                     })
                 }
             })
@@ -75,12 +77,12 @@ class ShowQuizzesSelection extends React.Component {
     render() {
         
         return (
-            <div id='show-quizzes-wrapper'>
-                {this.state.quizzesData.length === 0 &&
+            <div id='show-quizzes-wrapper' style={{ maxHeight: '500px', overflowY: 'auto' }}>
+                {this.props.quizDataFiltered.length === 0 &&
                 <h4 id="empty-list-message">No Quiz Found</h4>}
                 
                 <Table >   
-                    {this.state.quizzesData.length !== 0 && <thead>
+                    {this.props.quizDataFiltered.length !== 0 && <thead>
                         <tr>
                             <th id="quiz-title">Question Set Title</th>
                             {this.props.quizzesType === 'public' && 
@@ -92,8 +94,8 @@ class ShowQuizzesSelection extends React.Component {
                         </tr>
                     </thead>}
 
-                    {this.state.quizzesData.length !== 0 && <tbody>
-                        {this.state.quizzesData.map((row, index) => {
+                    {this.props.quizDataFiltered.length !== 0 && <tbody>
+                        {this.props.quizDataFiltered.map((row, index) => {
                             return (
                                 <tr key={index}>
                                     <td>{row.data.Title}</td>
@@ -157,6 +159,8 @@ function wrapClass (Component) {
 
 
         }, [quizData, props.search])
+
+
 
         return <Component quizzesType={props.quizzesType} 
                           path={props.path} 

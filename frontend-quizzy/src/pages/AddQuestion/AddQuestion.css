@@ -5,6 +5,9 @@
     --private-color: #ffffff
 }
 
+.add-question-navigation-component {
+  margin: 20px 0 80px 60px;
+}
 
 body {
     background-color: #9f9da7;

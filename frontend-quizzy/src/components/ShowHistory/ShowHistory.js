@@ -39,6 +39,7 @@ class ShowHistory extends React.Component {
                     records.push({"key":key, "data":data}); 
                 })
                 this.setState({historyData: records});
+                this.props.setQuizDataFilteredHandler(records);
             }
         })
 
@@ -50,10 +51,10 @@ class ShowHistory extends React.Component {
         return (
             
             <div className='show-history-wrapper'>
-               {this.state.historyData.length === 0 && 
+               {this.props.historyDataFiltered.length === 0 && 
                 <h4 id="empty-list-message">No history Found</h4>}
                 
-                {this.state.historyData.map((row, key) => {
+                {this.props.historyDataFiltered.map((row, key) => {
                     
                     return (
                         <div key={row.key} className="quiz-item">
@@ -89,6 +90,8 @@ class ShowHistory extends React.Component {
 function wrapClass (Component) {
     return function WrappedComponent(props) {
         const [expandedId, setExpandedId] = useState(null);
+        const [quizDataFiltered, setQuizDataFiltered] = useState([])
+        const [quizData, setQuizData] = useState([])
         
         const handleQuestionClick = (id) => {
             if (expandedId === id) {
@@ -98,9 +101,35 @@ function wrapClass (Component) {
             }
         };
 
+        const setQuizDataFilteredHandler = (quizData) => {
+            setQuizData(quizData)
+        }
+
+        useEffect(() => {
+            const auxQuizData = quizData.filter((el) => {
+                let auxTitle = el.data.quizTitle.toLowerCase();
+                let timestamp = el.data.timestamp;
+
+                
+                if (props.search === "")
+                    return el;
+
+                if (auxTitle.includes(props.search.toLowerCase()) || timestamp.includes(props.search))
+                    return el;
+                
+            })
+            setQuizDataFiltered(auxQuizData)
+
+
+        }, [quizData, props.search])
+
+
         return <Component historyType={props.historyType}
                           handleQuestionClick={handleQuestionClick}
-                          expandedId={expandedId}/>
+                          expandedId={expandedId}
+                          setQuizDataFilteredHandler={setQuizDataFilteredHandler}
+                          historyDataFiltered={quizDataFiltered}
+                          />
     }
 }
 

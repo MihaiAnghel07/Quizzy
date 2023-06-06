@@ -10,6 +10,9 @@ import { useUpdateQuiz } from '../../hooks/useUpdateQuiz';
 import { FaCheck } from 'react-icons/fa';
 import Popup from '../../components/Popup/Popup';
 import NavigationComponent from '../../components/NavigationComponent/NavigationComponent';
+import { useDeleteQuestion } from '../../hooks/useDeleteQuestion';
+import Modal from '../../components/modal/Modal';
+import { useEffect } from 'react';
 
 
 class UpdateQuiz extends React.Component {
@@ -52,12 +55,18 @@ class UpdateQuiz extends React.Component {
                 
                 <div className='update-quiz-navigation-component'>
                     <NavigationComponent
-                        pageTitle="Update Quiz"
-                        pairs={[['Quizzes', '/quizzes'],
-                                ['Update Quiz', '/update_quiz']
+                        pageTitle="Update Set"
+                        pairs={[['Questions Sets', '/quizzes'],
+                                ['Update Set', '/update_quiz']
                         ]}
                     />
                 </div>
+
+                {this.props.openModal && 
+                <div id='modal-delete-question'> 
+                    <Modal closeModal={this.props.setOpenModal} yesModal={this.props.setConfirmModal} message="Are you sure you want delete this question?" /> 
+                </div>
+                }
 
                 {this.props.showPopup && 
                 (
@@ -65,7 +74,7 @@ class UpdateQuiz extends React.Component {
                     message="Quiz successfully updated"
                     duration={2000}
                     position="top-right"
-                    icon = {<FaCheck className='flag-button'/>}
+                    icon = {<FaCheck className='flag-button' style={{color:"rgb(232, 173, 64)"}}/>}
                     onClose={this.props.handlePopupClose}
                 />
                 )}
@@ -123,6 +132,7 @@ class UpdateQuiz extends React.Component {
                                     {this.props.expandedId === key && <AiOutlineUp/>}
                                     {this.props.expandedId != key && <AiOutlineDown/>}
                                         {key + 1}.  {question.data.question}
+                                        <button onClick={() => this.props.deleteQuestionHandler(question.key)}>Delete</button>
                                     </div>
                                     
                                     {this.props.expandedId === key && (
@@ -158,12 +168,30 @@ function wrapClass (Component) {
         const [isPublic, setIsPublic] = useState(location.state.isPublic);
         const [expandedId, setExpandedId] = useState(null);
         const [showPopup, setShowPopup] = useState(false)
+        const [openModal, setOpenModal] = useState(false);
+        const [confirmModal, setConfirmModal] = useState(false);
+        const [questionId, setQuestionId] = useState(null);
         const {updateQuiz} = useUpdateQuiz();
+        const {deleteQuestion} = useDeleteQuestion()
         
         const options = [
             { value: "public", label: "Public" },
             { value: "private", label: "Private" },
         ];
+
+        useEffect(()=>{
+            if (confirmModal) {
+              setOpenModal(false);
+              setConfirmModal(false);
+              deleteQuestion(questionId, location.state.quizId);
+            }
+        
+          }, [confirmModal])
+
+        const deleteQuestionHandler = (questionId) => {
+            setQuestionId(questionId);
+            setOpenModal(true)
+        }
 
         const handleQuestionClick = (id) => {
             if (expandedId === id) {
@@ -216,7 +244,12 @@ function wrapClass (Component) {
                           quizTitle={quizTitle}
                           handleAddQuestion={handleAddQuestion}
                           showPopup={showPopup}
-                          handlePopupClose={handlePopupClose} />
+                          handlePopupClose={handlePopupClose}
+                          deleteQuestionHandler={deleteQuestionHandler}
+                          openModal={openModal}
+                          setConfirmModal={setConfirmModal}
+                          setOpenModal={setOpenModal}
+                           />
     }
 }
 

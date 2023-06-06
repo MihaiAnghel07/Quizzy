@@ -1,62 +1,66 @@
 package com.quizzy.android.DataStructures;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+import com.google.firebase.database.PropertyName;
+
 import java.util.ArrayList;
 
+@IgnoreExtraProperties
 public class QuestionSet {
-    private String id;
-    private String Author;
-    private ArrayList<Question> Questions;
-    private String Title;
+    @PropertyName("Author")
+    private String author;
+    @PropertyName("Questions")
+    private ArrayList<Question> questions;
+    @PropertyName("Title")
+    private String title;
     private boolean isPublic;
 
     public QuestionSet() {
     }
 
-    public QuestionSet(String id, String author, ArrayList<Question> questions, String title, boolean isPublic) {
-        this.id = id;
-        Author = author;
-        Questions = questions;
-        Title = title;
+    public QuestionSet(String author, ArrayList<Question> questions, String title, boolean isPublic) {
+        this.author = author;
+        this.questions = questions;
+        this.title = title;
         this.isPublic = isPublic;
     }
 
+    @PropertyName("Author")
     public String getAuthor() {
-        return Author;
+        return author;
     }
 
+    @PropertyName("Author")
     public void setAuthor(String author) {
-        Author = author;
+        this.author = author;
     }
 
+    @PropertyName("Questions")
     public ArrayList<Question> getQuestions() {
-        return Questions;
+        return questions;
     }
 
+    @PropertyName("Questions")
     public void setQuestions(ArrayList<Question> questions) {
-        Questions = questions;
+        this.questions = questions;
     }
 
+    @PropertyName("Title")
     public String getTitle() {
-        return Title;
+        return title;
     }
 
+    @PropertyName("Title")
     public void setTitle(String title) {
-        Title = title;
+        this.title = title;
     }
 
-    public boolean isPublic() {
+    public boolean getIsPublic() {
         return isPublic;
     }
 
-    public void setPublic(boolean aPublic) {
+    public void setIsPublic(boolean aPublic) {
         isPublic = aPublic;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 }

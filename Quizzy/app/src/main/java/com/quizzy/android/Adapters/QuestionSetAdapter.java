@@ -50,7 +50,7 @@ public class QuestionSetAdapter extends ArrayAdapter<QuestionSet> {
 
             if (currentUserId.equals(questionSet.getAuthor())) {
                 // Current user is the owner of the question set
-                holder.detailsTextView.setText(questionSet.isPublic() ? "Public" : "Private");
+                holder.detailsTextView.setText(questionSet.getIsPublic() ? "Public" : "Private");
                 holder.editImageView.setVisibility(View.VISIBLE);
                 holder.deleteImageView.setVisibility(View.VISIBLE);
                 //holder.copyImageView.setVisibility(View.GONE);

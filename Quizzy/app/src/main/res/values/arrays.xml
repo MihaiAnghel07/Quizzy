@@ -4,4 +4,20 @@
         <item>All question sets</item>
         <item>My question sets</item>
     </string-array>
+
+    <string-array name="answer_options">
+        <item>Answer 1</item>
+        <item>Answer 2</item>
+        <item>Answer 3</item>
+        <item>Answer 4</item>
+    </string-array>
+
+    <string-array name="visibility_options">
+        <item>Public</item>
+        <item>Private</item>
+    </string-array>
+
+    <string name="select_correct_answer">Select Correct Answer</string>
+    <string name="select_visibility">Select Visibility</string>
+
 </resources>

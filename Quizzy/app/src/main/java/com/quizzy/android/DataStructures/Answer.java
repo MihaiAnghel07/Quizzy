@@ -12,11 +12,11 @@ public class Answer {
         this.text = text;
     }
 
-    public boolean isCorrect() {
+    public boolean getIsCorrect() {
         return isCorrect;
     }
 
-    public void setCorrect(boolean correct) {
+    public void setIsCorrect(boolean correct) {
         isCorrect = correct;
     }
 

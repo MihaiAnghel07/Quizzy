@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".CreateQuestionSetActivity"
+    android:layout_marginTop="50dp">
+
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:text="Create Question Set"
+        android:gravity="center"
+        android:layout_marginBottom="20dp"/>
+
+
+    <EditText
+        android:id="@+id/questionSetTitleEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titleTextView"
+        android:hint="Question Set Title"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/questionTextEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/questionSetTitleEditText"
+        android:hint="Question Text"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/answer1EditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/questionTextEditText"
+        android:hint="Answer 1"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/answer2EditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/answer1EditText"
+        android:hint="Answer 2"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/answer3EditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/answer2EditText"
+        android:hint="Answer 3"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/answer4EditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/answer3EditText"
+        android:hint="Answer 4"
+        android:inputType="text" />
+
+
+    <LinearLayout
+        android:id="@+id/correctAnswerLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/answer4EditText">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="Correct Answer"
+        android:textColor="@color/black"
+        android:textSize="18dp"/>
+
+        <Spinner
+            android:id="@+id/correctAnswerSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/answer4EditText"
+            android:entries="@array/answer_options"
+            android:prompt="@string/select_correct_answer"
+            android:spinnerMode="dropdown" />
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/visibilityLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/correctAnswerLayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Visibility"
+            android:textColor="@color/black"
+            android:textSize="18dp"/>
+
+        <Spinner
+            android:id="@+id/visibilitySpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/visibility_options"
+            android:prompt="@string/select_visibility"
+            android:spinnerMode="dropdown"
+            android:gravity="center"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/visibilityLayout"
+        android:gravity="center"
+        android:layout_marginTop="20dp">
+        <Button
+            android:id="@+id/createButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create" />
+    </LinearLayout>
+
+
+</RelativeLayout>
+

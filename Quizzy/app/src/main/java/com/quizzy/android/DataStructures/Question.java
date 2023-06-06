@@ -1,5 +1,7 @@
 package com.quizzy.android.DataStructures;
 
+import com.google.firebase.database.PropertyName;
+
 public class Question {
     private Answer answer1;
     private Answer answer2;
@@ -72,11 +74,11 @@ public class Question {
         this.image = image;
     }
 
-    public boolean isFlagged() {
+    public boolean getIsFlagged() {
         return isFlagged;
     }
 
-    public void setFlagged(boolean flagged) {
+    public void setIsFlagged(boolean flagged) {
         isFlagged = flagged;
     }
 

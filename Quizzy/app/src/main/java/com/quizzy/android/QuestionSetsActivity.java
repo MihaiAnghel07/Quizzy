@@ -146,7 +146,8 @@ public class QuestionSetsActivity extends AppCompatActivity {
                         questions.add(question);
                     }
                     // Add question set to the list
-                    QuestionSet questionSet = new QuestionSet(quizSnapshot.getKey(), quizAuthor, questions, title, isPublic);
+                    QuestionSet questionSet = new QuestionSet(quizAuthor, questions, title, isPublic);
+                    //QuestionSet questionSet = new QuestionSet(quizSnapshot.getKey(), quizAuthor, questions, title, isPublic);
                     questionSetList.add(questionSet);
                 }
                 questionSetAdapter.notifyDataSetChanged();

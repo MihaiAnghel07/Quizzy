@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,6 +42,9 @@ public class QuestionSetsActivity2 extends AppCompatActivity {
 
     private List<QuestionSet> questionSetList;
     private List<QuestionSet> filteredQuestionSetList;
+    private List<String> questionSetIds;
+    private List<String> filteredQuestionSetIds;
+
     //private ArrayAdapter<QuestionSet> questionSetAdapter;
 
     private String selectedQuestionSetType;
@@ -63,9 +67,15 @@ public class QuestionSetsActivity2 extends AppCompatActivity {
         questionSetsListView = findViewById(R.id.questionSetsListView);
         createQuestionSetButton = findViewById(R.id.createQuestionSetButton);
 
+        // Initialize question sets IDs
+        questionSetIds = new ArrayList<>();
+
         // Initialize question sets
         questionSetList = getQuestionSets();
         filteredQuestionSetList = new ArrayList<>(questionSetList);
+
+        // Initialize question sets IDs
+        filteredQuestionSetIds = new ArrayList<>(questionSetIds);
 
         // Initialize spinner
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this,
@@ -75,6 +85,7 @@ public class QuestionSetsActivity2 extends AppCompatActivity {
 
         // Set the spinner selection to "All question sets"
         questionSetSpinner.setSelection(0);
+        selectedQuestionSetType = "All question sets";
 
         questionSetSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -90,8 +101,11 @@ public class QuestionSetsActivity2 extends AppCompatActivity {
         });
 
         // Initialize question set adapter
-        questionSetAdapter = new QuestionSetAdapter2(this, filteredQuestionSetList);
+        questionSetAdapter = new QuestionSetAdapter2(this, filteredQuestionSetList, filteredQuestionSetIds);
         questionSetsListView.setAdapter(questionSetAdapter);
+
+        // Notify the adapter after the data is fetched
+        questionSetAdapter.notifyDataSetChanged();
 
         questionSetsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -100,9 +114,13 @@ public class QuestionSetsActivity2 extends AppCompatActivity {
                 QuestionSet questionSet = filteredQuestionSetList.get(position);
 
                 // Access the field values of the clicked question set
-                boolean isPublic = questionSet.isPublic();
+                boolean isPublic = questionSet.getIsPublic();
                 String title = questionSet.getTitle();
                 Toast.makeText(QuestionSetsActivity2.this, "Question Set Title: " + title, Toast.LENGTH_SHORT).show();
+                System.out.println("ID: " + filteredQuestionSetIds.get(position));
+                //System.out.println(questionSet.getAuthor());
+                //System.out.println(questionSet.getId());
+                //System.out.println(questionSet.getQuestions().get(0).getQuestion());
 
                 // Example actions you can perform with the field values
                 if (isPublic) {
@@ -139,6 +157,8 @@ public class QuestionSetsActivity2 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Create new activity for question set creation
+                Intent newIntent = new Intent(QuestionSetsActivity2.this, CreateQuestionSetActivity.class);
+                startActivity(newIntent);
             }
         });
 
@@ -150,23 +170,46 @@ public class QuestionSetsActivity2 extends AppCompatActivity {
         String searchText = searchEditText.getText().toString().toLowerCase();
 
         filteredQuestionSetList.clear();
+        filteredQuestionSetIds.clear();
 
-        for (QuestionSet questionSet : questionSetList) {
-            if (questionSet.getTitle().toLowerCase().contains(searchText) &&
-                    ((selectedQuestionSetType.equals("All question sets") && questionSet.isPublic())
-                            || questionSet.getAuthor().equals(PreferenceHelper.getUsername(QuestionSetsActivity2.this)))) {
-                filteredQuestionSetList.add(questionSet);
+        // TODO: rethink logic for which question sets are displayed
+        for (int i = 0; i < questionSetList.size(); i++) {
+            if (questionSetList.get(i).getTitle().toLowerCase().contains(searchText)) {
+                if (selectedQuestionSetType.equals("All question sets")) {
+                    if (questionSetList.get(i).getAuthor().equals(PreferenceHelper.getUsername(QuestionSetsActivity2.this)) ||
+                            questionSetList.get(i).getIsPublic()) {
+                        filteredQuestionSetList.add(questionSetList.get(i));
+                        filteredQuestionSetIds.add(questionSetIds.get(i));
+                    }
+                } else {
+                    if (questionSetList.get(i).getAuthor().equals(PreferenceHelper.getUsername(QuestionSetsActivity2.this))) {
+                        filteredQuestionSetList.add(questionSetList.get(i));
+                        filteredQuestionSetIds.add(questionSetIds.get(i));
+                    }
+                }
             }
+
+
+
+
+
+//            if (questionSetList.get(i).getTitle().toLowerCase().contains(searchText) &&
+//                    ((selectedQuestionSetType.equals("All question sets") && questionSetList.get(i).getIsPublic())
+//                            || questionSetList.get(i).getAuthor().equals(PreferenceHelper.getUsername(QuestionSetsActivity2.this)))) {
+//                filteredQuestionSetList.add(questionSetList.get(i));
+//                filteredQuestionSetIds.add(questionSetIds.get(i));
+//            }
         }
 
         questionSetAdapter.notifyDataSetChanged();
     }
 
+    // Try using a combination of addListenerForSingleValueEvent and addChildEventListener
+    // or instantiate a childEventListener in onCreate(by making a different function like the one below)
+    // and call getQuestionSets everyTime there is a change (+reset questionSetsList and questionIdsList)
     private List<QuestionSet> getQuestionSets() {
-        // Replace this with your logic to fetch question sets from Firebase or other sources
+        // Get question sets data from firebase
         List<QuestionSet> questionSets = new ArrayList<>();
-
-
 
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -179,7 +222,7 @@ public class QuestionSetsActivity2 extends AppCompatActivity {
                         boolean isPublic = quizSnapshot.child("isPublic").getValue(Boolean.class);
                         ArrayList<Question> questions = new ArrayList<>();
                         // Retrieve the questions from Firebase
-                        for (DataSnapshot questionSnapshot : quizSnapshot.child("questions").getChildren()) {
+                        for (DataSnapshot questionSnapshot : quizSnapshot.child("Questions").getChildren()) {
                             boolean hasImage = questionSnapshot.child("hasImage").getValue(Boolean.class);
                             String image = questionSnapshot.child("image").getValue(String.class);
                             boolean isFlagged = questionSnapshot.child("isFlagged").getValue(Boolean.class);
@@ -193,12 +236,22 @@ public class QuestionSetsActivity2 extends AppCompatActivity {
                             // Retrieve other question fields as needed
                             Question question = new Question(answer1, answer2, answer3, answer4, hasImage, image, isFlagged, questionText);
                             questions.add(question);
+                            //System.out.println(question.toString());
                         }
                         // Add question set to the list
-                        QuestionSet questionSet = new QuestionSet(quizSnapshot.getKey(), quizAuthor, questions, title, isPublic);
+                        QuestionSet questionSet = new QuestionSet(quizAuthor, questions, title, isPublic);
+                        //QuestionSet questionSet = new QuestionSet(quizSnapshot.getKey(), quizAuthor, questions, title, isPublic);
                         questionSets.add(questionSet);
+                        questionSetIds.add(quizSnapshot.getKey());
+
+                        // Notify the adapter for new question sets and filter them
+                        filterQuestionSets();
+                        questionSetAdapter.notifyDataSetChanged();
                     }
-                    questionSetAdapter.notifyDataSetChanged();
+                    // Try moving this line in the scope above, under questionSets.add, in order to have a realtime display
+                    // of the question sets list
+                    // Notify the adapter after all question sets are added
+                    //questionSetAdapter.notifyDataSetChanged();
                 }
 
             }
@@ -211,6 +264,21 @@ public class QuestionSetsActivity2 extends AppCompatActivity {
 
 
 
+
+//        boolean hasImage = questionSnapshot.child("hasImage").getValue(Boolean.class);
+//        String image = questionSnapshot.child("image").getValue(String.class);
+//        boolean isFlagged = questionSnapshot.child("isFlagged").getValue(Boolean.class);
+//        String questionText = questionSnapshot.child("question").getValue(String.class);
+//        Answer answer1 = questionSnapshot.child("answer1").getValue(Answer.class);
+//        Answer answer2 = questionSnapshot.child("answer2").getValue(Answer.class);
+//        Answer answer3 = questionSnapshot.child("answer3").getValue(Answer.class);
+//        Answer answer4 = questionSnapshot.child("answer4").getValue(Answer.class);
+//
+//
+//        // Retrieve other question fields as needed
+//        Question question = new Question(answer1, answer2, answer3, answer4, hasImage, image, isFlagged, questionText);
+//        questions.add(question);
+//        //System.out.println(question.toString());
 
 
 

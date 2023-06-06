@@ -13,7 +13,7 @@ import android.widget.Toast;
 public class HomeActivity extends AppCompatActivity {
     private static final String PREF_NAME = "MyPreferences";
     private TextView greetingTextView, usernameTextView;
-    private Button joinLobbyButton, historyButton, logoutButton;
+    private Button joinLobbyButton, historyButton, logoutButton, questionSetsButton;
 
     private SharedPreferences sharedPreferences;
 
@@ -28,6 +28,7 @@ public class HomeActivity extends AppCompatActivity {
         joinLobbyButton = findViewById(R.id.joinLobbyButton);
         historyButton = findViewById(R.id.historyButton);
         logoutButton = findViewById(R.id.logout_button);
+        questionSetsButton = findViewById(R.id.questionSetsButton);
 
         sharedPreferences = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
 
@@ -70,6 +71,12 @@ public class HomeActivity extends AppCompatActivity {
             Intent newIntent = new Intent(HomeActivity.this, MainActivity.class);
             startActivity(newIntent);
             finish();
+        });
+
+        questionSetsButton.setOnClickListener(v -> {
+            // Start History activity
+            Intent newIntent = new Intent(HomeActivity.this, QuestionSetsActivity2.class);
+            startActivity(newIntent);
         });
 
     }

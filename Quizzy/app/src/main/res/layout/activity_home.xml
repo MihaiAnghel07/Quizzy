@@ -47,13 +47,25 @@
         android:height="75dp"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
+        />
+
+    <Button
+        android:id="@+id/questionSetsButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/historyButton"
+        android:layout_marginTop="16dp"
+        android:text="Question Sets"
+        android:height="75dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
         android:layout_marginBottom="50dp"/>
 
     <Button
         android:id="@+id/logout_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/historyButton"
+        android:layout_below="@id/questionSetsButton"
         android:layout_marginTop="16dp"
         android:text="Log Out"
         android:height="50dp"

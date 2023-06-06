@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="question_set_types">
+        <item>All question sets</item>
+        <item>My question sets</item>
+    </string-array>
+</resources>

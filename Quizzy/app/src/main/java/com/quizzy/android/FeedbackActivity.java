@@ -44,8 +44,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
         // Initialize Firebase database reference
         databaseReference = FirebaseDatabase.getInstance().getReference().child("History")
-                .child("host").child(quizAuthor).child("quizzes").child(quizId)
-                .child(username);
+                .child("host").child(quizAuthor).child("quizzes").child(quizId);
 
         // Initialize views
         titleTextView = findViewById(R.id.titleTextView);

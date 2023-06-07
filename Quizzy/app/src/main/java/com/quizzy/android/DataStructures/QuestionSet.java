@@ -3,10 +3,11 @@ package com.quizzy.android.DataStructures;
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.database.PropertyName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 @IgnoreExtraProperties
-public class QuestionSet {
+public class QuestionSet implements Serializable {
     @PropertyName("Author")
     private String author;
     @PropertyName("Questions")

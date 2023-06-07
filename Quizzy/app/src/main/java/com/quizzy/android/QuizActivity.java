@@ -353,6 +353,7 @@ public class QuizActivity extends AppCompatActivity {
 
 
         // Check if answer is correct
+        // Update score and update statistics
         DatabaseReference correctRef = FirebaseDatabase.getInstance().getReference()
                 .child("History")
                 .child("host")
@@ -374,6 +375,54 @@ public class QuizActivity extends AppCompatActivity {
                         // Try calculating the score in the feedback activity, by interrogating
                         // the database, the same as in quiz details activity
                         System.out.println("You guessed it!");
+
+                        // Increment correctAnswers in Statistics
+                        DatabaseReference correctAnswersRef = FirebaseDatabase.getInstance().getReference()
+                                .child("Statistics")
+                                .child("host")
+                                .child(quizAuthor)
+                                .child("quizzes")
+                                .child(lobbyId)
+                                .child(String.valueOf(questions.get(currentQuestionIndex).getId()))
+                                .child("correctAnswers");
+
+                        correctAnswersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                int correctAnswers = snapshot.getValue(Integer.class);
+                                correctAnswers++;
+                                correctAnswersRef.setValue(correctAnswers);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    } else {
+                        // Increment wrongAnswers in Statistics
+                        DatabaseReference wrongAnswersRef = FirebaseDatabase.getInstance().getReference()
+                                .child("Statistics")
+                                .child("host")
+                                .child(quizAuthor)
+                                .child("quizzes")
+                                .child(lobbyId)
+                                .child(String.valueOf(questions.get(currentQuestionIndex).getId()))
+                                .child("wrongAnswers");
+
+                        wrongAnswersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                int wrongAnswers = snapshot.getValue(Integer.class);
+                                wrongAnswers++;
+                                wrongAnswersRef.setValue(wrongAnswers);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                     }
                     currentQuestionIndex++;
                     loadNextQuestion();

@@ -14,7 +14,7 @@
         android:textStyle="bold"
         android:text="Hello, "
         android:gravity="center"
-        android:layout_marginTop="50dp"/>
+        android:layout_marginTop="20dp"/>
 
     <TextView
         android:id="@+id/usernameTextView"
@@ -31,8 +31,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/usernameTextView"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="50dp"
         android:text="Join Lobby"
+        android:height="75dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"/>
+
+    <Button
+        android:id="@+id/createLobbyButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/joinLobbyButton"
+        android:layout_marginTop="16dp"
+        android:text="Create Lobby"
         android:height="75dp"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"/>
@@ -41,7 +52,7 @@
         android:id="@+id/historyButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/joinLobbyButton"
+        android:layout_below="@id/createLobbyButton"
         android:layout_marginTop="16dp"
         android:text="History"
         android:height="75dp"

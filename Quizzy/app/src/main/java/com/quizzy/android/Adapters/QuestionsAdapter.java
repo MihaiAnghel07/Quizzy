@@ -1,4 +1,6 @@
 package com.quizzy.android.Adapters;
+
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,7 +16,9 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.quizzy.android.DataStructures.Question;
 import com.quizzy.android.DataStructures.QuestionSet;
+import com.quizzy.android.EditQuestionActivity;
 import com.quizzy.android.EditQuestionSetActivity;
 import com.quizzy.android.HistoryActivity;
 import com.quizzy.android.HomeActivity;
@@ -24,26 +28,30 @@ import com.quizzy.android.R;
 
 import java.util.List;
 
-public class QuestionSetAdapter2 extends BaseAdapter {
+public class QuestionsAdapter extends BaseAdapter {
     private Context context;
-    private List<QuestionSet> questionSetList;
-    List<String> questionSetIds;
+    private List<Question> questionList;
+    List<String> questionIds;
     private DatabaseReference databaseRef;
+    private String quizAuthor;
+    private String quizId;
 
-    public QuestionSetAdapter2(Context context, List<QuestionSet> questionSetList, List<String> questionSetIds) {
+    public QuestionsAdapter(Context context, List<Question> questionList, List<String> questionIds, String quizAuthor, String quizId) {
         this.context = context;
-        this.questionSetList = questionSetList;
-        this.questionSetIds = questionSetIds;
+        this.questionList = questionList;
+        this.questionIds = questionIds;
+        this.quizAuthor = quizAuthor;
+        this.quizId = quizId;
     }
 
     @Override
     public int getCount() {
-        return questionSetList.size();
+        return questionList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return questionSetList.get(position);
+        return questionList.get(position);
     }
 
     @Override
@@ -56,45 +64,37 @@ public class QuestionSetAdapter2 extends BaseAdapter {
         ViewHolder holder;
 
         // Get the current QuestionSet object
-        QuestionSet questionSet = questionSetList.get(position);
-        String quizId = questionSetIds.get(position);
+        Question question = questionList.get(position);
+        String questionId = questionIds.get(position);
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.list_item_question_set2, parent, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.list_item_question, parent, false);
 
             holder = new ViewHolder();
-            holder.titleTextView = convertView.findViewById(R.id.titleTextView);
-            holder.authorTextView = convertView.findViewById(R.id.authorTextView);
+            holder.questionTextView = convertView.findViewById(R.id.questionTextView);
             holder.editImageView = convertView.findViewById(R.id.editImageView);
             holder.deleteImageView = convertView.findViewById(R.id.deleteImageView);
-            holder.copyImageView = convertView.findViewById(R.id.copyImageView);
 
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        // Set the visibility of the icons based on the author
-        if (questionSet.getAuthor().equals(PreferenceHelper.getUsername(context))) {
-            holder.editImageView.setVisibility(View.VISIBLE);
-            holder.deleteImageView.setVisibility(View.VISIBLE);
-            holder.copyImageView.setVisibility(View.GONE);
-        } else {
-            holder.editImageView.setVisibility(View.GONE);
-            holder.deleteImageView.setVisibility(View.GONE);
-            holder.copyImageView.setVisibility(View.VISIBLE);
-        }
+        // Set icons visibility
+        holder.editImageView.setVisibility(View.VISIBLE);
+        holder.deleteImageView.setVisibility(View.VISIBLE);
+
 
         // Set click listeners for the icons
         holder.editImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Edit " + quizId, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Edit " + questionId, Toast.LENGTH_SHORT).show();
 
-                Intent newIntent = new Intent(context, EditQuestionSetActivity.class);
+                Intent newIntent = new Intent(context, EditQuestionActivity.class);
+                newIntent.putExtra("questionId", questionId);
+                newIntent.putExtra("quizAuthor", quizAuthor);
                 newIntent.putExtra("quizId", quizId);
-                newIntent.putExtra("quizAuthor", questionSet.getAuthor());
-                newIntent.putExtra("visibility", questionSet.getIsPublic());
                 context.startActivity(newIntent);
             }
         });
@@ -102,17 +102,17 @@ public class QuestionSetAdapter2 extends BaseAdapter {
         holder.deleteImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Delete " + quizId, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Delete " + questionId, Toast.LENGTH_SHORT).show();
 
-                // Ask user to confirm deleting question set
+                // Ask user to confirm deleting question
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("Are you sure you want to delete this question set?")
+                builder.setMessage("Are you sure you want to delete this question?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 // If user confirms, delete question set
                                 String username = PreferenceHelper.getUsername(context);
                                 databaseRef = FirebaseDatabase.getInstance().getReference("Quizzes");
-                                databaseRef.child(username).child(quizId).removeValue();
+                                databaseRef.child(username).child(quizId).child("Questions").child(questionId).removeValue();
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -127,26 +127,18 @@ public class QuestionSetAdapter2 extends BaseAdapter {
             }
         });
 
-        holder.copyImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "Copy " + quizId, Toast.LENGTH_SHORT).show();
-            }
-        });
 
         // Set the title and author in the TextViews
-        holder.titleTextView.setText(questionSet.getTitle());
-        holder.authorTextView.setText(questionSet.getAuthor());
+        holder.questionTextView.setText(question.getQuestion());
+
 
         return convertView;
     }
 
 
     private static class ViewHolder {
-        TextView titleTextView;
-        TextView authorTextView;
+        TextView questionTextView;
         ImageView editImageView;
         ImageView deleteImageView;
-        ImageView copyImageView;
     }
 }

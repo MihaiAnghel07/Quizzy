@@ -7,6 +7,8 @@ public class PreferenceHelper {
     private static final String PREF_NAME = "MyPreferences";
     private static final String KEY_LOGIN_STATUS = "loginStatus";
     private static final String USERNAME = "username";
+    private static final String LOBBY_OPEN = "lobbyOpen";
+    private static final String ACTIVE_LOBBY_CODE = "activeLobbyCode";
 
     public static void setLoginStatus(Context context, boolean isLoggedIn) {
         SharedPreferences.Editor editor = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).edit();
@@ -28,5 +30,27 @@ public class PreferenceHelper {
     public static String getUsername(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         return preferences.getString(USERNAME, "USER_NONE");
+    }
+
+    public static void setLobbyOpen(Context context, boolean lobbyOpen) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).edit();
+        editor.putBoolean(LOBBY_OPEN, lobbyOpen);
+        editor.apply();
+    }
+
+    public static boolean getLobbyOpen(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        return preferences.getBoolean(LOBBY_OPEN, false);
+    }
+
+    public static void setActiveLobbyCode(Context context, String activeLobbyCode) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).edit();
+        editor.putString(ACTIVE_LOBBY_CODE, activeLobbyCode);
+        editor.apply();
+    }
+
+    public static String getActiveLobbyCode(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        return preferences.getString(ACTIVE_LOBBY_CODE, "LOBBYCODE_NONE");
     }
 }

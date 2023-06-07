@@ -1,5 +1,7 @@
 package com.quizzy.android;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -44,8 +46,6 @@ public class QuestionSetsActivity2 extends AppCompatActivity {
     private List<QuestionSet> filteredQuestionSetList;
     private List<String> questionSetIds;
     private List<String> filteredQuestionSetIds;
-
-    //private ArrayAdapter<QuestionSet> questionSetAdapter;
 
     private String selectedQuestionSetType;
 
@@ -172,7 +172,6 @@ public class QuestionSetsActivity2 extends AppCompatActivity {
         filteredQuestionSetList.clear();
         filteredQuestionSetIds.clear();
 
-        // TODO: rethink logic for which question sets are displayed
         for (int i = 0; i < questionSetList.size(); i++) {
             if (questionSetList.get(i).getTitle().toLowerCase().contains(searchText)) {
                 if (selectedQuestionSetType.equals("All question sets")) {
@@ -188,113 +187,152 @@ public class QuestionSetsActivity2 extends AppCompatActivity {
                     }
                 }
             }
-
-
-
-
-
-//            if (questionSetList.get(i).getTitle().toLowerCase().contains(searchText) &&
-//                    ((selectedQuestionSetType.equals("All question sets") && questionSetList.get(i).getIsPublic())
-//                            || questionSetList.get(i).getAuthor().equals(PreferenceHelper.getUsername(QuestionSetsActivity2.this)))) {
-//                filteredQuestionSetList.add(questionSetList.get(i));
-//                filteredQuestionSetIds.add(questionSetIds.get(i));
-//            }
         }
 
         questionSetAdapter.notifyDataSetChanged();
     }
 
-    // Try using a combination of addListenerForSingleValueEvent and addChildEventListener
-    // or instantiate a childEventListener in onCreate(by making a different function like the one below)
-    // and call getQuestionSets everyTime there is a change (+reset questionSetsList and questionIdsList)
+
+
     private List<QuestionSet> getQuestionSets() {
         // Get question sets data from firebase
         List<QuestionSet> questionSets = new ArrayList<>();
 
+        DatabaseReference quizzesRef = databaseReference;
 
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        ValueEventListener initialLoadListener = new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot authorsSnapshot : dataSnapshot.getChildren()) {
-                    for (DataSnapshot quizSnapshot : authorsSnapshot.getChildren()) {
-                        String title = quizSnapshot.child("Title").getValue(String.class);
-                        String quizAuthor = quizSnapshot.child("Author").getValue(String.class);
-                        boolean isPublic = quizSnapshot.child("isPublic").getValue(Boolean.class);
-                        ArrayList<Question> questions = new ArrayList<>();
-                        // Retrieve the questions from Firebase
-                        for (DataSnapshot questionSnapshot : quizSnapshot.child("Questions").getChildren()) {
-                            boolean hasImage = questionSnapshot.child("hasImage").getValue(Boolean.class);
-                            String image = questionSnapshot.child("image").getValue(String.class);
-                            boolean isFlagged = questionSnapshot.child("isFlagged").getValue(Boolean.class);
-                            String questionText = questionSnapshot.child("question").getValue(String.class);
-                            Answer answer1 = questionSnapshot.child("answer1").getValue(Answer.class);
-                            Answer answer2 = questionSnapshot.child("answer2").getValue(Answer.class);
-                            Answer answer3 = questionSnapshot.child("answer3").getValue(Answer.class);
-                            Answer answer4 = questionSnapshot.child("answer4").getValue(Answer.class);
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot authorSnapshot : dataSnapshot.getChildren()) {
+                    String authorId = authorSnapshot.getKey();
+
+                    System.out.println(authorSnapshot.getKey());
+
+                    DatabaseReference authorRef = quizzesRef.child(authorId);
+                    authorRef.addChildEventListener(new ChildEventListener() {
+                        @Override
+                        public void onChildAdded(@NonNull DataSnapshot quizSnapshot, @Nullable String previousChildName) {
+                            String questionSetId = dataSnapshot.getKey();
+                            // Handle the added child (questionSetId) under the current "author" entry
+                            System.out.println("Question set added");
+
+                            String title = quizSnapshot.child("Title").getValue(String.class);
+                            String quizAuthor = quizSnapshot.child("Author").getValue(String.class);
+                            boolean isPublic = quizSnapshot.child("isPublic").getValue(Boolean.class);
+                            ArrayList<Question> questions = new ArrayList<>();
+                            // Retrieve the questions from Firebase
+                            for (DataSnapshot questionSnapshot : quizSnapshot.child("Questions").getChildren()) {
+                                boolean hasImage = questionSnapshot.child("hasImage").getValue(Boolean.class);
+                                String image = questionSnapshot.child("image").getValue(String.class);
+                                boolean isFlagged = questionSnapshot.child("isFlagged").getValue(Boolean.class);
+                                String questionText = questionSnapshot.child("question").getValue(String.class);
+                                Answer answer1 = questionSnapshot.child("answer1").getValue(Answer.class);
+                                Answer answer2 = questionSnapshot.child("answer2").getValue(Answer.class);
+                                Answer answer3 = questionSnapshot.child("answer3").getValue(Answer.class);
+                                Answer answer4 = questionSnapshot.child("answer4").getValue(Answer.class);
 
 
-                            // Retrieve other question fields as needed
-                            Question question = new Question(answer1, answer2, answer3, answer4, hasImage, image, isFlagged, questionText);
-                            questions.add(question);
-                            //System.out.println(question.toString());
+                                // Retrieve other question fields as needed
+                                Question question = new Question(answer1, answer2, answer3, answer4, hasImage, image, isFlagged, questionText);
+                                questions.add(question);
+                                //System.out.println(question.toString());
+                            }
+                            // Add question set to the list
+                            QuestionSet questionSet = new QuestionSet(quizAuthor, questions, title, isPublic);
+                            //QuestionSet questionSet = new QuestionSet(quizSnapshot.getKey(), quizAuthor, questions, title, isPublic);
+                            questionSets.add(questionSet);
+                            questionSetIds.add(quizSnapshot.getKey());
+
+                            // Notify the adapter for new question sets and filter them
+                            filterQuestionSets();
+                            questionSetAdapter.notifyDataSetChanged();
+
                         }
-                        // Add question set to the list
-                        QuestionSet questionSet = new QuestionSet(quizAuthor, questions, title, isPublic);
-                        //QuestionSet questionSet = new QuestionSet(quizSnapshot.getKey(), quizAuthor, questions, title, isPublic);
-                        questionSets.add(questionSet);
-                        questionSetIds.add(quizSnapshot.getKey());
 
-                        // Notify the adapter for new question sets and filter them
-                        filterQuestionSets();
-                        questionSetAdapter.notifyDataSetChanged();
-                    }
-                    // Try moving this line in the scope above, under questionSets.add, in order to have a realtime display
-                    // of the question sets list
-                    // Notify the adapter after all question sets are added
-                    //questionSetAdapter.notifyDataSetChanged();
+                        @Override
+                        public void onChildChanged(@NonNull DataSnapshot quizSnapshot, @Nullable String previousChildName) {
+                            String questionSetId = dataSnapshot.getKey();
+                            // Handle the updated child (questionSetId) under the current "author" entry
+                            System.out.println("Question set changed");
+
+
+                            String quizId = quizSnapshot.getKey();
+                            int index = questionSetIds.indexOf(quizId);
+                            if (index != -1) {
+                                String title = quizSnapshot.child("Title").getValue(String.class);
+                                String quizAuthor = quizSnapshot.child("Author").getValue(String.class);
+                                boolean isPublic = quizSnapshot.child("isPublic").getValue(Boolean.class);
+                                ArrayList<Question> questions = new ArrayList<>();
+
+                                // Retrieve the questions from Firebase
+                                for (DataSnapshot questionSnapshot : quizSnapshot.child("Questions").getChildren()) {
+                                    boolean hasImage = questionSnapshot.child("hasImage").getValue(Boolean.class);
+                                    String image = questionSnapshot.child("image").getValue(String.class);
+                                    boolean isFlagged = questionSnapshot.child("isFlagged").getValue(Boolean.class);
+                                    String questionText = questionSnapshot.child("question").getValue(String.class);
+                                    Answer answer1 = questionSnapshot.child("answer1").getValue(Answer.class);
+                                    Answer answer2 = questionSnapshot.child("answer2").getValue(Answer.class);
+                                    Answer answer3 = questionSnapshot.child("answer3").getValue(Answer.class);
+                                    Answer answer4 = questionSnapshot.child("answer4").getValue(Answer.class);
+
+                                    // Retrieve other question fields as needed
+                                    Question question = new Question(answer1, answer2, answer3, answer4, hasImage, image, isFlagged, questionText);
+                                    questions.add(question);
+                                }
+
+                                // Update the existing QuestionSet object
+                                QuestionSet questionSet = questionSets.get(index);
+                                questionSet.setTitle(title);
+                                questionSet.setAuthor(quizAuthor);
+                                questionSet.setIsPublic(isPublic);
+                                questionSet.setQuestions(questions);
+
+                                // Notify the adapter for data change
+                                filterQuestionSets();
+                                questionSetAdapter.notifyDataSetChanged();
+                            }
+                        }
+
+                        @Override
+                        public void onChildRemoved(@NonNull DataSnapshot quizSnapshot) {
+                            String questionSetId = dataSnapshot.getKey();
+                            // Handle the removed child (questionSetId) under the current "author" entry
+                            System.out.println("Question set removed");
+
+                            String quizId = quizSnapshot.getKey();
+                            int index = questionSetIds.indexOf(quizId);
+                            if (index != -1) {
+                                questionSets.remove(index);
+                                questionSetIds.remove(index);
+
+                                // Notify the adapter for data change
+                                filterQuestionSets();
+                                questionSetAdapter.notifyDataSetChanged();
+                            }
+                        }
+
+                        @Override
+                        public void onChildMoved(@NonNull DataSnapshot quizSnapshot, @Nullable String previousChildName) {
+                            // Handle any changes to the ordering of children, if applicable
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            // Handle any errors that occur
+                        }
+                    });
                 }
-
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Handle database error
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle any errors that occur
             }
-        });
+        };
 
+        // Attach listener to firebase
+        quizzesRef.addListenerForSingleValueEvent(initialLoadListener);
 
-
-
-//        boolean hasImage = questionSnapshot.child("hasImage").getValue(Boolean.class);
-//        String image = questionSnapshot.child("image").getValue(String.class);
-//        boolean isFlagged = questionSnapshot.child("isFlagged").getValue(Boolean.class);
-//        String questionText = questionSnapshot.child("question").getValue(String.class);
-//        Answer answer1 = questionSnapshot.child("answer1").getValue(Answer.class);
-//        Answer answer2 = questionSnapshot.child("answer2").getValue(Answer.class);
-//        Answer answer3 = questionSnapshot.child("answer3").getValue(Answer.class);
-//        Answer answer4 = questionSnapshot.child("answer4").getValue(Answer.class);
-//
-//
-//        // Retrieve other question fields as needed
-//        Question question = new Question(answer1, answer2, answer3, answer4, hasImage, image, isFlagged, questionText);
-//        questions.add(question);
-//        //System.out.println(question.toString());
-
-
-
-        // Sample question sets
-//        QuestionSet questionSet1 = new QuestionSet();
-//        questionSet1.setTitle("Question Set 1");
-//        questionSets.add(questionSet1);
-//
-//        QuestionSet questionSet2 = new QuestionSet();
-//        questionSet2.setTitle("Question Set 2");
-//        questionSet2.setPublic(true);
-//        questionSets.add(questionSet2);
-//
-//        QuestionSet questionSet3 = new QuestionSet();
-//        questionSet3.setTitle("Question Set 3");
-//        questionSets.add(questionSet3);
 
         return questionSets;
     }

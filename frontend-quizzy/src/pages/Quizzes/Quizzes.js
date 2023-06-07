@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import Modal from '../../components/modal/Modal';
 import { useDeleteQuiz } from '../../hooks/useDeleteQuiz';
+import NavigationComponent from '../../components/NavigationComponent/NavigationComponent';
 
 
 class Quizzes extends React.Component {
@@ -48,7 +49,16 @@ class Quizzes extends React.Component {
     render () {
         return (
             <div className='quizzes-wrapper'>
-                {this.props.openModal && <div> 
+
+                <div className='quizzes-navigation-component'>
+                    <NavigationComponent
+                        pageTitle="Question Sets"
+                        pairs={[["Dashboard", "/dashboard"],
+                                ["Question Sets", "/quizzes"]]}
+                    />
+                </div>
+
+                {this.props.openModal && <div className='modal-delete-quiz'> 
                     <Modal closeModal={this.props.setOpenModal} yesModal={this.props.setConfirmModal} message="Are you sure you want to delete the quiz?" /> </div>}   
 
                 <div className='quizzes-content'>

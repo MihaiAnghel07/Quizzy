@@ -29,6 +29,9 @@ class ShowParticipantHistory extends React.Component {
             }
             this.setState({score: score});
 
+            console.log(this.props.participant)
+            console.log(key)
+            console.log(this.props.questions[key])
             // preiau imaginile din baza de date
             if (this.props.questions[key].hasImage) {
                 let host;
@@ -101,7 +104,6 @@ class ShowParticipantHistory extends React.Component {
 function wrapClass (Component) {
     return function WrappedComponent(props) {
 
-        
         
         return <Component questions={props.questions}
                           quizId={props.quizId}

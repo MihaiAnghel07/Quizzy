@@ -48,7 +48,8 @@ class QuizzesSelection extends React.Component {
                 <div className='quizzes-navigation-component'>
                     <NavigationComponent
                         pageTitle="Quizzes Selection"
-                        pairs={[['Create Lobby', '/create_lobby'],
+                        pairs={[['Dashboard', '/dashboard'],
+                                ['Create Lobby', '/create_lobby'],
                                 ['Quizzes Selection', '/quizzes_selection']
                         ]}
                     />

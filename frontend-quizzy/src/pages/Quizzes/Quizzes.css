@@ -122,4 +122,16 @@ overflow: auto; */
     height: 50px;
     border-radius: 8px;
     margin-left: 1%;
+    font: 0.8em sans-serif;
+}
+
+.quizzes-navigation-component{
+    margin-top: 20px;
+    margin-left: 50px;
+    margin-bottom: 50px;
+}
+
+.modal-delete-quiz{
+    margin-top: -70px;
+    padding-bottom: 30px;
 }

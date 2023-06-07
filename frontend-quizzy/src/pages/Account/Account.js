@@ -5,6 +5,7 @@ import { useEditAccount } from '../../hooks/useEditAccount';
 import Modal from '../../components/modal/Modal';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDeleteAccount } from '../../hooks/useDeleteAccount';
+import NavigationComponent from '../../components/NavigationComponent/NavigationComponent';
 
 
 export default function Account() {
@@ -95,7 +96,13 @@ export default function Account() {
 
   return (
     <div>
-      <h2 id="account-page-title">Edit Account</h2>
+      <div className='edit-account-navigation-component'>
+          <NavigationComponent
+              pageTitle="Edit Account"
+              pairs={[]}
+          />
+      </div>
+
       <div className='account-wrapper'>
         {showPopup && 
           (
@@ -145,7 +152,7 @@ export default function Account() {
           {!isPending && <input 
             type="submit" 
             id="edit-account-submit" 
-            value="Save" />}
+            value="Edit" />}
 
           {isPending && <input 
             type="submit" 

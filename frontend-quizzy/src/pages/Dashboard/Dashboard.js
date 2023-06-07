@@ -8,6 +8,7 @@ import Quizzes_label from '../../components/menu-label/quizzes/Quizzes_label';
 import './Dashboard.css'
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from "framer-motion"
+import NavigationComponent from '../../components/NavigationComponent/NavigationComponent';
 
 
 export default function Dashboard() {
@@ -28,10 +29,21 @@ export default function Dashboard() {
   }
 
   return (
-    <div className='dashboard-container'>
-      <button id='dashboard-join-lobby-button' onClick={handleJoinLobbyButtonClick}>Join Lobby</button>
-      <button id='dashboard-create-lobby-button' onClick={handleCreateLobbyButtonClick}>Create Lobby</button>
-      <button id='dashboard-quizzes-button' onClick={handleQuizzesButtonClick}>Question Sets</button>
+    <div className='dashboard-wrapper'>
+
+      <div className='dashboard-navigation-component'>
+          <NavigationComponent
+              pageTitle="Dashboard"
+              pairs={[]}
+          />
+      </div>
+
+      <div className='dashboard-container'>
+        <button id='dashboard-join-lobby-button' onClick={handleJoinLobbyButtonClick}>Join Lobby</button>
+        <button id='dashboard-create-lobby-button' onClick={handleCreateLobbyButtonClick}>Create Lobby</button>
+        <button id='dashboard-quizzes-button' onClick={handleQuizzesButtonClick}>Question Sets</button>
+      </div>
+
     </div>
   )
 }

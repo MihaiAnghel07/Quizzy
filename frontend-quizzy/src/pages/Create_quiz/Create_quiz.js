@@ -5,6 +5,8 @@ import { useCreateQuiz } from '../../hooks/useCreateQuiz';
 import { useAddQuestion } from '../../hooks/useAddQuestion';
 import Modal from '../../components/modal/Modal'
 import NavigationComponent from '../../components/NavigationComponent/NavigationComponent';
+import Popup from '../../components/Popup/Popup';
+import { FaCheck } from 'react-icons/fa';
 
 export default function Create_quiz() {
   
@@ -15,6 +17,7 @@ export default function Create_quiz() {
     const [quizAnswer3, setQuizAnswer3] = useState('')
     const [quizAnswer4, setQuizAnswer4] = useState('')
     const [isPublic, setIsPublic] = useState(false)
+    const [showPopup, setShowPopup] = useState(false);
     const { createQuiz, error, quizKey} = useCreateQuiz()
     const [selectedOption, setSelectedOption] = useState('answer1');
     const [imageUpload, setImageUpload] = useState(null);
@@ -56,10 +59,20 @@ export default function Create_quiz() {
       setSelectedOption(event.target.value);
     }
 
+    function handlePopupClose() {
+      setShowPopup(false);
+    }
+
     useEffect(() => {
       if (quizKey !== null)
         navigate('/add_question', {state:{quizKey:quizKey, previousPage:'/create_quiz'}, replace: true});
     }, [quizKey])
+
+    useEffect(()=>{
+      if (error != null && !showPopup) {
+        setShowPopup(true);
+      }
+    }, [error])
 
 
     return (
@@ -68,11 +81,23 @@ export default function Create_quiz() {
           <div className='create-quiz-navigation-component'>
               <NavigationComponent
                   pageTitle="Create Question Set"
-                  pairs={[['Questions Sets', '/quizzes'],
+                  pairs={[['Dashboard', '/dashboard'],
+                          ['Questions Sets', '/quizzes'],
                           ['Create Question Set', '/create_quiz']
                   ]}
               />
           </div>
+
+          {showPopup && 
+          (
+            <Popup
+              message={error}
+              duration={2000}
+              position="top-right"
+              icon = {<FaCheck className='flag-button' style={{color:"rgb(232, 173, 64)"}}/>}
+              onClose={handlePopupClose}
+            />
+          )}
 
           <div id="create-quiz-form-wrap">
             

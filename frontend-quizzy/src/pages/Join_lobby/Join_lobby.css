@@ -22,3 +22,13 @@ input[id="join-lobby-submit"] {
     cursor: pointer;
     text-align: center;
   }
+
+  .join-lobby-navigation-component{
+    margin-top: 20px;
+    margin-left: 50px;
+    margin-bottom: 80px;
+  }
+
+  #join-lobby-input{
+    font: 0.8em sans-serif;
+  }

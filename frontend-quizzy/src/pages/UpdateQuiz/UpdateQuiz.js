@@ -56,7 +56,8 @@ class UpdateQuiz extends React.Component {
                 <div className='update-quiz-navigation-component'>
                     <NavigationComponent
                         pageTitle="Update Set"
-                        pairs={[['Questions Sets', '/quizzes'],
+                        pairs={[['Dashboard', '/dashboard'],
+                                ['Questions Sets', '/quizzes'],
                                 ['Update Set', '/update_quiz']
                         ]}
                     />
@@ -129,10 +130,12 @@ class UpdateQuiz extends React.Component {
                             return (
                                 <div key={key} className="question-container">
                                     <div className="question-text-header" onClick={() => this.props.handleQuestionClick(key)}>
-                                    {this.props.expandedId === key && <AiOutlineUp/>}
-                                    {this.props.expandedId != key && <AiOutlineDown/>}
-                                        {key + 1}.  {question.data.question}
-                                        <button onClick={() => this.props.deleteQuestionHandler(question.key)}>Delete</button>
+                                        {this.props.expandedId === key && <AiOutlineUp/>}
+                                        {this.props.expandedId != key && <AiOutlineDown/>}
+                                            {key + 1}.  {question.data.question}
+                                        <button id="delete-question-btn" onClick={(event) => {event.stopPropagation();
+                                                                                    this.props.deleteQuestionHandler(question.key)}}>Delete</button>
+                                    
                                     </div>
                                     
                                     {this.props.expandedId === key && (

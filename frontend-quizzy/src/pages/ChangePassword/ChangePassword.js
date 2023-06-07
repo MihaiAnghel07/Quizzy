@@ -61,7 +61,7 @@ function ChangePassword() {
         <div className='nav-component'> 
             <NavigationComponent
                 pageTitle="Change Password"
-                pairs={[['Account', '/account'],
+                pairs={[['Edit Account', '/account'],
                 ['Change Password', '/change_password'],
                 ]}
             />

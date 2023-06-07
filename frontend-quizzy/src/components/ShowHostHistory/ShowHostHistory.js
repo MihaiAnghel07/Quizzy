@@ -75,7 +75,9 @@ class ShowHostHistory extends React.Component {
             records: [],
             averageScore: 0,
             numberOfQuestions: 0,
-            graphData: null
+            graphData: null,
+            averageRating: 0,
+            nrRatings: 0
         }
 
         this.componentDidMount = this.componentDidMount.bind(this)
@@ -87,6 +89,15 @@ class ShowHostHistory extends React.Component {
         let numberOfQuestions = 0;
         let numberOfScores = [];
 
+        //calculez lungimea setului
+        //initializez vectorul
+
+        Object.keys(this.props.data).map((key) => {
+            if (key !== 'timestamp' && key !== 'quizTitle' && key !== 'feedbacks' && key !== 'ratings') {
+                numberOfQuestions = Object.values(this.props.data[key].questions).length;
+            }
+        })
+        numberOfScores = Array.apply(null, Array(numberOfQuestions)).map(Number.prototype.valueOf, 0);
 
         Object.keys(this.props.data).map((key) => {
             if (key !== 'timestamp' && key !== 'quizTitle' && key !== 'feedbacks' && key !== 'ratings') {
@@ -95,8 +106,6 @@ class ShowHostHistory extends React.Component {
                 
                 // aflu media punctajelor
                 let questions = Object.values(this.props.data[key].questions);
-                numberOfQuestions = questions.length;
-                numberOfScores = Array.apply(null, Array(numberOfQuestions)).map(Number.prototype.valueOf, 0);
                 let participantScore = 0;
 
                 for (const element of questions) {
@@ -107,12 +116,22 @@ class ShowHostHistory extends React.Component {
                             participantScore++;
                         }
                 }
-                
+
                 scoreSum += participantScore;
                 numberOfScores[participantScore]++;
 
-                // de calculat rating + feedback
+            }
 
+            // calculez media rating-urilor
+            if (key == "ratings") {
+                let ratingSum = 0;
+                let nrRatings= Object.keys(this.props.data[key]).map((ratingKey) => {
+                    ratingSum += this.props.data[key][ratingKey].rating;
+                }).length
+
+                let averageRating = ratingSum / nrRatings;
+                this.setState({averageRating:(Math.round(averageRating * 100) / 100), nrRatings:nrRatings});
+                
             }
         })
 
@@ -131,7 +150,7 @@ class ShowHostHistory extends React.Component {
         
         let averageScore = scoreSum / records.length;
         this.setState({records: records, 
-                        averageScore: averageScore, 
+                        averageScore: (Math.round(averageScore * 100) / 100), 
                         numberOfQuestions: numberOfQuestions, 
                         graphData: graphData});
                         
@@ -152,6 +171,7 @@ class ShowHostHistory extends React.Component {
                     <li className='show-host-history-total-participants'>Number of participants: {this.state.records.length}</li>
                     <li className='show-host-history-total-questions'>Number of questions: {this.state.numberOfQuestions}</li> 
                     <li className='show-host-history-average-score'>Average score: {this.state.averageScore}</li> 
+                    <li className='show-host-history-average-score'>Average rating: {this.state.averageRating}  ({this.state.nrRatings} participant(s) gave rating)</li> 
                 </ul>
 
                 {this.state.records.length === 0 && <div>No data found!</div>}

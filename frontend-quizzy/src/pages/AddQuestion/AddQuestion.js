@@ -21,6 +21,8 @@ export const AddQuestion = () => {
     const [confirmModal, setConfirmModal] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
     const [showPopup2, setShowPopup2] = useState(true);
+    const [showPopup3, setShowPopup3] = useState(false);
+    const [error, setError] = useState(null);
 
     let navigate = useNavigate();
     let location = useLocation();
@@ -33,10 +35,22 @@ export const AddQuestion = () => {
       setShowPopup(false);
     }
 
+    function handlePopup3Close() {
+      setShowPopup3(false);
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault()
-        addQuestion(quizQuestion, quizAnswer1, quizAnswer2, quizAnswer3, quizAnswer4, selectedOption, imageUpload, location.state.quizKey);
-        setShowPopup(true);
+        if (quizAnswer1 === quizAnswer2 || quizAnswer1 === quizAnswer3 
+          || quizAnswer1 === quizAnswer4 || quizAnswer2 === quizAnswer3 
+          || quizAnswer2 == quizAnswer4 || quizAnswer3 === quizAnswer4) {
+              setError("The answers must be different!")
+              setShowPopup3(true);
+      
+      } else {
+          addQuestion(quizQuestion, quizAnswer1, quizAnswer2, quizAnswer3, quizAnswer4, selectedOption, imageUpload, location.state.quizKey);
+          setShowPopup(true);
+      }
     }
 
     useEffect(()=>{
@@ -52,13 +66,20 @@ export const AddQuestion = () => {
         setSelectedOption(event.target.value);
     }
 
+    useEffect(()=>{
+      if (error != null && !showPopup3) {
+        setShowPopup(true);
+      }
+    }, [error])
+
     return (
       <div className='add-question-wrapper'>
 
           <div className='add-question-navigation-component'>
               <NavigationComponent
                   pageTitle="Add Question"
-                  pairs={[['Questions Sets', '/quizzes'],
+                  pairs={[['Dashboard', '/dashboard'],
+                          ['Questions Sets', '/quizzes'],
                           ['Create Question Set', '/create_quiz'],
                           ['Add Question', '/add_question']
                   ]}
@@ -89,6 +110,17 @@ export const AddQuestion = () => {
               position="top-right"
               icon = {<FaCheck className='flag-button' style={{color:"rgb(232, 173, 64)"}}/>}
               onClose={handlePopupClose}
+            />
+          )}
+
+          {showPopup3 && 
+          (
+            <Popup
+              message={error}
+              duration={2000}
+              position="top-right"
+              // icon = {<FaCheck className='flag-button' style={{color:"rgb(232, 173, 64)"}}/>}
+              onClose={handlePopup3Close}
             />
           )}
 

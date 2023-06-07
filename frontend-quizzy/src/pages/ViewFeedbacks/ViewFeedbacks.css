@@ -22,6 +22,7 @@
 }
 
 .view-feedbacks-item{
+    word-break: break-all;
     margin-top: 20px;
     margin-bottom: 40px;
 }

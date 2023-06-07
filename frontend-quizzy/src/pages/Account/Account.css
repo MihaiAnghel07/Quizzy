@@ -59,11 +59,11 @@
     margin-left: -50%;
   }
 
-  #account-page-title{
-    margin-top: 50px;
-    margin-bottom: -20px;
-    margin-left: -32%;
-  }
+.edit-account-navigation-component{
+  margin-top: 20px;
+  margin-left: 50px;
+  margin-bottom: 80px;
+}
 
   #change-password-btn, #delete-account-btn {
     width: 150px;

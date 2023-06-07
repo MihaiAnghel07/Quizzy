@@ -11,6 +11,7 @@ import { useUpdateLobby } from '../../hooks/useUpdateLobby'
 import Popup from '../../components/Popup/Popup'
 import { FaCheck } from 'react-icons/fa'
 import { useSetHistoryInitialState } from '../../hooks/useSetHistoryInitialState'
+import NavigationComponent from '../../components/NavigationComponent/NavigationComponent'
 
 
 
@@ -106,59 +107,70 @@ export default function Create_lobby() {
   }
 
   return (
-    <div className='create-lobby-wrapper'>
-      {openModal && <div id='close-lobby-modal'>
-        <Modal closeModal={setOpenModal} yesModal={setConfirmModal} message="Are you sure you want to close the lobby?" /> </div>}
-      
-      {showPopup &&
-      (
-        <Popup
-          message="Select a quiz before starting the quiz!"
-          duration={2000}
-          position="top-right"
-          // icon = {<FaCheck className='flag-button'/>}
-          onClose={handlePopupClose}
+    <div>
+      <div className='create-lobby-navigation-component'>
+        <NavigationComponent
+            pageTitle="Create Lobby"
+            pairs={[["Dashboard", "/dashboard"],
+                    ["Create Lobby", "/create_lobby"]]}
         />
-      )}
+      </div>
 
-      {showPopup2 &&
-      (
-        <Popup
-          message={error}
-          duration={2000}
-          position="top-right"
-          // icon = {<FaCheck className='flag-button'/>}
-          onClose={handlePopupClose2}
-        />
-      )}
-          
-      <div className='create-lobby-content'>
-        <div id="print-lobbyCode">Lobby Code: {lobbyCode}</div>
-        <div id="print-quiz-title">
-          {location.state?.quizId ? <h2>{"Selected Question Set: " + location.state?.quizTitle}</h2> : 
-                                  <h2>No Question Set Selected</h2>}
-                                  <li id='select-quiz-button' onClick={selectQuizHandler}>Select Question Set</li>
-        </div>
-        <div className='quiz-duration'>
-          <p>Quiz duration (minutes):  </p>
-          <input id='quiz-duration-input' type='number' value={duration} onChange={handleDurationChange} min="1" max="60"></input>
-        </div>
-        <div className='create-lobby-buttons'>
-        <ul>
-          <li id='start-quiz-button' onClick={startQuizHandler}>Start Quiz</li>
-          <li id='close-lobby-button' onClick={setOpenModal}>Close Lobby</li>
-        </ul>
-        </div>
-        <div className="show-participants-container">
-          <caption id="participants">Participants</caption>
-          <div className='show-participants'>
-            <ShowParticipants lobbyCode={lobbyCode} />
+      <div className='create-lobby-wrapper'>
+
+        {openModal && <div id='close-lobby-modal'>
+          <Modal closeModal={setOpenModal} yesModal={setConfirmModal} message="Are you sure you want to close the lobby?" /> </div>}
+        
+        {showPopup &&
+        (
+          <Popup
+            message="Select a quiz before starting the quiz!"
+            duration={2000}
+            position="top-right"
+            // icon = {<FaCheck className='flag-button'/>}
+            onClose={handlePopupClose}
+          />
+        )}
+
+        {showPopup2 &&
+        (
+          <Popup
+            message={error}
+            duration={2000}
+            position="top-right"
+            // icon = {<FaCheck className='flag-button'/>}
+            onClose={handlePopupClose2}
+          />
+        )}
+            
+        <div className='create-lobby-content'>
+          <div id="print-lobbyCode">Lobby Code: {lobbyCode}</div>
+          <div id="print-quiz-title">
+            {location.state?.quizId ? <h2>{"Selected Question Set: " + location.state?.quizTitle}</h2> : 
+                                    <h2>No Question Set Selected</h2>}
+                                    <li id='select-quiz-button' onClick={selectQuizHandler}>Select Question Set</li>
           </div>
-        </div>
-        
-        
-        
-      </div>  
+          <div className='quiz-duration'>
+            <p>Quiz duration (minutes):  </p>
+            <input id='quiz-duration-input' type='number' value={duration} onChange={handleDurationChange} min="1" max="60"></input>
+          </div>
+          <div className='create-lobby-buttons'>
+          <ul>
+            <li id='start-quiz-button' onClick={startQuizHandler}>Start Quiz</li>
+            <li id='close-lobby-button' onClick={setOpenModal}>Close Lobby</li>
+          </ul>
+          </div>
+          <div className="show-participants-container">
+            <caption id="participants">Participants</caption>
+            <div className='show-participants'>
+              <ShowParticipants lobbyCode={lobbyCode} />
+            </div>
+          </div>
+          
+          
+          
+        </div>  
+      </div>
     </div>
   )
 }

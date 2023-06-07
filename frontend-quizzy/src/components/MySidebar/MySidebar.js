@@ -24,6 +24,14 @@ export default function MySidebar(props) {
 
   const [selectedButton, setSelectedButton] = useState('dashboard');
 
+  useEffect(()=>{
+    if (localStorage.getItem("selectedButton") == null)
+      setSelectedButton('dashboard');
+    else
+      setSelectedButton(localStorage.getItem("selectedButton"));
+
+  }, [localStorage.getItem("selectedButton")])
+
   function handleDashboardButtonClick() {
     if (sessionStorage.getItem("quizOnGoing")) {
       let startTime = new Date().getTime();
@@ -34,6 +42,7 @@ export default function MySidebar(props) {
         sessionStorage.removeItem("quizOnGoing");
         localStorage.removeItem("alertTime");
         setSelectedButton('dashboard');
+        localStorage.setItem("selectedButton", "dashboard");
         navigate('/dashboard', {replace: true});
 
       } else {
@@ -44,6 +53,7 @@ export default function MySidebar(props) {
     
     } else {
       setSelectedButton('dashboard');
+      localStorage.setItem("selectedButton", "dashboard");
       navigate('/dashboard');
     }
 
@@ -51,23 +61,111 @@ export default function MySidebar(props) {
   }
 
   function handleAccountButtonClick() {
-    setSelectedButton('account');
-    navigate('/account');
+    if (sessionStorage.getItem("quizOnGoing")) {
+      let startTime = new Date().getTime();
+
+      if (window.confirm("Are you sure you want to leave the quiz? You will not be able to re-attempt the quiz!")) {
+        localStorage.removeItem("currentQuestionCount");
+        localStorage.removeItem("quizDuration");
+        sessionStorage.removeItem("quizOnGoing");
+        localStorage.removeItem("alertTime");
+        setSelectedButton('account');
+        localStorage.setItem("selectedButton", "account");
+        navigate('/account', {replace: true});
+
+      } else {
+        const duration = Math.round((new Date().getTime() - startTime) / 1000);
+        console.log(`Confirmation dialog lasted for ${duration} seconds.`);
+        localStorage.setItem("alertTime", (parseInt(localStorage.getItem("alertTime") == null? 0 : localStorage.getItem("alertTime")) +  duration));
+      }
+    
+    } else {
+      setSelectedButton('account');
+      localStorage.setItem("selectedButton", "account");
+      navigate('/account');
+    }
+    
   }
 
   function handleFaqButtonClick() {
-    setSelectedButton('faq');
-    navigate('/faq');
+    if (sessionStorage.getItem("quizOnGoing")) {
+      let startTime = new Date().getTime();
+
+      if (window.confirm("Are you sure you want to leave the quiz? You will not be able to re-attempt the quiz!")) {
+        localStorage.removeItem("currentQuestionCount");
+        localStorage.removeItem("quizDuration");
+        sessionStorage.removeItem("quizOnGoing");
+        localStorage.removeItem("alertTime");
+        setSelectedButton('faq');
+        localStorage.setItem("selectedButton", "faq");
+        navigate('/faq', {replace: true});
+
+      } else {
+        const duration = Math.round((new Date().getTime() - startTime) / 1000);
+        console.log(`Confirmation dialog lasted for ${duration} seconds.`);
+        localStorage.setItem("alertTime", (parseInt(localStorage.getItem("alertTime") == null? 0 : localStorage.getItem("alertTime")) +  duration));
+      }
+    
+    } else {
+      setSelectedButton('faq');
+      localStorage.setItem("selectedButton", "faq");
+      navigate('/faq');
+    }
+    
   }
 
   function handleContactButtonClick() {
-    setSelectedButton('contact');
-    navigate('/contact');
+    if (sessionStorage.getItem("quizOnGoing")) {
+      let startTime = new Date().getTime();
+
+      if (window.confirm("Are you sure you want to leave the quiz? You will not be able to re-attempt the quiz!")) {
+        localStorage.removeItem("currentQuestionCount");
+        localStorage.removeItem("quizDuration");
+        sessionStorage.removeItem("quizOnGoing");
+        localStorage.removeItem("alertTime");
+        setSelectedButton('contact');
+        localStorage.setItem("selectedButton", "contact");
+        navigate('/contact', {replace: true});
+
+      } else {
+        const duration = Math.round((new Date().getTime() - startTime) / 1000);
+        console.log(`Confirmation dialog lasted for ${duration} seconds.`);
+        localStorage.setItem("alertTime", (parseInt(localStorage.getItem("alertTime") == null? 0 : localStorage.getItem("alertTime")) +  duration));
+      }
+    
+    } else {
+      setSelectedButton('contact');
+      localStorage.setItem("selectedButton", "contact");
+      navigate('/contact');
+    }
+    
   }
 
   function handleHistoryButtonClick() {
-    setSelectedButton('history');
-    navigate('/history');
+    if (sessionStorage.getItem("quizOnGoing")) {
+      let startTime = new Date().getTime();
+
+      if (window.confirm("Are you sure you want to leave the quiz? You will not be able to re-attempt the quiz!")) {
+        localStorage.removeItem("currentQuestionCount");
+        localStorage.removeItem("quizDuration");
+        sessionStorage.removeItem("quizOnGoing");
+        localStorage.removeItem("alertTime");
+        setSelectedButton('history');
+        localStorage.setItem("selectedButton", "history");
+        navigate('/history', {replace: true});
+
+      } else {
+        const duration = Math.round((new Date().getTime() - startTime) / 1000);
+        console.log(`Confirmation dialog lasted for ${duration} seconds.`);
+        localStorage.setItem("alertTime", (parseInt(localStorage.getItem("alertTime") == null? 0 : localStorage.getItem("alertTime")) +  duration));
+      }
+    
+    } else {
+      setSelectedButton('history');
+      localStorage.setItem("selectedButton", "history");
+      navigate('/history');
+    }
+    
   }
 
 

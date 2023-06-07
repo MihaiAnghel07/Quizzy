@@ -17,8 +17,8 @@ class ParticipantRaport extends React.Component {
     }
 
     componentDidMount() {
-
-        const ref = projectFirebaseRealtime.ref('History/participant/' + this.props.participant + '/quizzes/' + this.props.quizId);
+        let host = localStorage.getItem("username");
+        const ref = projectFirebaseRealtime.ref('History/host/' + host + "/quizzes/" + this.props.quizId + "/" + this.props.participant);
         ref.once('value', (snapshot) => {
             if (snapshot.exists()) {
                 let records = [];

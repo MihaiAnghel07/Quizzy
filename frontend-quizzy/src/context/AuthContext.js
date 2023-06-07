@@ -31,6 +31,7 @@ export const authReducer = (state, action) => {
             localStorage.removeItem("quizDuration");
             sessionStorage.removeItem("quizOnGoing");
             localStorage.removeItem("alertTime");
+            localStorage.removeItem("selectedButton");
             projectFirebaseAuth.signOut()
             
             return { ...state, user: null}

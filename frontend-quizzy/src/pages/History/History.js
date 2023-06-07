@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './History.css'
 import { useNavigate } from 'react-router-dom';
 import ShowHistory from '../../components/ShowHistory/ShowHistory';
+import NavigationComponent from '../../components/NavigationComponent/NavigationComponent';
 
  
 class History extends React.Component {
@@ -38,6 +39,13 @@ class History extends React.Component {
   render () {
     return (
       <div className='history-wrapper'>
+        <div className='history-navigation-component'>
+          <NavigationComponent
+              pageTitle="History"
+              pairs={[]}
+          />
+        </div>
+
         <div className='history-content'>
           <div className='history-header'>
 

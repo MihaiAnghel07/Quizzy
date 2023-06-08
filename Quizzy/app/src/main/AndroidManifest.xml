@@ -15,6 +15,27 @@
         android:theme="@style/Theme.Quizzy"
         tools:targetApi="31">
         <activity
+            android:name=".ViewStatisticsActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ViewFeedbackActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".QuizDetailsHostActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".SelectQuestionSetActivity"
             android:exported="false">
             <meta-data

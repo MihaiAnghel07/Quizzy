@@ -1,7 +1,14 @@
 package com.quizzy.android;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+import com.google.firebase.database.PropertyName;
+import com.quizzy.android.DataStructures.Answer;
+
+@IgnoreExtraProperties
 public class AnswerData {
+    @PropertyName("isCorrect")
     private Boolean isCorrect;
+    @PropertyName("isSelected")
     private Boolean isSelected;
     private String text;
 
@@ -17,20 +24,29 @@ public class AnswerData {
         this.text = text;
     }
 
+    public AnswerData(Answer ans) {
+        this.isCorrect = ans.getIsCorrect();
+        this.text = ans.getText();
+        this.isSelected = false;
+    }
 
 
+    @PropertyName("isCorrect")
     public Boolean isCorrect() {
         return isCorrect;
     }
 
+    @PropertyName("isCorrect")
     public void setCorrect(Boolean correct) {
         isCorrect = correct;
     }
 
+    @PropertyName("isSelected")
     public Boolean isSelected() {
         return isSelected;
     }
 
+    @PropertyName("isSelected")
     public void setSelected(Boolean selected) {
         isSelected = selected;
     }

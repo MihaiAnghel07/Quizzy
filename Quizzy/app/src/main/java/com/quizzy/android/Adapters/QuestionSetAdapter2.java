@@ -89,7 +89,7 @@ public class QuestionSetAdapter2 extends BaseAdapter {
         holder.editImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Edit " + quizId, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "Edit " + quizId, Toast.LENGTH_SHORT).show();
 
                 Intent newIntent = new Intent(context, EditQuestionSetActivity.class);
                 newIntent.putExtra("quizId", quizId);
@@ -102,7 +102,7 @@ public class QuestionSetAdapter2 extends BaseAdapter {
         holder.deleteImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Delete " + quizId, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "Delete " + quizId, Toast.LENGTH_SHORT).show();
 
                 // Ask user to confirm deleting question set
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -130,7 +130,18 @@ public class QuestionSetAdapter2 extends BaseAdapter {
         holder.copyImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Copy " + quizId, Toast.LENGTH_SHORT).show();
+                QuestionSet questionSetDuplicate = new QuestionSet();
+                questionSetDuplicate.setQuestions(questionSet.getQuestions());
+                questionSetDuplicate.setTitle(questionSet.getTitle());
+                questionSetDuplicate.setIsPublic(true);
+                String username = PreferenceHelper.getUsername(context);
+                questionSetDuplicate.setAuthor(username);
+
+                String key = String.valueOf(System.currentTimeMillis());
+                databaseRef = FirebaseDatabase.getInstance().getReference("Quizzes");
+                databaseRef.child(username).child(key).setValue(questionSetDuplicate);
+
+                Toast.makeText(context, "Question set copied successfully", Toast.LENGTH_SHORT).show();
             }
         });
 

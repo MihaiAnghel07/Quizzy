@@ -37,6 +37,7 @@ public class QuizDetailsActivity extends AppCompatActivity {
     private TextView quizTitleTextView;
     private TextView scoreTextView;
     private int score;
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +46,18 @@ public class QuizDetailsActivity extends AppCompatActivity {
 
         questionListLayout = findViewById(R.id.questionListLayout);
 
-        String username = PreferenceHelper.getUsername(this);
+        username = getIntent().getStringExtra("username");
         String quizId = getIntent().getStringExtra("quizId");
+        boolean displayUsername = getIntent().getBooleanExtra("displayUsername", false);
 
         quizTitleTextView = findViewById(R.id.quizTitleTextView);
-        quizTitleTextView.setText(getIntent().getStringExtra("quizTitle") + "\n" +
-                                    getIntent().getStringExtra("timestamp"));
+        if (!displayUsername) {
+            quizTitleTextView.setText(getIntent().getStringExtra("quizTitle") + "\n" +
+                    getIntent().getStringExtra("timestamp"));
+        } else {
+            quizTitleTextView.setText(username);
+        }
+
         scoreTextView = findViewById(R.id.scoreTextView);
         score = 0;
 
@@ -87,7 +94,7 @@ public class QuizDetailsActivity extends AppCompatActivity {
                     if (questionSnapshot.child("hasImage").getValue(Boolean.class)) {
                         ImageView questionImageView = new ImageView(QuizDetailsActivity.this);
                         String imageName = questionSnapshot.child("image").getValue(String.class);
-                        String imagePath = "History/participant/" + PreferenceHelper.getUsername(QuizDetailsActivity.this) + "/quizzes/" + quizId + "/questions/" + questionSnapshot.getKey() + "/" + imageName;
+                        String imagePath = "History/participant/" + username + "/quizzes/" + quizId + "/questions/" + questionSnapshot.getKey() + "/" + imageName;
                         //String imagePath = "/History/participant/user3/quizzes/1685717718679/questions/0/1200px-Un1.svg.png";
                         StorageReference imageRef = storageRef.child(imagePath);
                         imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {

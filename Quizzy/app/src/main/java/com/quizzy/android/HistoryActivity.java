@@ -10,7 +10,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +30,8 @@ public class HistoryActivity extends AppCompatActivity {
 
     private LinearLayout quizListLayout;
     private DatabaseReference historyRef;
+    private Spinner historyTypeSpinner;
+    private String selectedHistoryType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,33 +39,88 @@ public class HistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_history);
 
         quizListLayout = findViewById(R.id.quizListLayout);
+        historyTypeSpinner = findViewById(R.id.historyTypeSpinner);
 
-        historyRef = FirebaseDatabase.getInstance().getReference().child("History")
-                .child("participant").child(PreferenceHelper.getUsername(this)).child("quizzes");
+        // Initialize spinner
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this,
+                R.array.history_types, android.R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        historyTypeSpinner.setAdapter(spinnerAdapter);
 
-        historyRef.addValueEventListener(new ValueEventListener() {
+        // Attach spinner listener
+        historyTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                quizListLayout.removeAllViews();
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                System.out.println("Spinner selected");
+                selectedHistoryType = parent.getItemAtPosition(position).toString();
+                if (selectedHistoryType.equals("Participant")) {
+                    // Load quiz list for participant
+                    historyRef = FirebaseDatabase.getInstance().getReference().child("History")
+                            .child("participant").child(PreferenceHelper.getUsername(HistoryActivity.this)).child("quizzes");
 
-                for (DataSnapshot quizSnapshot : dataSnapshot.getChildren()) {
-                    String quizId = quizSnapshot.getKey();
-                    String quizTitle = quizSnapshot.child("quizTitle").getValue(String.class);
-                    String timestamp = quizSnapshot.child("timestamp").getValue(String.class);
-                    System.out.println("quizID: " + quizId + "; title: " + quizTitle + " timestamp: " + timestamp);
+                    historyRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            quizListLayout.removeAllViews();
 
-                    if (quizTitle != null && timestamp != null) {
-                        addQuizToList(quizId, quizTitle, timestamp);
-                    }
+                            for (DataSnapshot quizSnapshot : dataSnapshot.getChildren()) {
+                                String quizId = quizSnapshot.getKey();
+                                String quizTitle = quizSnapshot.child("quizTitle").getValue(String.class);
+                                String timestamp = quizSnapshot.child("timestamp").getValue(String.class);
+                                System.out.println("quizID: " + quizId + "; title: " + quizTitle + " timestamp: " + timestamp);
+
+                                if (quizTitle != null && timestamp != null) {
+                                    addQuizToList(quizId, quizTitle, timestamp);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            // Handle database error, if needed
+                        }
+                    });
+                } else {
+                    // Load quiz list for host
+                    historyRef = FirebaseDatabase.getInstance().getReference().child("History")
+                            .child("host").child(PreferenceHelper.getUsername(HistoryActivity.this)).child("quizzes");
+
+                    historyRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            quizListLayout.removeAllViews();
+
+                            for (DataSnapshot quizSnapshot : dataSnapshot.getChildren()) {
+                                String quizId = quizSnapshot.getKey();
+                                String quizTitle = quizSnapshot.child("quizTitle").getValue(String.class);
+                                String timestamp = quizSnapshot.child("timestamp").getValue(String.class);
+                                System.out.println("quizID: " + quizId + "; title: " + quizTitle + " timestamp: " + timestamp);
+
+                                if (quizTitle != null && timestamp != null) {
+                                    addQuizToList(quizId, quizTitle, timestamp);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            // Handle database error, if needed
+                        }
+                    });
                 }
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Handle database error, if needed
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
             }
         });
+
+        // Set the spinner selection to "All question sets"
+        historyTypeSpinner.setSelection(0);
+        selectedHistoryType = "Participant";
     }
+
 
     private void addQuizToList(String quizId, String quizTitle, String timestamp) {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
@@ -77,12 +137,24 @@ public class HistoryActivity extends AppCompatActivity {
         quizItemTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Open QuizDetailsActivity with quizId as extra
-                Intent intent = new Intent(HistoryActivity.this, QuizDetailsActivity.class);
-                intent.putExtra("quizId", quizId);
-                intent.putExtra("quizTitle", quizTitle);
-                intent.putExtra("timestamp", timestamp);
-                startActivity(intent);
+                if (selectedHistoryType.equals("Participant")) {
+                    // Start QuizDetailsActivity (participant) with quizId as extra
+                    Intent intent = new Intent(HistoryActivity.this, QuizDetailsActivity.class);
+                    intent.putExtra("username", PreferenceHelper.getUsername(HistoryActivity.this));
+                    intent.putExtra("quizId", quizId);
+                    intent.putExtra("quizTitle", quizTitle);
+                    intent.putExtra("timestamp", timestamp);
+                    intent.putExtra("displayUsername", false);
+                    startActivity(intent);
+                } else {
+                    // Start QuizDetailsActivity (host) with quizId as extra
+                    Toast.makeText(HistoryActivity.this, "Host", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(HistoryActivity.this, QuizDetailsHostActivity.class);
+                    intent.putExtra("quizId", quizId);
+                    intent.putExtra("quizTitle", quizTitle);
+                    intent.putExtra("timestamp", timestamp);
+                    startActivity(intent);
+                }
             }
         });
 

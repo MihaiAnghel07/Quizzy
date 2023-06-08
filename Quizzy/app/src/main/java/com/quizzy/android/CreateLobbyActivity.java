@@ -1,5 +1,6 @@
 package com.quizzy.android;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -24,8 +25,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.quizzy.android.DataStructures.Question;
 import com.quizzy.android.DataStructures.QuestionSet;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -53,7 +58,8 @@ public class CreateLobbyActivity extends AppCompatActivity {
 
     String username;
 
-    String quizAuthor, quizId;
+    String quizAuthor, quizId, quizTitle;
+    String lobbyId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,21 +198,18 @@ public class CreateLobbyActivity extends AppCompatActivity {
     }
 
     private void createLobbyEntry() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy, hh:mm:ss a", Locale.getDefault());
-        String timestamp = dateFormat.format(new Date());
-
         lobbyRef.child("code").setValue(lobbyCode);
         lobbyRef.child("duration").setValue(-1);
         lobbyRef.child("gameStatus").setValue("on hold");
         lobbyRef.child("host").setValue(username);
-        lobbyRef.child("lobbyId").setValue(System.currentTimeMillis());
+        lobbyRef.child("lobbyId").setValue(String.valueOf(System.currentTimeMillis()));
         lobbyRef.child("noParticipants").setValue(0);
         lobbyRef.child("participants").setValue(new ArrayList<>());
         lobbyRef.child("questionIndex").setValue(0);
         lobbyRef.child("quizAuthor").setValue("");
-        lobbyRef.child("quizId").setValue("");
+        lobbyRef.child("quizId").setValue(-1);
         lobbyRef.child("quizTitle").setValue("");
-        lobbyRef.child("timestamp").setValue(timestamp);
+        lobbyRef.child("timestamp").setValue("");
 
         // Listen for changes in the participants list
         lobbyRef.child("participants").addValueEventListener(new ValueEventListener() {
@@ -230,6 +233,191 @@ public class CreateLobbyActivity extends AppCompatActivity {
     private void startQuiz() {
         // TODO: Implement quiz start logic
 
+        // Generate timestamp
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy, hh:mm:ss a", Locale.getDefault());
+        String timestamp = dateFormat.format(new Date());
+
+
+        // Get lobby ID from firebase
+        lobbyRef.child("lobbyId").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String lobbyId = snapshot.getValue(String.class);
+
+                // Get question set data from firebase
+                DatabaseReference questionSetsRef = FirebaseDatabase.getInstance().getReference("Quizzes");
+                questionSetsRef.child(quizAuthor).child(quizId).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        ArrayList<String> questionIds = new ArrayList<>();
+
+                        ArrayList<Question> questions = new ArrayList<>();
+                        for (DataSnapshot questionSnapshot : snapshot.child("Questions").getChildren()) {
+                            questions.add(questionSnapshot.getValue(Question.class));
+                            questionIds.add(questionSnapshot.getKey());
+                        }
+
+
+                        DatabaseReference historyRef = FirebaseDatabase.getInstance().getReference("History");
+                        for (String participant : participantsList) {
+                            // Write question set data in participant history
+                            historyRef.child("participant").child(participant).child("quizzes").child(lobbyId).child("quizTitle").setValue(quizTitle);
+                            historyRef.child("participant").child(participant).child("quizzes").child(lobbyId).child("timestamp").setValue(timestamp);
+
+                            for (int i = 0; i < questionIds.size(); i++) {
+                                historyRef.child("participant").child(participant).child("quizzes").child(lobbyId).child("questions")
+                                        .child(questionIds.get(i)).child("hasImage").setValue(questions.get(i).isHasImage());
+                                historyRef.child("participant").child(participant).child("quizzes").child(lobbyId).child("questions")
+                                        .child(questionIds.get(i)).child("image").setValue(questions.get(i).getImage());
+                                historyRef.child("participant").child(participant).child("quizzes").child(lobbyId).child("questions")
+                                        .child(questionIds.get(i)).child("isFlagged").setValue(questions.get(i).getIsFlagged());
+                                historyRef.child("participant").child(participant).child("quizzes").child(lobbyId).child("questions")
+                                        .child(questionIds.get(i)).child("question").setValue(questions.get(i).getQuestion());
+
+                                // Convert answer data from question set structure to history structure (isSelected field)
+                                AnswerData answer1 = new AnswerData(questions.get(i).getAnswer1());
+                                AnswerData answer2 = new AnswerData(questions.get(i).getAnswer2());
+                                AnswerData answer3 = new AnswerData(questions.get(i).getAnswer3());
+                                AnswerData answer4 = new AnswerData(questions.get(i).getAnswer4());
+
+                                // Set answers
+                                historyRef.child("participant").child(participant).child("quizzes").child(lobbyId).child("questions")
+                                        .child(questionIds.get(i)).child("answer1").setValue(answer1);
+                                historyRef.child("participant").child(participant).child("quizzes").child(lobbyId).child("questions")
+                                        .child(questionIds.get(i)).child("answer2").setValue(answer2);
+                                historyRef.child("participant").child(participant).child("quizzes").child(lobbyId).child("questions")
+                                        .child(questionIds.get(i)).child("answer3").setValue(answer3);
+                                historyRef.child("participant").child(participant).child("quizzes").child(lobbyId).child("questions")
+                                        .child(questionIds.get(i)).child("answer4").setValue(answer4);
+
+                                // Duplicate question images
+                                if (questions.get(i).isHasImage()) {
+                                    // Get source image
+                                    String sourcePath = "/Images/" + quizAuthor + "/" + quizId +
+                                            "/Questions/" + questionIds.get(i) + "/" + questions.get(i).getImage();
+
+                                    FirebaseStorage storage = FirebaseStorage.getInstance();
+                                    StorageReference sourceRef = storage.getReference().child(sourcePath);
+
+                                    int finalI = i;
+                                    sourceRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                                        // The image download URL is available here
+                                        // String imageUrl = uri.toString();
+
+                                        // Image retrieved successfully
+                                        // Put destination image
+                                        String destinationPath = "/History/participant/" +
+                                                participant + "/quizzes/" + lobbyId + "/questions/" +
+                                                questionIds.get(finalI) + "/" + questions.get(finalI).getImage();
+
+                                        StorageReference destinationRef = storage.getReference().child(destinationPath);
+                                        sourceRef.getBytes(Long.MAX_VALUE).addOnSuccessListener(bytes -> {
+                                            destinationRef.putBytes(bytes).addOnSuccessListener(taskSnapshot -> {
+                                                // Image duplication successful
+
+                                            }).addOnFailureListener(exception -> {
+                                                // Handle any errors that occurred while duplicating the image
+                                            });
+                                        }).addOnFailureListener(exception -> {
+                                            // Handle any errors that occurred while retrieving the image bytes
+                                        });
+                                    }).addOnFailureListener(exception -> {
+                                        // Handle any errors that occurred while retrieving the image
+                                    });
+                                }
+                            }
+
+
+                            // Write question set data in host history
+                            historyRef.child("host").child(username).child("quizzes").child(lobbyId).child("quizTitle").setValue(quizTitle);
+                            historyRef.child("host").child(username).child("quizzes").child(lobbyId).child("timestamp").setValue(timestamp);
+
+                            for (int i = 0; i < questionIds.size(); i++) {
+                                historyRef.child("host").child(username).child("quizzes").child(lobbyId).child(participant).child("questions")
+                                        .child(questionIds.get(i)).child("hasImage").setValue(questions.get(i).isHasImage());
+                                historyRef.child("host").child(username).child("quizzes").child(lobbyId).child(participant).child("questions")
+                                        .child(questionIds.get(i)).child("image").setValue(questions.get(i).getImage());
+                                historyRef.child("host").child(username).child("quizzes").child(lobbyId).child(participant).child("questions")
+                                        .child(questionIds.get(i)).child("isFlagged").setValue(questions.get(i).getIsFlagged());
+                                historyRef.child("host").child(username).child("quizzes").child(lobbyId).child(participant).child("questions")
+                                        .child(questionIds.get(i)).child("question").setValue(questions.get(i).getQuestion());
+
+                                // Convert answer data from question set structure to history structure (isSelected field)
+                                AnswerData answer1 = new AnswerData(questions.get(i).getAnswer1());
+                                AnswerData answer2 = new AnswerData(questions.get(i).getAnswer2());
+                                AnswerData answer3 = new AnswerData(questions.get(i).getAnswer3());
+                                AnswerData answer4 = new AnswerData(questions.get(i).getAnswer4());
+
+                                // Set answers
+                                historyRef.child("host").child(username).child("quizzes").child(lobbyId).child(participant).child("questions")
+                                        .child(questionIds.get(i)).child("answer1").setValue(answer1);
+                                historyRef.child("host").child(username).child("quizzes").child(lobbyId).child(participant).child("questions")
+                                        .child(questionIds.get(i)).child("answer2").setValue(answer2);
+                                historyRef.child("host").child(username).child("quizzes").child(lobbyId).child(participant).child("questions")
+                                        .child(questionIds.get(i)).child("answer3").setValue(answer3);
+                                historyRef.child("host").child(username).child("quizzes").child(lobbyId).child(participant).child("questions")
+                                        .child(questionIds.get(i)).child("answer4").setValue(answer4);
+
+                                // Duplicate question images
+                                if (questions.get(i).isHasImage()) {
+                                    // Get source image
+                                    String sourcePath = "/Images/" + quizAuthor + "/" + quizId +
+                                            "/Questions/" + questionIds.get(i) + "/" + questions.get(i).getImage();
+
+                                    FirebaseStorage storage = FirebaseStorage.getInstance();
+                                    StorageReference sourceRef = storage.getReference().child(sourcePath);
+
+                                    int finalI = i;
+                                    sourceRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                                        // The image download URL is available here
+                                        // String imageUrl = uri.toString();
+
+                                        // Image retrieved successfully
+                                        // Put destination image
+                                        String destinationPath = "/History/host/" + username +
+                                                "/quizzes/" + lobbyId + "/" + participant + "/questions/" +
+                                                questionIds.get(finalI) + "/" + questions.get(finalI).getImage();
+
+                                        StorageReference destinationRef = storage.getReference().child(destinationPath);
+                                        sourceRef.getBytes(Long.MAX_VALUE).addOnSuccessListener(bytes -> {
+                                            destinationRef.putBytes(bytes).addOnSuccessListener(taskSnapshot -> {
+                                                // Image duplication successful
+
+                                            }).addOnFailureListener(exception -> {
+                                                // Handle any errors that occurred while duplicating the image
+                                            });
+                                        }).addOnFailureListener(exception -> {
+                                            // Handle any errors that occurred while retrieving the image bytes
+                                        });
+                                    }).addOnFailureListener(exception -> {
+                                        // Handle any errors that occurred while retrieving the image
+                                    });
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+        lobbyRef.child("timestamp").setValue(timestamp);
+        lobbyRef.child("duration").setValue(editTextDuration.getText().toString());
+        lobbyRef.child("gameStatus").setValue("in progress");
+        lobbyRef.child("quizAuthor").setValue(quizAuthor);
+        lobbyRef.child("quizId").setValue(quizId);
+        lobbyRef.child("quizTitle").setValue(quizTitle);
     }
 
     private void closeLobby() {
@@ -247,8 +435,8 @@ public class CreateLobbyActivity extends AppCompatActivity {
                 // Set the question set author and Id receiver from question set selection activity
                 quizAuthor = data.getStringExtra("quizAuthor");
                 quizId = data.getStringExtra("quizId");
-                String title = data.getStringExtra("title");
-                textViewSelectedQuestionSet.setText("Selected Question Set: " + title);
+                quizTitle = data.getStringExtra("title");
+                textViewSelectedQuestionSet.setText("Selected Question Set: " + quizTitle);
             }
         }
     }

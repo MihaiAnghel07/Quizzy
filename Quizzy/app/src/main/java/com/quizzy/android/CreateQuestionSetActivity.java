@@ -204,7 +204,7 @@ public class CreateQuestionSetActivity extends AppCompatActivity {
     }
 
     private void isQuestionSetTitleUnique(String title, UniqueTitleListener listener) {
-        DatabaseReference userRef = databaseRef.child("YourUsername");
+        DatabaseReference userRef = databaseRef.child(username);
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

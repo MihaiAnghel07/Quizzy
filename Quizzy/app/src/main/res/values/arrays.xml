@@ -20,4 +20,9 @@
     <string name="select_correct_answer">Select Correct Answer</string>
     <string name="select_visibility">Select Visibility</string>
 
+    <string-array name="history_types">
+        <item>Participant</item>
+        <item>Host</item>
+    </string-array>
+
 </resources>

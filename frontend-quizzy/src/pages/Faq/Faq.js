@@ -30,11 +30,22 @@ const Faq = () => {
           <div className="faq-question" onClick={() => handleFaqClick(1)}>
             {expandedId === 1 && <AiOutlineUp/>}
             {expandedId != 1 && <AiOutlineDown/>}
-              Question 1
+              How do I create a set of questions?
             </div>
           {expandedId === 1 && (
             <div className="faq-answer">
-              Answer to question 1.
+              In order to create a set of questions, you need to follow the steps:
+              <ol className='faq-q1-list'>
+                <li>From Dashboard, click on "Question Sets"</li>
+                <li>In "Question Sets" page, you will find "Create Question Set" button. Click on it.</li>
+                <li>Now, you can define your own question set. You can add images & text for each question, 
+                  you can set the question set visibility:</li>
+                  <ul>
+                    <li>private: only you will be able to use this set for quizzes</li>
+                    <li>public: other people will see the set content and they will be able to use the set for their own quizzes</li>
+                  </ul>
+              </ol>
+              
             </div>
           )}
         </div>

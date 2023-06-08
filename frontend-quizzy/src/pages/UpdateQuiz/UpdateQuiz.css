@@ -91,6 +91,7 @@
     margin-bottom: 12px;
     /* width: 90%; */
     transition: background-color 0.1s ease-in-out;
+    padding-left: 10px;
 }
 
 .question-text-header:hover {
@@ -103,17 +104,19 @@
     min-height: 55px;
     border: 0px solid;
     border-radius: 0px 10px 10px 0px;
-    background-color: orange;
+    background-color: rgb(255, 61, 61);
     font: 0.7em sans-serif;
     padding-left: 20px;
     padding-right: 20px;
     /* transition: background-color 0.1s ease-in-out; */
     margin-left: auto;
-    background-image: linear-gradient(to right, rgb(240, 142, 14) 0%, rgb(240, 142, 14) 0%);
+    background-image: linear-gradient(to right, red 0%, red 0%);
     background-size: 0% 100%;
     background-repeat: no-repeat;
     transition: background-size 0.5s;
+    min-width: 110px;
 }
+
 
 #delete-question-btn:hover {
     background-size: 100% 100%;
@@ -181,4 +184,11 @@
     margin-top: -20px;
     margin-left: -72px;
     margin-bottom: 80px;
+}
+
+#modal-delete-question{
+    margin-left: -150px;
+    margin-top: -180px;
+    margin-bottom: 260px;
+    
 }

@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { projectFirebaseRealtime } from '../../firebase/config'
 import { AiOutlineUp, AiOutlineDown } from 'react-icons/ai'
+import { RiDeleteBinLine } from 'react-icons/ri'
 import QuestionEdit from '../../components/QuestionEdit/QuestionEdit';
 import { useUpdateQuiz } from '../../hooks/useUpdateQuiz';
 import { FaCheck } from 'react-icons/fa';
@@ -13,6 +14,7 @@ import NavigationComponent from '../../components/NavigationComponent/Navigation
 import { useDeleteQuestion } from '../../hooks/useDeleteQuestion';
 import Modal from '../../components/modal/Modal';
 import { useEffect } from 'react';
+import { GrAdd } from 'react-icons/gr'
 
 
 class UpdateQuiz extends React.Component {
@@ -55,10 +57,10 @@ class UpdateQuiz extends React.Component {
                 
                 <div className='update-quiz-navigation-component'>
                     <NavigationComponent
-                        pageTitle="Update Set"
+                        pageTitle="Edit Set"
                         pairs={[['Dashboard', '/dashboard'],
                                 ['Questions Sets', '/quizzes'],
-                                ['Update Set', '/update_quiz']
+                                ['Edit Set', '/update_quiz']
                         ]}
                     />
                 </div>
@@ -123,7 +125,7 @@ class UpdateQuiz extends React.Component {
                     <div className='questions-container'>
                         <div className='questions-container-header'>
                             <h1>Questions ({this.state.quizQuestions.length})</h1>
-                            <button id='add-question-button' onClick={this.props.handleAddQuestion}>Add question</button>
+                            <button id='add-question-button' onClick={this.props.handleAddQuestion}><GrAdd/> Add question</button>
                         </div>
                         
                         {this.state.quizQuestions.map((question, key) => {
@@ -132,9 +134,14 @@ class UpdateQuiz extends React.Component {
                                     <div className="question-text-header" onClick={() => this.props.handleQuestionClick(key)}>
                                         {this.props.expandedId === key && <AiOutlineUp/>}
                                         {this.props.expandedId != key && <AiOutlineDown/>}
-                                            {key + 1}.  {question.data.question}
+                                        <div className="question-info">
+                                            <span className="question-index">{key + 1}.</span>
+                                            <span className="question-text">{question.data.question}</span>
+                                        </div>
+                                            {/* {key + 1}.  {question.data.question} */}
                                         <button id="delete-question-btn" onClick={(event) => {event.stopPropagation();
-                                                                                    this.props.deleteQuestionHandler(question.key)}}>Delete</button>
+                                                                                    this.props.deleteQuestionHandler(question.key)}}>
+                                                                                    <RiDeleteBinLine />Delete</button>
                                     
                                     </div>
                                     
@@ -225,6 +232,10 @@ function wrapClass (Component) {
         }
         
         const handleAddQuestion = () => {
+            sessionStorage.setItem("updateQuizId", location.state.quizId);
+            sessionStorage.setItem("updateIsPublic", location.state.isPublic);
+            sessionStorage.setItem("updateQuizTitle", location.state.quizTitle);
+            sessionStorage.setItem("updateQuizAuthor", location.state.quizAuthor);
             navigate('/add_question', {state:{quizKey:location.state.quizId, quizAuthor:location.state.quizAuthor, previousPage:'/update_quiz'}})
         }
 

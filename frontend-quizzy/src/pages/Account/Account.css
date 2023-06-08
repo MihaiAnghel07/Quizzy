@@ -56,7 +56,9 @@
   }
   
   #modal-edit-account {
-    margin-left: -50%;
+    margin-left: -80%;
+    margin-top: -100px;
+    margin-bottom: 100px;
   }
 
 .edit-account-navigation-component{

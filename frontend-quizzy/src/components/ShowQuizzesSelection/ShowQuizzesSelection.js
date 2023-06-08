@@ -4,6 +4,8 @@ import { Table } from 'react-bootstrap';
 import { projectFirebaseRealtime } from '../../firebase/config'
 import firebase from "firebase/app";
 import { useNavigate } from 'react-router-dom';
+import { AiOutlineSelect} from 'react-icons/ai'
+
 
 
 class ShowQuizzesSelection extends React.Component {
@@ -106,7 +108,7 @@ class ShowQuizzesSelection extends React.Component {
                                     {this.props.quizzesType === 'private' &&
                                     !row.data.isPublic && <td>Private</td>}
                                     <td>
-                                        <button id='showQuizzesSelection-select-button' onClick={() => this.props.selectHandler(row.key, row.data.Author, row.data.Title)}>Select</button>
+                                        <button id='showQuizzesSelection-select-button' onClick={() => this.props.selectHandler(row.key, row.data.Author, row.data.Title)}><AiOutlineSelect/>Select</button>
                                     </td>
 
                                 </tr>

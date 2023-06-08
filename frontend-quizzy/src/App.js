@@ -29,6 +29,7 @@ import ChangePassword from './pages/ChangePassword/ChangePassword';
 import ParticipantRaport from './pages/ParticipantRaport/ParticipantRaport';
 import StatisticsPerQuestion from './pages/StatisticsPerQuestion/StatisticsPerQuestion';
 import ViewFeedbacks from './pages/ViewFeedbacks/ViewFeedbacks';
+import StatisticsPerQuestion2 from './pages/StatisticsPerQuestion2/StatisticsPerQuestion2';
 
 
 
@@ -87,6 +88,7 @@ function App() {
             <Route path="/change_password" element= {user? <ChangePassword /> : < Login/>} />
             <Route path="/participant_raport" element= {user? <ParticipantRaport /> : < Login/>} />
             <Route path="/statistics_per_question" element= {user? <StatisticsPerQuestion /> : < Login/>} />
+            <Route path="/statistics_per_question2" element= {user? <StatisticsPerQuestion2 /> : < Login/>} />
             <Route path="/view_feedbacks" element= {user? <ViewFeedbacks /> : < Login/>} />
             
           </Routes>

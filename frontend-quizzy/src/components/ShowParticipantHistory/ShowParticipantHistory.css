@@ -26,3 +26,17 @@
     transform: scale(1.4);
     color: orange
 }
+
+.correct-answer {
+    color: green;
+    word-wrap: break-word;
+  }
+  
+.incorrect-answer {
+    color: red;
+    word-wrap: break-word;
+}
+
+.show-participant-history-wrapper{
+    padding-bottom: 60px;
+}

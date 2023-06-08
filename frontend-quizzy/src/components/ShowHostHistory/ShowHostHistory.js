@@ -209,7 +209,7 @@ function wrapClass (Component) {
         }
 
         const showStatisticsHandler = () => {
-            navigate('/statistics_per_question', {state:{quizId:props.quizId}});
+            navigate('/statistics_per_question2', {state:{quizId:props.quizId}});
         }
 
         const viewFeedbacksHandler = () => {

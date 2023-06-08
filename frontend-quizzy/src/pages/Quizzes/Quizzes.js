@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import Modal from '../../components/modal/Modal';
 import { useDeleteQuiz } from '../../hooks/useDeleteQuiz';
 import NavigationComponent from '../../components/NavigationComponent/NavigationComponent';
+import { GrAdd } from 'react-icons/gr'
+
 
 
 class Quizzes extends React.Component {
@@ -78,7 +80,7 @@ class Quizzes extends React.Component {
                     </div>
                 
                     <div className='quizzes-body'>
-                        <button id='quizzes-create-quizz-btn' onClick={this.props.createQuizHandler}>Create Question Set</button>
+                        <button id='quizzes-create-quizz-btn' onClick={this.props.createQuizHandler}><GrAdd />Create&nbsp;&nbsp; Question Set</button>
                         <div className="show-public-quizzes">
                             {this.state.myQuizzes && <ShowQuizzes quizzesType='private' path={this.state.username} openModalHandler={this.props.openModalHandler} search={this.props.searchInput}/>}
                             {!this.state.myQuizzes && <ShowQuizzes quizzesType='public' path='' openModalHandler={this.props.openModalHandler} search={this.props.searchInput}/>}

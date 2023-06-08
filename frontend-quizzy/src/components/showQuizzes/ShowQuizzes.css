@@ -62,3 +62,11 @@ table {
   transform: scale(1.2);
   background-color: rgb(240, 142, 14);
 }
+
+#showQuizzes-delete-button{
+  background-color: rgb(254, 77, 77);
+}
+
+#showQuizzes-delete-button:hover{
+  background-color: red;
+}

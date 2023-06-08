@@ -333,6 +333,8 @@ input[type="radio"] {
   }
 
   #exit-modal-add-question {
-    margin-left: -120%;
-    margin-top: -20%;
+    margin-left: -70%;
+    margin-top: -180px;
+    margin-bottom: 212px;
+    
   }

@@ -9,6 +9,9 @@ import { useNavigate } from 'react-router-dom';
 import Modal from '../modal/Modal';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { RiDeleteBinLine } from 'react-icons/ri'
+import { GrEdit } from 'react-icons/gr'
+import { AiOutlineCopy} from 'react-icons/ai'
 
 
 
@@ -117,11 +120,11 @@ class ShowQuizzes extends React.Component {
                                     <td>
                                         {this.props.quizzesType === 'public' && 
                                         this.state.username !== row.data.Author &&
-                                        <button id='showQuizzes-copy-button' onClick={() => this.props.copyHandler(row.key, row.data.Author)}>Copy</button>}
+                                        <button id='showQuizzes-copy-button' onClick={() => this.props.copyHandler(row.key, row.data.Author)}><AiOutlineCopy/> Copy</button>}
                                         {this.state.username === row.data.Author &&
-                                        <button id='showQuizzes-update-button' onClick={() => this.props.updateHandler(row.key, row.data.Author, row.data.isPublic, row.data.Title)}>Update</button>}
+                                        <button id='showQuizzes-update-button' onClick={() => this.props.updateHandler(row.key, row.data.Author, row.data.isPublic, row.data.Title)}><GrEdit/>Edit</button>}
                                         {this.state.username === row.data.Author &&
-                                        <button id='showQuizzes-delete-button' onClick={() => this.props.openModal(row.key, row.data.Author)}>Delete</button>}
+                                        <button id='showQuizzes-delete-button' onClick={() => this.props.openModal(row.key, row.data.Author)}><RiDeleteBinLine />Delete</button>}
                                     </td>
                                 </tr>
                             )

@@ -75,6 +75,7 @@ export const AddQuestion = () => {
     return (
       <div className='add-question-wrapper'>
 
+          {location.state.previousPage === '/create_quiz' && 
           <div className='add-question-navigation-component'>
               <NavigationComponent
                   pageTitle="Add Question"
@@ -85,6 +86,20 @@ export const AddQuestion = () => {
                   ]}
               />
           </div>
+          }
+
+          {location.state.previousPage === '/update_quiz' && 
+          <div className='add-question-navigation-component'>
+              <NavigationComponent
+                  pageTitle="Add Question"
+                  pairs={[['Dashboard', '/dashboard'],
+                          ['Questions Sets', '/quizzes'],
+                          ['Edit Set', '/update_quiz'],
+                          ['Add Question', '/add_question']
+                  ]}
+              />
+          </div>
+          }
 
         <div id="add-question-form-wrap">
           

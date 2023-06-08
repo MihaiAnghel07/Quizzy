@@ -120,6 +120,7 @@ class Quiz extends React.Component {
 
                     Promise.all(promises).then(() => {
                         // daca vreau ca intrebarile sa fie in ordine, decomentez linia asta
+                        // console.log(records)
                         records.sort((a,b) => (a.questionId > b.questionId) ? 1 : ((b.questionId > a.questionId) ? -1 : 0))
                         this.setState({quizData: records});
                     });

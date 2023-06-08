@@ -7,11 +7,22 @@ function NavigationComponent({pageTitle, pairs }) {
   const navigate = useNavigate();
 
   function handleNavigationItemClick(link) {
-    // TODO de facut sa nu se incarce ultima pagina din link (uneori crapa pagina pentru
-    // ca pentru a incarca oagia a fost nevoie de anumite date (props etc), iar daca noi dam click
-    // direct pe link-ul paginii fara sa ii parsam anumite argumente, crapa)
-    if (pairs[pairs.length - 1][1] !== link)
-      navigate(link);
+    if (pairs[pairs.length - 1][1] !== link) {
+      if (link == "/update_quiz") {
+        // singurul caz in care trebuie sa trimitem date pentru incarcarea paginii
+        navigate(link, {state:{quizId:sessionStorage.getItem("updateQuizId"), 
+                              quizAuthor:sessionStorage.getItem("updateQuizAuthor"), 
+                              isPublic:sessionStorage.getItem("updateIsPublic"), 
+                              quizTitle:sessionStorage.getItem("updateQuizTitle")}});
+        sessionStorage.removeItem("updateQuizId");
+        sessionStorage.removeItem("updateIsPublic");
+        sessionStorage.removeItem("updateQuizTitle");
+        sessionStorage.removeItem("updateQuizAuthor");
+
+      } else {
+        navigate(link);
+      }
+    }
   }
 
   function handleBackClick() {

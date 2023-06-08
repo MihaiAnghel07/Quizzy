@@ -87,11 +87,11 @@ class ShowParticipantHistory extends React.Component {
                             
                             <div></div>
 
-                            {row.hasImage && <img src={row.url} width='50%' height='30%' alt='question'/>}
-                            <div className='show-participant-history-answer1'>Answer1: {row.answer1.text}{row.answer1.isSelected && (row.answer1.isCorrect ? <RxCheck style={{color:'green'}}/> : <RxCross2 style={{color:'red'}}/>)}</div>
-                            <div className='show-participant-history-answer2'>Answer2: {row.answer2.text}{row.answer2.isSelected && (row.answer2.isCorrect ? <RxCheck style={{color:'green'}}/> : <RxCross2 style={{color:'red'}}/>)}</div>
-                            <div className='show-participant-history-answer3'>Answer3: {row.answer3.text}{row.answer3.isSelected && (row.answer3.isCorrect ? <RxCheck style={{color:'green'}}/> : <RxCross2 style={{color:'red'}}/>)}</div>
-                            <div className='show-participant-history-answer4'>Answer4: {row.answer4.text}{row.answer4.isSelected && (row.answer4.isCorrect ? <RxCheck style={{color:'green'}}/> : <RxCross2 style={{color:'red'}}/>)}</div>
+                            {row.hasImage && <img src={row.url} width='40%' height='20%' alt='question'/>}
+                            <div className={row.answer1.isSelected && (row.answer1.isCorrect ? "correct-answer" : "incorrect-answer")}>Answer1: {row.answer1.text}{row.answer1.isSelected && (row.answer1.isCorrect ? <RxCheck style={{color:'green'}}/> : <RxCross2 style={{color:'red'}}/>)}</div>
+                            <div className={row.answer2.isSelected && (row.answer2.isCorrect ? "correct-answer" : "incorrect-answer")}>Answer2: {row.answer2.text}{row.answer2.isSelected && (row.answer2.isCorrect ? <RxCheck style={{color:'green'}}/> : <RxCross2 style={{color:'red'}}/>)}</div>
+                            <div className={row.answer3.isSelected && (row.answer3.isCorrect ? "correct-answer" : "incorrect-answer")}>Answer3: {row.answer3.text}{row.answer3.isSelected && (row.answer3.isCorrect ? <RxCheck style={{color:'green'}}/> : <RxCross2 style={{color:'red'}}/>)}</div>
+                            <div className={row.answer4.isSelected && (row.answer4.isCorrect ? "correct-answer" : "incorrect-answer")}>Answer4: {row.answer4.text}{row.answer4.isSelected && (row.answer4.isCorrect ? <RxCheck style={{color:'green'}}/> : <RxCross2 style={{color:'red'}}/>)}</div>
                         </div>
                     )
                 })}

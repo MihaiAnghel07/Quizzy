@@ -209,8 +209,9 @@ public class CreateQuestionSetActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot quizSnapshot : dataSnapshot.getChildren()) {
-                    QuestionSet questionSet = quizSnapshot.getValue(QuestionSet.class);
-                    if (questionSet != null && questionSet.getTitle().equals(title)) {
+                    String currentQuizTitle = quizSnapshot.child("Title").getValue(String.class);
+                    //QuestionSet questionSet = quizSnapshot.getValue(QuestionSet.class);
+                    if (currentQuizTitle != null && currentQuizTitle.equals(title)) {
                         // Title already exists
                         listener.onTitleCheckResult(false);
                         return;

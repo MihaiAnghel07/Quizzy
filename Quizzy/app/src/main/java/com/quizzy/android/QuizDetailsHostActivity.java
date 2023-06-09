@@ -71,14 +71,15 @@ public class QuizDetailsHostActivity extends AppCompatActivity {
 
         // Set click listeners for buttons
         viewFeedbackButton.setOnClickListener(v -> {
-            // TODO: Start ViewFeedbackActivity
             Intent intent = new Intent(QuizDetailsHostActivity.this, ViewFeedbackActivity.class);
             intent.putExtra("quizId", quizId);
             startActivity(intent);
         });
 
         viewStatisticsButton.setOnClickListener(v -> {
-            // TODO: StartViewStatisticsActivity
+            Intent intent = new Intent(QuizDetailsHostActivity.this, ViewStatisticsActivity.class);
+            intent.putExtra("quizId", quizId);
+            startActivity(intent);
         });
 
         // Populate participant names in the ListView
@@ -134,8 +135,8 @@ public class QuizDetailsHostActivity extends AppCompatActivity {
                 .child(quizId).child("ratings").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                int ratingSum = 0;
-                int ratingCount = 0;
+                double ratingSum = 0;
+                double ratingCount = 0;
                 for (DataSnapshot ratingSnapshot : snapshot.getChildren()) {
                     ratingSum += ratingSnapshot.child("rating").getValue(Integer.class);
                     ratingCount++;

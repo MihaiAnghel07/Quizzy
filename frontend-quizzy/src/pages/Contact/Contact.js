@@ -7,16 +7,20 @@ import Rating from '../../components/Rating/Rating';
 import NavigationComponent from '../../components/NavigationComponent/NavigationComponent';
 
 export default function Contact() {
+  localStorage.setItem("selectedButton", "contact");
+  
   return (
     <div>
-      <div className='contact-navigation-component'>
+      {/* <div className='contact-navigation-component'>
         <NavigationComponent
           pageTitle="Contact"
           pairs={[]
           }
         />
-      </div>
+      </div> */}
     
+      <h2 className='contact-title'>Contact</h2>
+
       <div className='Contact-wrapper'>
         
         <div className='Contact-content'>

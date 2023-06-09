@@ -1,6 +1,6 @@
 import React from 'react'
 import './ShowHostHistory.css'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -101,8 +101,6 @@ class ShowHostHistory extends React.Component {
 
         Object.keys(this.props.data).map((key) => {
             if (key !== 'timestamp' && key !== 'quizTitle' && key !== 'feedbacks' && key !== 'ratings') {
-                //salvez doar datele ce tin de participanti
-                records.push({key: key, data: this.props.data[key]})
                 
                 // aflu media punctajelor
                 let questions = Object.values(this.props.data[key].questions);
@@ -119,6 +117,9 @@ class ShowHostHistory extends React.Component {
 
                 scoreSum += participantScore;
                 numberOfScores[participantScore]++;
+
+                //salvez doar datele ce tin de participanti
+                records.push({key: key, data: this.props.data[key], participantScore: participantScore});
 
             }
 
@@ -161,11 +162,18 @@ class ShowHostHistory extends React.Component {
             <div className='show-host-history-wrapper'>
                 
                 <div className='show-host-history-summary'>Summary</div>
+                <div className='show-host-history-note'>Note:
+                    <ul className='show-host-history-note-list'>
+                        <li>Score = The number of correctly answered questions out of the total number of questions</li>
+                        <li>Rating = The participants' grade of the quiz experience on a scale of 1 to 5</li>
+                    </ul>
+                </div>
+
                 {this.state.graphData && 
-                <div className='show-host-history-score-graph'>
-                    <Bar options={options} data={this.state.graphData} />
-                    
-                </div>}
+                    <div className='show-host-history-score-graph'>
+                        <Bar options={options} data={this.state.graphData} />
+                    </div>
+                }
 
                 <ul className='show-host-history-summary-list'>
                     <li className='show-host-history-total-participants'>Number of participants: {this.state.records.length}</li>
@@ -177,16 +185,23 @@ class ShowHostHistory extends React.Component {
                 {this.state.records.length === 0 && <div>No data found!</div>}
             
                 <button className='show-host-history-statistics-btn' onClick={() => this.props.showStatisticsHandler()}>Statistics per question</button>
-                <button className='show-host-history-statistics-btn' onClick={() => this.props.viewFeedbacksHandler()}>View feedbacks</button>
+                <button className='show-host-history-statistics-btn' onClick={() => this.props.viewFeedbacksHandler()}>View feedback</button>
 
                 <div className='show-host-history-participants'>Participants list (for details, click on participant name):
                     {this.state.records.length !== 0 &&
                         this.state.records.map((participant, index) => {
+                            console.log("AAA:", participant)
                             
                             return (
                                 <div key={participant.key} className='show-host-history-wrapper'>
                                     <div>
-                                        <div className='show-host-history-participant-item' onClick={()=>this.props.participantRaportHandler(participant.key)}>{index + 1}. {participant.key}</div> 
+                                        
+                                        <div className='show-host-history-participant-item' 
+                                            onClick={()=>this.props.participantRaportHandler(participant.key)}>
+                                                <span className='show-host-history-participant-item-index'>{index + 1}. {participant.key}</span> 
+                                                <span className='show-host-history-participant-item-score'>Score: {participant.participantScore} / {this.state.numberOfQuestions}</span>
+                                        </div>
+
                                     </div>
                                 </div>
                             )
@@ -203,6 +218,7 @@ class ShowHostHistory extends React.Component {
 function wrapClass (Component) {
     return function WrappedComponent(props) {
         let navigate = useNavigate();
+        let location = useLocation();
         
         const participantRaportHandler = (participant) => {
             navigate('/participant_raport', {state:{participant:participant, quizId:props.quizId}});
@@ -213,7 +229,7 @@ function wrapClass (Component) {
         }
 
         const viewFeedbacksHandler = () => {
-            navigate('/view_feedbacks', {state:{quizId:props.quizId}});
+            navigate('/view_feedback', {state:{quizId:props.quizId}});
         }
         
         return <Component data={props.data}

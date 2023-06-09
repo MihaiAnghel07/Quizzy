@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { AiOutlineDown, AiOutlineUp } from 'react-icons/ai';
 import ShowParticipantHistory from '../ShowParticipantHistory/ShowParticipantHistory';
 import ShowHostHistory from '../ShowHostHistory/ShowHostHistory';
+import { useNavigate } from 'react-router-dom';
 
 
 class ShowHistory extends React.Component {
@@ -58,7 +59,7 @@ class ShowHistory extends React.Component {
                     
                     return (
                         <div key={row.key} className="quiz-item">
-                            <div className="quiz-text-header" onClick={() => this.props.handleQuestionClick(key)}>
+                            <div className="quiz-text-header" onClick={() => this.props.handleQuizClick(key, row.data, row.key)}>
                                 <div className='quiz-text-header-title'>
                                     {this.props.expandedId === key && <AiOutlineUp/>}
                                     {this.props.expandedId !== key && <AiOutlineDown/>}
@@ -92,8 +93,17 @@ function wrapClass (Component) {
         const [expandedId, setExpandedId] = useState(null);
         const [quizDataFiltered, setQuizDataFiltered] = useState([])
         const [quizData, setQuizData] = useState([])
+        let navigate = useNavigate();
         
-        const handleQuestionClick = (id) => {
+        const handleQuizClick = (id, data, key) => {
+
+            // if (props.historyType === "participant") {
+
+            // } else if (props.historyType === "host") {
+            //     navigate("/show_host_history", {state:{data:data, quizId:key}});
+            // }
+
+
             if (expandedId === id) {
                 setExpandedId(null);
             } else {
@@ -125,7 +135,7 @@ function wrapClass (Component) {
 
 
         return <Component historyType={props.historyType}
-                          handleQuestionClick={handleQuestionClick}
+                          handleQuizClick={handleQuizClick}
                           expandedId={expandedId}
                           setQuizDataFilteredHandler={setQuizDataFilteredHandler}
                           historyDataFiltered={quizDataFiltered}

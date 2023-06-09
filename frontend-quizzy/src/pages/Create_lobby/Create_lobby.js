@@ -22,19 +22,20 @@ export default function Create_lobby() {
   const [confirmModal, setConfirmModal] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [showPopup2, setShowPopup2] = useState(false);
+  const [showPopup3, setShowPopup3] = useState(false);
   const { updateLobby, error } = useUpdateLobby();
   const { setHistoryInitialState } = useSetHistoryInitialState();
   let navigate = useNavigate();
   let location = useLocation();
   const { loadLobbyTemplateToDatabase } = useLoadingLobbyTemplate()
 
-  const [duration, setDuration] = useState(10)
+  const [duration, setDuration] = useState("10")
 
   const handleDurationChange = (e) => {
     const input = e.target.value;
 
     const validatedInputValue = input === '' ? '' : Math.min(Math.max(Number(input), 1), 60);
-    setDuration(validatedInputValue);
+    setDuration(validatedInputValue.toString());
   }
 
 
@@ -84,17 +85,18 @@ export default function Create_lobby() {
     e.preventDefault();
     if (location.state != null && location.state.quizId != null && location.state.quizAuthor != null && duration != '') {
       await updateLobby(lobbyCode, location.state.quizId, location.state.quizAuthor, location.state.quizTitle, duration, getTimestamp());
+      
       if (error == null || error == "") {
         setHistoryInitialState(lobbyCode);
-      } else if (error != ""){
+        console.log("START")
+      
+      } else if (error != "") {
         setShowPopup2(true)
       }
 
     } else {
       setShowPopup(true)
     }
-    // navigate to waiting page
-    // TODO
 
   }
 
@@ -106,6 +108,11 @@ export default function Create_lobby() {
     setShowPopup2(false);
   }
 
+  function handlePopupClose3() {
+    setShowPopup3(false);
+  }
+
+
   return (
     <div>
       <div className='create-lobby-navigation-component'>
@@ -116,6 +123,8 @@ export default function Create_lobby() {
         />
       </div>
 
+      <h2 className='create-lobby-title'>Create Lobby</h2>
+      
       <div className='create-lobby-wrapper'>
 
         {openModal && <div id='close-lobby-modal'>
@@ -140,6 +149,17 @@ export default function Create_lobby() {
             position="top-right"
             // icon = {<FaCheck className='flag-button'/>}
             onClose={handlePopupClose2}
+          />
+        )}
+
+      {showPopup3 &&
+        (
+          <Popup
+            message="The quiz has started!"
+            duration={2000}
+            position="top-right"
+            // icon = {<FaCheck className='flag-button'/>}
+            onClose={handlePopupClose3}
           />
         )}
             

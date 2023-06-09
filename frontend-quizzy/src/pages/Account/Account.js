@@ -23,6 +23,7 @@ export default function Account() {
   const {deleteAccount, isPending2, error2} = useDeleteAccount();
   let navigate = useNavigate();
   let location = useLocation();
+  localStorage.setItem("selectedButton", "account");
  
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -96,12 +97,14 @@ export default function Account() {
 
   return (
     <div>
-      <div className='edit-account-navigation-component'>
+      {/* <div className='edit-account-navigation-component'>
           <NavigationComponent
               pageTitle="Edit Account"
               pairs={[]}
           />
-      </div>
+      </div> */}
+
+      <h2 className='edit-account-title'>Edit Account</h2>
 
       <div className='account-wrapper'>
         {showPopup && 

@@ -66,7 +66,8 @@ function ChangePassword() {
                 ]}
             />
         </div>
-        {/* <h2 id="change-password-page-title">Change Password</h2> */}
+
+        <h2 id="change-password-page-title">Change Password</h2>
         <div className='change-password-wrapper'>
 
             {openModal && 

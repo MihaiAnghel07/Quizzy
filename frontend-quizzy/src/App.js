@@ -30,6 +30,8 @@ import ParticipantRaport from './pages/ParticipantRaport/ParticipantRaport';
 import StatisticsPerQuestion from './pages/StatisticsPerQuestion/StatisticsPerQuestion';
 import ViewFeedbacks from './pages/ViewFeedbacks/ViewFeedbacks';
 import StatisticsPerQuestion2 from './pages/StatisticsPerQuestion2/StatisticsPerQuestion2';
+import ShowHostHistory from './components/ShowHostHistory/ShowHostHistory';
+import ShowParticipantHistory from './components/ShowParticipantHistory/ShowParticipantHistory';
 
 
 
@@ -89,7 +91,9 @@ function App() {
             <Route path="/participant_raport" element= {user? <ParticipantRaport /> : < Login/>} />
             <Route path="/statistics_per_question" element= {user? <StatisticsPerQuestion /> : < Login/>} />
             <Route path="/statistics_per_question2" element= {user? <StatisticsPerQuestion2 /> : < Login/>} />
-            <Route path="/view_feedbacks" element= {user? <ViewFeedbacks /> : < Login/>} />
+            <Route path="/view_feedback" element= {user? <ViewFeedbacks /> : < Login/>} />
+            <Route path="/show_participant_history" element= {user? <ShowParticipantHistory /> : < Login/>} />
+            <Route path="/show_host_history" element= {user? <ShowHostHistory /> : < Login/>} />
             
           </Routes>
           

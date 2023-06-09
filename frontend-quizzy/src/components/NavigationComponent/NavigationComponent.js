@@ -42,7 +42,7 @@ function NavigationComponent({pageTitle, pairs }) {
             ))}
         </div>
 
-        <div className='navigation-page-title'>{pageTitle}</div>
+        {/* <div className='navigation-page-title'>{pageTitle}</div> */}
         
         {/* <div className='navigation-back-item'>
             {pairs && <span className="navigation-item" onClick={handleBackClick}>

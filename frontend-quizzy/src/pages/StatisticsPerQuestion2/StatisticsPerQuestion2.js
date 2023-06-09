@@ -29,12 +29,10 @@ import { RxCheck, RxCross2 } from 'react-icons/rx';
   export const options = {
     responsive: true,
     plugins: {
-      legend: {
-        position: 'top',
-      },
+      legend: false,
       title: {
         display: true,
-        text: 'Number of correct / wrong answers per question',
+        text: 'Answers distribution',
       },
     },
     scales: {
@@ -209,6 +207,8 @@ class StatisticsPerQuestion2 extends React.Component {
                         ]}
                     />
                 </div>
+
+                <h2 className='statistics-per-question-title'>Statistics Per Question</h2>
                 
                 <div className='statistics-per-question2-body'>
                     

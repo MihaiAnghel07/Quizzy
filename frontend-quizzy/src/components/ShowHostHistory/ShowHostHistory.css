@@ -11,6 +11,7 @@
 .show-host-history-summary {
     padding-top: 30px;
     padding-bottom: 5px; 
+    font: 1.1em sans-serif;
 }
 
 .show-host-history-participants {
@@ -21,11 +22,24 @@
     padding-left: 30px;
     padding-top: 5px;
     padding-bottom: 5px;
-    
+    background-color: rgb(247, 229, 197);
+    transition: background-color 0.2s ease;
+    margin-bottom: 10px;
+    margin-top: 3px;
+    width: 90%;
+    word-wrap: break-word;
+    border-radius: 7px;
+    border: 2px solid;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 10px;
 }
 
 .show-host-history-participant-item:hover{
    cursor: pointer;
+   scale: 1.01;
+   transition: 250ms;
+   background-color: rgb(247, 223, 181);
 }
 
 .show-host-history-score-graph {
@@ -46,4 +60,20 @@
     background-color: rgb(247, 223, 181);
     scale: 1.05;
     transition: 250ms;
+}
+
+/* .show-host-history-wrapper{
+    margin-left: 50px;
+} */
+
+.show-host-history-participant-item-index {
+    order: 1;
+}
+
+.show-host-history-participant-item-score {
+    order: 2;
+}
+
+.show-host-history-note-list {
+    font: 0.8em sans-serif
 }

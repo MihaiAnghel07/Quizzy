@@ -58,7 +58,7 @@ class Quiz extends React.Component {
         ref.get().then((snapshot) => {
             quizId = snapshot.val().quizId;
             quizAuthor = snapshot.val().quizAuthor;
-            console.log(snapshot.val())
+        
             let duration;
             if (localStorage.getItem("quizDuration") == null) {
                 duration = snapshot.child('duration').val() * 60;
@@ -315,48 +315,6 @@ function wrapClass (Component) {
         const setQuestionIndexHandler = (index) => {
             localStorage.setItem("currentQuestionCount", index);
         }
-
-    
-        
-        function handlePopState(event) {
-            let startTime = new Date().getTime();
-
-            // Display a confirmation dialog to ask the user if they want to leave
-            let leavePage = window.confirm('Are you sure you want to leave this page?');
-            console.log(leavePage)
-
-            if (!leavePage) {
-                // If the user chooses to stay, prevent the default behavior of the popstate event
-                window.history.pushState(null, document.title, location.href);
-                event.preventDefault();
-                const duration = Math.round((new Date().getTime() - startTime) / 1000);
-                console.log(`Confirmation dialog lasted for ${duration} seconds.`);
-                localStorage.setItem(
-                    "alertTime",
-                    parseInt(localStorage.getItem("alertTime") == null ? 0 : localStorage.getItem("alertTime")) + duration
-                );
-
-            } else {
-                localStorage.removeItem("currentQuestionCount");
-                // localStorage.removeItem("quizDuration");
-                sessionStorage.removeItem("quizOnGoing");
-                localStorage.removeItem("alertTime");
-                // navigate('/dashboard', {replace:true})
-            }
-
-            // Unbind the event listener after it has been triggered
-            //window.removeEventListener('popstate', handlePopState);
-        };
-
-        //window.addEventListener('popstate', handlePopState);
-        
-        useEffect(() => {
-            window.addEventListener('popstate', handlePopState);
-      
-            return () => {
-              window.removeEventListener('popstate', handlePopState);
-            };
-        }, []);
     
         return <Component lobbyCode={location.state.lobbyCode} 
                         handleFlagClick={handleFlagClick} 

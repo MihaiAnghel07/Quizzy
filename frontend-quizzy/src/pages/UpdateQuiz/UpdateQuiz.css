@@ -190,5 +190,9 @@
     margin-left: -150px;
     margin-top: -180px;
     margin-bottom: 260px;
-    
+}
+
+.edit-set-title {
+    margin-bottom: 150px;
+    font-weight: bold;
 }

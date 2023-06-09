@@ -9,11 +9,12 @@
 table {
     border-collapse: collapse;
     width: 100%;
-    max-width: 750px;
+    max-width: 1200px;
     margin: 0 auto;
     font-family: Arial, sans-serif;
     background-color: #f3e1c9;
     border-radius: 8px;
+    
   }
   
   thead tr {

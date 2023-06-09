@@ -108,10 +108,10 @@ export const useSetHistoryInitialState = () => {
 
 
                     // initializez statisticile referitoare la numarul de raspunsuri corecte / gresite per intrebare
-                    let questions2 = JSON.parse(JSON.stringify(questions))
-                    Object.keys(questions2).map((el) => {questions2[el]={correctAnswers: 0, wrongAnswers: 0}})
-                    projectFirebaseRealtime.ref("Statistics/host/" + snapshot.val().host + '/quizzes/' + snapshot.val().lobbyId + '/')
-                                            .set(questions2);
+                    // let questions2 = JSON.parse(JSON.stringify(questions))
+                    // Object.keys(questions2).map((el) => {questions2[el]={correctAnswers: 0, wrongAnswers: 0}})
+                    // projectFirebaseRealtime.ref("Statistics/host/" + snapshot.val().host + '/quizzes/' + snapshot.val().lobbyId + '/')
+                    //                         .set(questions2);
 
                 }
 

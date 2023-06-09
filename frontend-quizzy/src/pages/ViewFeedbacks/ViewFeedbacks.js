@@ -40,12 +40,14 @@ class ViewFeedbacks extends React.Component {
 
                 <div className='view-feedbacks-navigation-component'>
                     <NavigationComponent
-                        pageTitle="Quiz Feedbacks"
+                        pageTitle="Quiz Feedback"
                         pairs={[['History', '/history'],
-                                ['Quiz Feedbacks', '/view_feedbacks']
+                                ['Quiz Feedback', '/view_feedbacks']
                         ]}
                     />
                 </div>
+
+                <h2 className='view-feedback-title'>Quiz Feedback</h2>
                 
                 {this.state.records.length === 0 && <div className='view-feedbacks-no-feedback-found'>No feedback was found</div>} 
 
@@ -53,7 +55,7 @@ class ViewFeedbacks extends React.Component {
                     {this.state.records.map((el, key) => {
                         return (
                             <div className='view-feedbacks-item' key={el.key}>
-                                {key+1}. {el.feedback}
+                                User{key+1}: {el.feedback}
                             </div>
                         )
                     })}

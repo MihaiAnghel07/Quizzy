@@ -25,6 +25,7 @@ export default function MySidebar(props) {
   const [selectedButton, setSelectedButton] = useState('dashboard');
 
   useEffect(()=>{
+    console.log("RRRRRRRRRR")
     if (localStorage.getItem("selectedButton") == null)
       setSelectedButton('dashboard');
     else

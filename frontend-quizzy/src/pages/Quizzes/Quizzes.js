@@ -60,6 +60,8 @@ class Quizzes extends React.Component {
                     />
                 </div>
 
+                <h2 className='quizzes-title'>Question Sets</h2>
+
                 {this.props.openModal && <div className='modal-delete-quiz'> 
                     <Modal closeModal={this.props.setOpenModal} yesModal={this.props.setConfirmModal} message="Are you sure you want to delete the quiz?" /> </div>}   
 

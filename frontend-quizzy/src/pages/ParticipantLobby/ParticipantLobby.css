@@ -1,9 +1,19 @@
 .participant-lobby-wrapper {
     display: flex;
     justify-content: center;
+    margin-top: 150px;
+    margin-left: 50px;
 }
 
 #bouncing-dots-loader {
-    margin-left: 300px;
+    margin-left: 550px;
     margin-top: -45px;
+}
+
+.participant-lobby-wrapper-note {
+    color: red;
+}
+
+.participant-lobby-wrapper-waiting {
+    margin-left: 250px;
 }

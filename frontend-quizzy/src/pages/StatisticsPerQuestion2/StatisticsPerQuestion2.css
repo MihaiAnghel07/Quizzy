@@ -47,6 +47,12 @@
     color: green;
   }
   
-  .incorrect-answer {
+.incorrect-answer {
     color: red;
-  }
+}
+
+.statistics-per-question-title {
+    margin-top: 50px;
+  margin-bottom: 100px;
+  font-weight: bold;
+}

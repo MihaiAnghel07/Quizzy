@@ -1,7 +1,7 @@
 .dashboard-container {
     display: flex;
     flex-direction: row;
-    margin-top: 300px;
+    margin-top: 220px;
     margin-bottom: 300px;
     margin-left: 100px;
     margin-right: 100px;
@@ -28,4 +28,10 @@
     margin-top: 20px;
     margin-left: 50px;
     margin-bottom: -80px;
+}
+
+.dashboard-title {
+  margin-top: 50px;
+  /* margin-bottom: 70px; */
+  font-weight: bold;
 }

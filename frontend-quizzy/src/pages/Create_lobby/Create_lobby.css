@@ -3,7 +3,7 @@
     background-color: transparent;
     width: 800px;
     margin: auto;
-    margin-top: 3%;
+    margin-top: 2%;
 }
 
 .create-lobby-buttons {
@@ -160,6 +160,11 @@
     margin-top: 20px;
     margin-left: 50px;
     margin-bottom: 80px;
+}
+
+.create-lobby-title{
+  margin-bottom: 120px;
+  font-weight: bold;
 }
 
 

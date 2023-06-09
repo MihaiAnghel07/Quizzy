@@ -2,7 +2,7 @@
 .quiz-item {
     margin-top: 20px;
     margin-bottom: 20px;
-    width: 950px;
+    max-width: 950px;
     border: 1px solid #ddd;
     border-radius: 15px;
     overflow: hidden;
@@ -25,7 +25,7 @@
 .quiz-text-header-title {
     width: 600px;
     margin-left: 10px;
-    word-wrap: break-word;
+    word-break: break-all;
 }
 
 .quiz-text-header-timestamp {

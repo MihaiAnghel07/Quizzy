@@ -12,8 +12,9 @@ import NavigationComponent from '../../components/NavigationComponent/Navigation
 
 
 export default function Dashboard() {
-  
+  localStorage.setItem("selectedButton", "dashboard");
   // const {user} = useAuthContext()
+  
   const navigate = useNavigate();
 
   function handleJoinLobbyButtonClick() {
@@ -31,12 +32,14 @@ export default function Dashboard() {
   return (
     <div className='dashboard-wrapper'>
 
-      <div className='dashboard-navigation-component'>
+      {/* <div className='dashboard-navigation-component'>
           <NavigationComponent
               pageTitle="Dashboard"
               pairs={[]}
           />
-      </div>
+      </div> */}
+
+      <h2 className='dashboard-title'>Dashboard</h2>
 
       <div className='dashboard-container'>
         <button id='dashboard-join-lobby-button' onClick={handleJoinLobbyButtonClick}>Join Lobby</button>

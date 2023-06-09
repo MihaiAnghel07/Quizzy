@@ -24,8 +24,12 @@ export default function Join_lobby() {
                     ["Join Lobby", "/join_lobby"]]}
         />
       </div>
-  
+
+      
+      
       <div className='join-lobby-wrapper'>
+        
+        <h2 className='join-lobby-title'>Join Lobby</h2>
 
         <div className='join-lobby-content'>
           <form className='join-lobby-form' onSubmit={handleSubmit}>

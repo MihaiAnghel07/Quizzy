@@ -47,6 +47,8 @@ class ParticipantRaport extends React.Component {
                     />
                 </div>
 
+                <h2 className='participant-raport-title'>Participant Raport</h2>
+
                 {this.state.records.map((el) => {
                     if (el.key === "questions") {
                         return (

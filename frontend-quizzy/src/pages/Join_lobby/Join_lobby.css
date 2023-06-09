@@ -3,7 +3,8 @@
     /* height: 300px; */
     width: 300px;
     margin: auto;
-    margin-top: 10%;
+    /* margin-top: -100px; */
+
 }
 
 input[id="join-lobby-submit"] {
@@ -32,3 +33,10 @@ input[id="join-lobby-submit"] {
   #join-lobby-input{
     font: 0.8em sans-serif;
   }
+
+.join-lobby-title {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 150px;
+  font-weight: bold;
+}

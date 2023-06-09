@@ -71,13 +71,13 @@ export const useSaveStatistics = () => {
         }) 
 
         // updatam statisticile per intrebare
-        if ((answer1.isCorrect && answerOption.text === answer1.text)
-             || (answer2.isCorrect && answerOption.text === answer2.text)
-             || (answer3.isCorrect && answerOption.text === answer3.text)
-             || (answer4.isCorrect && answerOption.text === answer4.text))
-            projectFirebaseRealtime.ref("Statistics/host/" + host + '/quizzes/' + lobbyId + '/' + questionId + '/correctAnswers').set(firebase.database.ServerValue.increment(1))
-        else
-            projectFirebaseRealtime.ref("Statistics/host/" + host + '/quizzes/' + lobbyId + '/' + questionId + '/wrongAnswers').set(firebase.database.ServerValue.increment(1))
+        // if ((answer1.isCorrect && answerOption.text === answer1.text)
+        //      || (answer2.isCorrect && answerOption.text === answer2.text)
+        //      || (answer3.isCorrect && answerOption.text === answer3.text)
+        //      || (answer4.isCorrect && answerOption.text === answer4.text))
+        //     projectFirebaseRealtime.ref("Statistics/host/" + host + '/quizzes/' + lobbyId + '/' + questionId + '/correctAnswers').set(firebase.database.ServerValue.increment(1))
+        // else
+        //     projectFirebaseRealtime.ref("Statistics/host/" + host + '/quizzes/' + lobbyId + '/' + questionId + '/wrongAnswers').set(firebase.database.ServerValue.increment(1))
 
                                 
     

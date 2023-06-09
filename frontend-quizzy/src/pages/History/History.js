@@ -39,20 +39,22 @@ class History extends React.Component {
   render () {
     return (
       <div className='history-wrapper'>
-        <div className='history-navigation-component'>
+        {/* <div className='history-navigation-component'>
           <NavigationComponent
               pageTitle="History"
               pairs={[]}
           />
-        </div>
+        </div> */}
+
+        <h2 className='history-title'>History</h2>
 
         <div className='history-content'>
           <div className='history-header'>
 
-          <input id="search-input"
-              placeholder='Search'
-              onChange={(e) => this.props.searchInputHandler(e.target.value)} 
-          />
+            <input id="search-input"
+                placeholder='Search'
+                onChange={(e) => this.props.searchInputHandler(e.target.value)} 
+            />
 
             <div className='history-filter-buttons'>
               <h3 id='filter-h3'>Filter:</h3>
@@ -104,8 +106,8 @@ function wrapClass (Component) {
       const searchInputHandler = (input) => {
           setSearchInput(input)
       }
-
-  
+      
+      localStorage.setItem("selectedButton", "history");
       return <Component searchInputHandler={searchInputHandler}
                         search={searchInput} />
   }

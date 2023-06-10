@@ -5,12 +5,20 @@ import { AiOutlineMail } from 'react-icons/ai';
 import {AiOutlinePhone} from 'react-icons/ai';
 import Rating from '../../components/Rating/Rating';
 import NavigationComponent from '../../components/NavigationComponent/NavigationComponent';
+import { motion } from "framer-motion"
 
 export default function Contact() {
   localStorage.setItem("selectedButton", "contact");
   
   return (
-    <div>
+    <motion.div
+        initial={{ opacity: 0.4 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.5 }}
+        className='dashboard-wrapper'
+      >
+    {/* <div> */}
       {/* <div className='contact-navigation-component'>
         <NavigationComponent
           pageTitle="Contact"
@@ -33,6 +41,7 @@ export default function Contact() {
         </div>
         {/* <Rating/> */}
       </div>
-    </div>
+    {/* </div> */}
+    </motion.div>
   )
 }

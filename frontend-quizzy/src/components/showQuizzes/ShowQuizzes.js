@@ -93,7 +93,7 @@ class ShowQuizzes extends React.Component {
                 {this.props.quizDataFiltered.length === 0 &&
                 <h4 id="empty-list-message">No Quiz Found</h4>}
                 
-                <Table >   
+                <table >   
                     {this.props.quizDataFiltered.length !== 0 && <thead>
                         <tr>
                             <th id="quiz-title">Question Set Title</th>
@@ -131,7 +131,7 @@ class ShowQuizzes extends React.Component {
                         })}
                         
                     </tbody>}
-                </Table>
+                </table>
             </div>
         )
     }  

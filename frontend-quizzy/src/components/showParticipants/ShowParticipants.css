@@ -1,8 +1,6 @@
 #id, #username {
     font: 0.8em sans-serif;
-    min-width: 50px;
-    /* width: 100px; */
-    /* background-color: blue; */
+    min-width: 60px;
     font-weight: bold;
     
 }

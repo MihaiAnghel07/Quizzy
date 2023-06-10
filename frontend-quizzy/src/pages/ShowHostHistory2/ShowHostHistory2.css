@@ -1,0 +1,104 @@
+.show-host-history-participants {
+    padding-bottom: 50px;
+    
+}
+
+.show-host-history-participants-list:last-child {
+    margin-bottom:0;
+    /* padding-bottom: 50px; */
+}
+
+.show-host-history-summary {
+    padding-top: 30px;
+    padding-bottom: 5px; 
+    font: 1.1em sans-serif;
+}
+
+.show-host-history-participants {
+    margin-top: 60px;
+}
+
+.show-host-history-participant-item{
+    padding-left: 30px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: rgb(247, 229, 197);
+    transition: background-color 0.2s ease;
+    margin-bottom: 10px;
+    margin-top: 3px;
+    width: 90%;
+    word-wrap: break-word;
+    border-radius: 7px;
+    border: 2px solid;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 10px;
+}
+
+.show-host-history-participant-item:hover{
+   cursor: pointer;
+   scale: 1.01;
+   transition: 250ms;
+   background-color: rgb(247, 223, 181);
+}
+
+.show-host-history-score-graph {
+    scale: 0.97;
+}
+
+.show-host-history-statistics-btn{
+    width: 230px;
+    height: 40px;
+    margin-left: 20px;
+    font: 0.85em sans-serif;
+    background-color: rgb(247, 229, 197);
+    transition: background-color 0.2s ease;
+    border-radius: 5px;
+}
+
+.show-host-history-statistics-btn:hover{
+    background-color: rgb(247, 223, 181);
+    scale: 1.05;
+    transition: 250ms;
+}
+
+.show-host-history-participant-item-index {
+    order: 1;
+}
+
+.show-host-history-participant-item-score {
+    order: 2;
+}
+
+.show-host-history-note-list {
+    font: 0.8em sans-serif
+}
+
+.show-host-history-content {
+    padding-left: 30px;
+    padding-right: 30px;
+    background-color: rgb(255, 243, 220);
+    width: 70%;
+    margin-left: 13%;
+    margin-bottom: 5%;
+    border-radius: 6px;
+    box-shadow: 0px 30px 50px 0px rgba(0, 0, 0, 0.2);
+}
+
+.show-host-history-navigation-component {
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+
+.show-host-history-wrapper{
+    margin-left: 40px;
+}
+
+.show-host-history2-title {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    margin-bottom: 100px;
+    font-weight: bold;
+} 

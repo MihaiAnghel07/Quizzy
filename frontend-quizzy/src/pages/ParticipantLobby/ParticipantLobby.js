@@ -48,12 +48,17 @@ class ParticipantLobby extends React.Component {
         return (
             <div className='participant-lobby-wrapper'>
                 <div className='participant-lobby-content'>
+
+                    <h4 className='participant-lobby-wrapper-note'>
+                        Note: Do not use Back / Forward / Close tab buttons. You will not be able to re-join the lobby.
+                    </h4>
+
                     <h4 className='participant-lobby-wrapper-note'>
                         Note:  During the quiz do not use Back / Forward / Close tab buttons. 
-                        {/* Undefined behavior may lead to loss of score. */}
-
                     </h4>
+
                     <h4 className='participant-lobby-wrapper-waiting'>Waiting for quiz to start </h4>
+                    
                     <div id='bouncing-dots-loader'><BouncingDotsLoader/></div>
                 </div>
             </div>

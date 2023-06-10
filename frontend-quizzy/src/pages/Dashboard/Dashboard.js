@@ -30,14 +30,14 @@ export default function Dashboard() {
   }
 
   return (
-    <div className='dashboard-wrapper'>
-
-      {/* <div className='dashboard-navigation-component'>
-          <NavigationComponent
-              pageTitle="Dashboard"
-              pairs={[]}
-          />
-      </div> */}
+    // <div className='dashboard-wrapper'>
+      <motion.div
+        initial={{ opacity: 0.4 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.5 }}
+        className='dashboard-wrapper'
+      >
 
       <h2 className='dashboard-title'>Dashboard</h2>
 
@@ -47,6 +47,7 @@ export default function Dashboard() {
         <button id='dashboard-quizzes-button' onClick={handleQuizzesButtonClick}>Question Sets</button>
       </div>
 
-    </div>
+    {/* </div> */}
+    </motion.div>
   )
 }

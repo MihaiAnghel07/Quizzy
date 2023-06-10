@@ -28,9 +28,6 @@ class Quizzes extends React.Component {
         e.preventDefault();
         this.state.myQuizzes = true;
         this.setState({myQuizzesBtn:"history-host-btn2", allQuizzesBtn: "quizzes-all-quizzes-btn"})
-        // let root = document.querySelector(':root');
-        // root.style.setProperty('--btn-background-color', '#ffe4c4');
-        // root.style.setProperty('--btn-hover-background-color', '#fad5a7');
 
         this.forceUpdate();
 
@@ -40,9 +37,7 @@ class Quizzes extends React.Component {
         e.preventDefault();
         this.state.myQuizzes = false;
         this.setState({myQuizzesBtn:"history-host-btn", allQuizzesBtn: "quizzes-all-quizzes-btn2"})
-        // let root = document.querySelector(':root');
-        // root.style.setProperty('--btn-background-color', '#fad5a7');
-        // root.style.setProperty('--btn-hover-background-color', '#ffe4c4');
+
         this.forceUpdate();
 
     }

@@ -6,6 +6,7 @@ import Modal from '../../components/modal/Modal';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDeleteAccount } from '../../hooks/useDeleteAccount';
 import NavigationComponent from '../../components/NavigationComponent/NavigationComponent';
+import { motion } from "framer-motion"
 
 
 export default function Account() {
@@ -96,7 +97,14 @@ export default function Account() {
 
 
   return (
-    <div>
+    <motion.div
+        initial={{ opacity: 0.4 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.5 }}
+        className='dashboard-wrapper'
+      >
+    {/* <div> */}
       {/* <div className='edit-account-navigation-component'>
           <NavigationComponent
               pageTitle="Edit Account"
@@ -182,6 +190,7 @@ export default function Account() {
         </p>
         
       </div>
-    </div>
+     {/* </div> */}
+    </motion.div>
   )
 }

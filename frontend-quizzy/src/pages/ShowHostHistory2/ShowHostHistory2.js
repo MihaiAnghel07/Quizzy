@@ -1,5 +1,5 @@
 import React from 'react'
-import './ShowHostHistory.css'
+import './ShowHostHistory2.css'
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
     Chart as ChartJS,
@@ -11,6 +11,7 @@ import {
     Legend,
   } from 'chart.js';
   import { Bar } from 'react-chartjs-2';
+import NavigationComponent from '../../components/NavigationComponent/NavigationComponent';
 
   
   ChartJS.register(
@@ -67,7 +68,7 @@ import {
       },
   };
 
-class ShowHostHistory extends React.Component {
+class ShowHostHistory2 extends React.Component {
 
     constructor() {
         super();
@@ -160,52 +161,67 @@ class ShowHostHistory extends React.Component {
     render() {
         return (
             <div className='show-host-history-wrapper'>
-                
-                <div className='show-host-history-summary'>Summary</div>
-                <div className='show-host-history-note'>Note:
-                    <ul className='show-host-history-note-list'>
-                        <li>Score = The number of correctly answered questions out of the total number of questions</li>
-                        <li>Rating = The participants' grade of the quiz experience on a scale of 1 to 5</li>
-                    </ul>
+
+                <div className='show-host-history-navigation-component'>
+                    <NavigationComponent
+                        pageTitle="Quiz Raport"
+                        pairs={[['History', '/history'],
+                                ['Quiz Raport', '/quiz_raport']
+                        ]}
+                    />
                 </div>
 
-                {this.state.graphData && 
-                    <div className='show-host-history-score-graph'>
-                        <Bar options={options} data={this.state.graphData} />
+                <h2 className='show-host-history2-title'>Quiz Raport</h2>
+
+                <div className='show-host-history-content'>
+                
+                    <div className='show-host-history-summary'>Summary</div>
+                    <div className='show-host-history-note'>Note:
+                        <ul className='show-host-history-note-list'>
+                            <li>Score = The number of correctly answered questions out of the total number of questions</li>
+                            <li>Rating = The participants' grade of the quiz experience on a scale of 1 to 5</li>
+                        </ul>
                     </div>
-                }
 
-                <ul className='show-host-history-summary-list'>
-                    <li className='show-host-history-total-participants'>Number of participants: {this.state.records.length}</li>
-                    <li className='show-host-history-total-questions'>Number of questions: {this.state.numberOfQuestions}</li> 
-                    <li className='show-host-history-average-score'>Average score: {this.state.averageScore}</li> 
-                    <li className='show-host-history-average-score'>Average rating: {this.state.averageRating}  ({this.state.nrRatings} participant(s) gave rating)</li> 
-                </ul>
+                    {this.state.graphData && 
+                        <div className='show-host-history-score-graph'>
+                            <Bar options={options} data={this.state.graphData} />
+                        </div>
+                    }
 
-                {this.state.records.length === 0 && <div>No data found!</div>}
-            
-                <button className='show-host-history-statistics-btn' onClick={() => this.props.showStatisticsHandler()}>Statistics per question</button>
-                <button className='show-host-history-statistics-btn' onClick={() => this.props.viewFeedbacksHandler()}>View feedback</button>
+                    <ul className='show-host-history-summary-list'>
+                        <li className='show-host-history-total-participants'>Number of participants: {this.state.records.length}</li>
+                        <li className='show-host-history-total-questions'>Number of questions: {this.state.numberOfQuestions}</li> 
+                        <li className='show-host-history-average-score'>Average score: {this.state.averageScore}</li> 
+                        <li className='show-host-history-average-score'>Average rating: {this.state.averageRating}  ({this.state.nrRatings} participant(s) gave rating)</li> 
+                    </ul>
 
-                <div className='show-host-history-participants'>Participants list (for details, click on participant name):
-                    {this.state.records.length !== 0 &&
-                        this.state.records.map((participant, index) => {
-                            
-                            return (
-                                <div key={participant.key} className='show-host-history-wrapper'>
-                                    <div>
-                                        
-                                        <div className='show-host-history-participant-item' 
-                                            onClick={()=>this.props.participantRaportHandler(participant.key)}>
-                                                <span className='show-host-history-participant-item-index'>{index + 1}. {participant.key}</span> 
-                                                <span className='show-host-history-participant-item-score'>Score: {participant.participantScore} / {this.state.numberOfQuestions}</span>
+                    {this.state.records.length === 0 && <div>No data found!</div>}
+                
+                    <button className='show-host-history-statistics-btn' onClick={() => this.props.showStatisticsHandler()}>Statistics per question</button>
+                    <button className='show-host-history-statistics-btn' onClick={() => this.props.viewFeedbacksHandler()}>View feedback</button>
+
+                    <div className='show-host-history-participants'>Participants list (for details, click on participant name):
+                        {this.state.records.length !== 0 &&
+                            this.state.records.map((participant, index) => {
+                                
+                                return (
+                                    <div key={participant.key} className='show-host-history-wrapper'>
+                                        <div>
+                                            
+                                            <div className='show-host-history-participant-item' 
+                                                onClick={()=>this.props.participantRaportHandler(participant.key)}>
+                                                    <span className='show-host-history-participant-item-index'>{index + 1}. {participant.key}</span> 
+                                                    <span className='show-host-history-participant-item-score'>Score: {participant.participantScore} / {this.state.numberOfQuestions}</span>
+                                            </div>
+
                                         </div>
-
                                     </div>
-                                </div>
-                            )
-                        })
-                    }  
+                                )
+                            })
+                        }  
+                    </div>
+
                 </div>
 
             </div>
@@ -220,18 +236,18 @@ function wrapClass (Component) {
         let location = useLocation();
         
         const participantRaportHandler = (participant) => {
-            navigate('/participant_raport', {state:{participant:participant, quizId:props.quizId}});
+            navigate('/participant_raport', {state:{participant:participant, quizId:location.state.quizId}});
         }
 
         const showStatisticsHandler = () => {
-            navigate('/statistics_per_question2', {state:{quizId:props.quizId}});
+            navigate('/statistics_per_question2', {state:{quizId:location.state.quizId}});
         }
 
         const viewFeedbacksHandler = () => {
-            navigate('/view_feedback', {state:{quizId:props.quizId}});
+            navigate('/view_feedback', {state:{quizId:location.state.quizId}});
         }
         
-        return <Component data={props.data}
+        return <Component data={location.state.data}
                         participantRaportHandler={participantRaportHandler}
                         showStatisticsHandler={showStatisticsHandler}
                         viewFeedbacksHandler={viewFeedbacksHandler}
@@ -239,4 +255,4 @@ function wrapClass (Component) {
     }
 }
 
-export default wrapClass(ShowHostHistory); 
+export default wrapClass(ShowHostHistory2); 

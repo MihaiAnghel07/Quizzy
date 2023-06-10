@@ -74,7 +74,7 @@ class ShowHistory extends React.Component {
                                 
                                 <div className="quiz-content">
                                     {this.props.historyType === "participant" && <ShowParticipantHistory questions={row.data.questions} quizId={row.key}/>}
-                                    {this.props.historyType === "host" && <ShowHostHistory data={row.data} quizId={row.key}/>}
+                                    {/* {this.props.historyType === "host" && <ShowHostHistory data={row.data} quizId={row.key}/>} */}
                                 </div>
                             )}
 
@@ -97,11 +97,11 @@ function wrapClass (Component) {
         
         const handleQuizClick = (id, data, key) => {
 
-            // if (props.historyType === "participant") {
+            if (props.historyType === "participant") {
 
-            // } else if (props.historyType === "host") {
-            //     navigate("/show_host_history", {state:{data:data, quizId:key}});
-            // }
+            } else if (props.historyType === "host") {
+                navigate("/quiz_raport", {state:{data:data, quizId:key}});
+            }
 
 
             if (expandedId === id) {

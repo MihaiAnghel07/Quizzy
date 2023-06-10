@@ -23,11 +23,12 @@ export default function Create_lobby() {
   const [showPopup, setShowPopup] = useState(false);
   const [showPopup2, setShowPopup2] = useState(false);
   const [showPopup3, setShowPopup3] = useState(false);
-  const { updateLobby, error } = useUpdateLobby();
+  const { updateLobby } = useUpdateLobby();
   const { setHistoryInitialState } = useSetHistoryInitialState();
   let navigate = useNavigate();
   let location = useLocation();
   const { loadLobbyTemplateToDatabase } = useLoadingLobbyTemplate()
+  let error = null;
 
   const [duration, setDuration] = useState("10")
 
@@ -42,6 +43,10 @@ export default function Create_lobby() {
   const getTimeEpoch = () => {
     return new Date().getTime().toString();                             
   }
+
+  const delay = ms => new Promise (
+    resolve => setTimeout(resolve, ms)
+  );
 
   // generate unique lobbyCode
   const { generateLobbyCode } = useGenerateLobbyCode()
@@ -59,6 +64,7 @@ export default function Create_lobby() {
       lobbyId: getTimeEpoch()
     }
     loadLobbyTemplateToDatabase(lobbyTemplate)
+
   }
 
   const [lobbyCode] = useState(localStorage.getItem("lobbyCode"));
@@ -81,20 +87,30 @@ export default function Create_lobby() {
     return new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(Date.now())
   }
 
+  const handleUpdateLobbyError = (errorMessage) => {
+    error = errorMessage;
+  };
+
   const startQuizHandler = async (e) => {
     e.preventDefault();
+
     if (location.state != null && location.state.quizId != null && location.state.quizAuthor != null && duration != '') {
-      await updateLobby(lobbyCode, location.state.quizId, location.state.quizAuthor, location.state.quizTitle, duration, getTimestamp());
-      
-      if (error == null || error == "") {
+      await updateLobby(lobbyCode, location.state.quizId, location.state.quizAuthor, location.state.quizTitle, duration, getTimestamp(), handleUpdateLobbyError);
+
+      if (error == null) {
         setHistoryInitialState(lobbyCode);
-        console.log("START")
+        setShowPopup3(true);
+        await delay(2200);
+        localStorage.removeItem("lobbyCode");
+        navigate('/dashboard', {replace: true});
       
-      } else if (error != "") {
+      } else if (error != null) {
+        // eroare pentru ca nu exista niciun participant
         setShowPopup2(true)
       }
 
     } else {
+      // eroare pentru ca nu am selectat quiz
       setShowPopup(true)
     }
 
@@ -144,7 +160,7 @@ export default function Create_lobby() {
         {showPopup2 &&
         (
           <Popup
-            message={error}
+            message="You cannot start the quiz with no participants in lobby"
             duration={2000}
             position="top-right"
             // icon = {<FaCheck className='flag-button'/>}
@@ -152,10 +168,10 @@ export default function Create_lobby() {
           />
         )}
 
-      {showPopup3 &&
+        {showPopup3 &&
         (
           <Popup
-            message="The quiz has started!"
+            message="The quiz has started!&nbsp;&nbsp;&nbsp;&nbsp;"
             duration={2000}
             position="top-right"
             // icon = {<FaCheck className='flag-button'/>}

@@ -4,6 +4,7 @@ import './Faq.css'
 
 import { AiOutlineUp, AiOutlineDown } from 'react-icons/ai'
 import NavigationComponent from '../../components/NavigationComponent/NavigationComponent';
+import { motion } from "framer-motion"
 
 const Faq = () => {
   const [expandedId, setExpandedId] = useState(null);
@@ -18,7 +19,14 @@ const Faq = () => {
   };
 
   return (
-    <div>
+    <motion.div
+        initial={{ opacity: 0.4 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.5 }}
+        className='dashboard-wrapper'
+      >
+    {/* <div> */}
       {/* <div className='faq-navigation-component'>
         <NavigationComponent
             pageTitle="FAQ"
@@ -90,7 +98,7 @@ const Faq = () => {
           </div>
           {expandedId === 3 && (
             <div className="faq-answer">
-              The 'copy' button lets you copy a public questions set to your portofolio. 
+              The 'copy' button lets you copy a public questions set to your private portofolio. 
             </div>
           )}
         </div>
@@ -121,16 +129,63 @@ const Faq = () => {
           <div className="faq-question" onClick={() => handleFaqClick(5)}>
             {expandedId === 5 && <AiOutlineUp/>}
             {expandedId != 5 && <AiOutlineDown/>}
-            Question 5
+            How to join a quiz?
+
           </div>
           {expandedId === 5 && (
+            
             <div className="faq-answer">
-              Answer to question 5.
+              In order to join a quiz, firstly you need the <b>quiz lobbycode</b> that must be shared by the host of quiz.
+              After getting it, you must access from the menu: <b>'Dashboard'</b> and then <b>'Join Lobby'</b>.
+              In 'Join Lobby' page, introduce the code in the text box and then click on 'Join Lobby' button.
+
+            </div>
+          )}
+        </div>
+
+        <div className="faq-item">
+          <div className="faq-question" onClick={() => handleFaqClick(6)}>
+            {expandedId === 6 && <AiOutlineUp/>}
+            {expandedId != 6 && <AiOutlineDown/>}
+            Where can I find details about a quiz?
+
+          </div>
+          {expandedId === 6 && (
+            
+            <div className="faq-answer">
+              For any information related to a quiz, access the <b>'History'</b> page. There you will find the history of the quizzes both 
+              from the perspective of the host and from the perspective of the participant. For more details about this history filtering method, 
+              please see the question <b>'What does the filtering on the history page do exactly?'</b> from 'Frequently Asked Questions' section.
+
+            </div>
+          )}
+        </div>
+
+        <div className="faq-item">
+          <div className="faq-question" onClick={() => handleFaqClick(7)}>
+            {expandedId === 7 && <AiOutlineUp/>}
+            {expandedId != 7 && <AiOutlineDown/>}
+            What does the filtering on the history page do exactly?
+
+          </div>
+          {expandedId === 7 && (
+            
+            <div className="faq-answer">
+              There are two filtering options in the history page:
+              <ul>
+                <li><b>Host</b> - Your history will be displayed from the perspective of hosting quizzes. For each quiz, you will find details such as:
+                 the distribution chart of scores, the number of participants, the average rating of the quiz, the feedback from participants and a report
+                 for each participant including their score and answers.</li>
+                <li><b>Participant</b> - Your history will be displayed from the participant's perspective. You will find a report with details such as the
+                 score obtained, your answers, and the correct answers of the quiz. </li>
+              </ul>
+
             </div>
           )}
         </div>
       </div>
-    </div>
+    {/* </div> */}
+    </motion.div>
   )
 }
 

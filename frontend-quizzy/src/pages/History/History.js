@@ -3,6 +3,7 @@ import './History.css'
 import { useNavigate } from 'react-router-dom';
 import ShowHistory from '../../components/ShowHistory/ShowHistory';
 import NavigationComponent from '../../components/NavigationComponent/NavigationComponent';
+import { motion } from "framer-motion"
 
  
 class History extends React.Component {
@@ -38,7 +39,14 @@ class History extends React.Component {
 
   render () {
     return (
-      <div className='history-wrapper'>
+      <motion.div
+        initial={{ opacity: 0.4 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.5 }}
+        className='dashboard-wrapper'
+      >
+      {/* <div className='history-wrapper'> */}
         {/* <div className='history-navigation-component'>
           <NavigationComponent
               pageTitle="History"
@@ -74,7 +82,8 @@ class History extends React.Component {
           </div>
 
         </div>
-      </div>
+      {/* </div> */}
+      </motion.div>
     )
   }
 

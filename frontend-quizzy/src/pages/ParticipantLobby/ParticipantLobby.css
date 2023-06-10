@@ -6,14 +6,16 @@
 }
 
 #bouncing-dots-loader {
-    margin-left: 550px;
+    margin-left: 650px;
     margin-top: -45px;
 }
 
 .participant-lobby-wrapper-note {
+    margin-top: -30px;
     color: red;
 }
 
 .participant-lobby-wrapper-waiting {
-    margin-left: 250px;
+    margin-left: 350px;
+    margin-top: 60px;
 }

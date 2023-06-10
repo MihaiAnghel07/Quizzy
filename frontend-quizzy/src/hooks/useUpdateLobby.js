@@ -1,16 +1,18 @@
 import React, { useState } from 'react'
 import { projectFirebaseRealtime } from '../firebase/config'
+import { useEffect } from 'react';
 
 export const useUpdateLobby = () => {
-    const [error, setError] = useState("");
+    const [error, setError] = useState(null);
 
-    const updateLobby = async (lobbyCode, quizId, quizAuthor, quizTitle, duration, timestamp) => {
+    const updateLobby = async (lobbyCode, quizId, quizAuthor, quizTitle, duration, timestamp, errorCallback) => {
         
         const ref = projectFirebaseRealtime.ref('Lobbies/' + lobbyCode);
         await ref.once("value", async (snapshot) => {
             
             if (!snapshot.val().participants) {
                 setError("You cannot start the quiz with no participants in lobby");
+                errorCallback("You cannot start the quiz with no participants in lobby");
             
             } else {
 
@@ -30,6 +32,7 @@ export const useUpdateLobby = () => {
                     })
                 
                 setError(null);
+                errorCallback(null);
             }
                 
         })

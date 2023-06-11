@@ -184,8 +184,23 @@ public class CreateLobbyActivity extends AppCompatActivity {
                     return;
                 }
 
-                // Start the quiz
-                startQuiz();
+                // Check if there are participants in the lobby
+                lobbyRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (!snapshot.child("participants").exists()) {
+                            Toast.makeText(CreateLobbyActivity.this, "There are no participants in the lobby", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Start the quiz
+                            startQuiz();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
         });
 

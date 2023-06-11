@@ -1,8 +1,10 @@
 package com.quizzy.android;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -67,17 +69,36 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         logoutButton.setOnClickListener(v -> {
-            // Clear the username and login status in SharedPreferences
-            PreferenceHelper.setLoginStatus(this, false);
-            PreferenceHelper.setUsername(this, "USER_NONE");
 
-            // Display logout message
-            Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show();
+            // Display confirmation dialog
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Are you sure you want to log out?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // If the user confirms, log out
+                            // Clear the username and login status in SharedPreferences
+                            PreferenceHelper.setLoginStatus(HomeActivity.this, false);
+                            PreferenceHelper.setUsername(HomeActivity.this, "USER_NONE");
 
-            // Start the main activity
-            Intent newIntent = new Intent(HomeActivity.this, MainActivity.class);
-            startActivity(newIntent);
-            finish();
+                            // Display logout message
+                            Toast.makeText(HomeActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
+
+                            // Start the main activity
+                            Intent newIntent = new Intent(HomeActivity.this, MainActivity.class);
+                            startActivity(newIntent);
+                            finish();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // If the user cancels, dismiss the dialog
+                            dialog.dismiss();
+                        }
+                    });
+
+            // Create and show the dialog
+            AlertDialog dialog = builder.create();
+            dialog.show();
         });
 
         questionSetsButton.setOnClickListener(v -> {

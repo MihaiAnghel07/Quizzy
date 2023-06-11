@@ -11,6 +11,7 @@ import android.os.Bundle;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
@@ -230,9 +231,10 @@ public class QuizActivity extends AppCompatActivity {
         // Set the question text
         questionTextView.setText(question);
 
+        /*   // OLD IMPLEMENTATION
         // Load the image if available
         if (hasImage) {
-            // Use Picasso or any other library to load the image into the ImageView
+            // Use Picasso to load the image into the ImageView
             String imagePath = "History/participant/" + username + "/quizzes/" + lobbyId +"/questions/" + questionId +"/" + image;
             StorageReference imageRef = storageRef.child(imagePath);
             imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -245,12 +247,54 @@ public class QuizActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(@NonNull Exception exception) {
                     // Handle any errors that occur during image retrieval
+
                 }
             });
             questionImageView.setVisibility(View.VISIBLE);
         } else {
             questionImageView.setVisibility(View.GONE);
         }
+        */
+
+        // NEW IMPLEMENTATION
+        // Load the image if available
+        if (hasImage) {
+            // Use Picasso to load the image into the ImageView
+            String imagePath = "History/participant/" + username + "/quizzes/" + lobbyId +"/questions/" + questionId +"/" + image;
+            StorageReference imageRef = storageRef.child(imagePath);
+
+            // Define a method to load the image using Picasso
+            Runnable loadImage = null;
+            Runnable finalLoadImage = loadImage;
+            loadImage = new Runnable() {
+                @Override
+                public void run() {
+                    imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            // Load the image using Picasso
+                            Picasso.get().load(uri).into(questionImageView);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Handle any errors that occur during image retrieval
+                            // Retry loading the image after a delay
+                            System.out.println("Retrying to load image...");
+                            Handler handler = new Handler();
+                            handler.postDelayed(finalLoadImage, 1000); // Retry after 1 second (adjust as needed)
+                        }
+                    });
+                }
+            };
+
+            // Start loading the image
+            loadImage.run();
+            questionImageView.setVisibility(View.VISIBLE);
+        } else {
+            questionImageView.setVisibility(View.GONE);
+        }
+
 
         // Set the answer button text
         answer1Button.setText(answer1.getText());

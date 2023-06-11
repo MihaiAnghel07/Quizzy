@@ -53,7 +53,8 @@
         android:layout_below="@id/ratingTextView"
         android:layout_marginTop="16dp"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="32dp" />
+        android:layout_marginStart="20dp"
+        android:layout_marginRight="20dp"/>
 
     <Button
         android:id="@+id/viewStatisticsButton"
@@ -63,7 +64,8 @@
         android:layout_below="@id/ratingTextView"
         android:layout_marginTop="16dp"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="32dp" />
+        android:layout_marginEnd="20dp"
+        android:layout_marginLeft="20dp"/>
 
     <TextView
         android:id="@+id/participantsTextView"

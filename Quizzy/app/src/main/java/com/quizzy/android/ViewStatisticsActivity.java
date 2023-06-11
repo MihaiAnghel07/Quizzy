@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -173,6 +174,7 @@ public class ViewStatisticsActivity extends AppCompatActivity {
                         // Compute question answer distribution
                         int questionIndex = 0;
                         for (String questionId : questionIds) {
+                            boolean currentQuestionFlagged = false;
                             questionIndex++;
                             Question question = new Question();
                             String questionText, ans1, ans2, ans3, ans4;
@@ -267,11 +269,15 @@ public class ViewStatisticsActivity extends AppCompatActivity {
                                     } else if (answer4.isSelected()) {
                                         answerDistribution.set(3, answerDistribution.get(3) + 1);
                                     }
+
+                                    if (question.getIsFlagged()) {
+                                        currentQuestionFlagged = true;
+                                    }
                                 }
                             }
 
                             // Display question (text + answers + image?)
-                            displayQuestion(question, questionIndex);
+                            displayQuestion(question, questionIndex, currentQuestionFlagged);
 
                             // Display answer distribution chart for question
                             displayAnswerDistributionForQuestion(answerDistribution, correctIndex);
@@ -286,11 +292,24 @@ public class ViewStatisticsActivity extends AppCompatActivity {
     }
 
 
-    private void displayQuestion(Question question, int questionIndex) {
+    private void displayQuestion(Question question, int questionIndex, boolean flagged) {
         String questionText = String.valueOf(questionIndex) + ". " + question.getQuestion();
 
         LinearLayout questionLayout = new LinearLayout(ViewStatisticsActivity.this);
         questionLayout.setOrientation(LinearLayout.VERTICAL);
+
+        // Add flag icon if the current question has been flagged by a participant
+        if (flagged) {
+            ImageView flagImageView = new ImageView(ViewStatisticsActivity.this);
+            flagImageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            flagImageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+
+            int imageResourceId = R.drawable.ic_flag;
+            flagImageView.setImageResource(imageResourceId);
+
+            questionLayout.addView(flagImageView);
+        }
+
 
         // Add question text to view
         TextView questionTextView = new TextView(ViewStatisticsActivity.this);

@@ -14,7 +14,7 @@
         android:textStyle="bold"
         android:text="Hello, "
         android:gravity="center"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="10dp"/>
 
     <TextView
         android:id="@+id/usernameTextView"
@@ -24,7 +24,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:gravity="center"
-        android:layout_marginBottom="50dp"/>
+        android:layout_marginBottom="20dp"/>
 
     <Button
         android:id="@+id/joinLobbyButton"
@@ -49,10 +49,21 @@
         android:layout_marginRight="25dp"/>
 
     <Button
-        android:id="@+id/historyButton"
+        android:id="@+id/questionSetsButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/createLobbyButton"
+        android:layout_marginTop="16dp"
+        android:text="Question Sets"
+        android:height="75dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp" />
+
+    <Button
+        android:id="@+id/historyButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/questionSetsButton"
         android:layout_marginTop="16dp"
         android:text="History"
         android:height="75dp"
@@ -60,24 +71,14 @@
         android:layout_marginRight="25dp"
         />
 
-    <Button
-        android:id="@+id/questionSetsButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/historyButton"
-        android:layout_marginTop="16dp"
-        android:text="Question Sets"
-        android:height="75dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginBottom="50dp"/>
+
 
     <Button
         android:id="@+id/logout_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/questionSetsButton"
-        android:layout_marginTop="16dp"
+        android:layout_below="@id/historyButton"
+        android:layout_marginTop="20dp"
         android:text="Log Out"
         android:height="50dp"
         android:layout_marginLeft="75dp"

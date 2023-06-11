@@ -30,7 +30,8 @@ public class QuizDetailsHostActivity extends AppCompatActivity {
     DatabaseReference dbReference;
     String quizId, quizTitle, timestamp, username;
 
-    int scoreSum, scoreCount, questionsCount;
+    double scoreSum, scoreCount;
+    int questionsCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -207,7 +208,15 @@ public class QuizDetailsHostActivity extends AppCompatActivity {
 
                                             }
                                         }
-                                        avgScoreTextView.setText("Avg. Score: " + scoreSum / scoreCount + "/" + questionsCount);
+
+                                        // Trim score value
+                                        DecimalFormat decimalFormat = new DecimalFormat("#.#");
+                                        if (scoreCount == 0) {
+                                            avgScoreTextView.setText("Rating: No Score");
+                                        } else {
+                                            String score = decimalFormat.format(scoreSum / scoreCount);
+                                            avgScoreTextView.setText("Avg. Score: " + score + "/" + questionsCount);
+                                        }
                                     }
 
                                     @Override

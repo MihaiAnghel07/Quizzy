@@ -89,8 +89,6 @@ public class QuestionsAdapter extends BaseAdapter {
         holder.editImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Edit " + questionId, Toast.LENGTH_SHORT).show();
-
                 Intent newIntent = new Intent(context, EditQuestionActivity.class);
                 newIntent.putExtra("questionId", questionId);
                 newIntent.putExtra("quizAuthor", quizAuthor);
@@ -102,8 +100,6 @@ public class QuestionsAdapter extends BaseAdapter {
         holder.deleteImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Delete " + questionId, Toast.LENGTH_SHORT).show();
-
                 // Ask user to confirm deleting question
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setMessage("Are you sure you want to delete this question?")

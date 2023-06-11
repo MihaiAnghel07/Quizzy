@@ -1,7 +1,9 @@
 package com.quizzy.android;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import android.content.Intent;
@@ -47,6 +49,11 @@ public class LobbyActivity extends AppCompatActivity {
                     // Game has started, start the quiz activity
                     startQuizActivity();
                 }
+                // Detect if host closed the lobby
+                if (!dataSnapshot.exists()) {
+                    Toast.makeText(LobbyActivity.this, "The host has closed the lobby", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
             }
 
             @Override
@@ -61,45 +68,66 @@ public class LobbyActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Toast.makeText(LobbyActivity.this, "You have left the lobby", Toast.LENGTH_SHORT).show();
-        // Remove the game status listener when the activity is destroyed
-        if (lobbyRef != null && gameStatusListener != null) {
-            lobbyRef.child("gameStatus").removeEventListener(gameStatusListener);
-        }
 
-        // Remove the participant from the lobby
-        String username = PreferenceHelper.getUsername(this);
-        lobbyRef.child("participants").orderByChild("name").equalTo(username).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot participantSnapshot : dataSnapshot.getChildren()) {
-                    participantSnapshot.getRef().removeValue();
-                }
-            }
+        // Ask user to confirm leaving the lobby
+        AlertDialog.Builder builder = new AlertDialog.Builder(LobbyActivity.this);
+        builder.setMessage("Are you sure you want to leave the lobby?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // If user confirms, leave lobby
+                        Toast.makeText(LobbyActivity.this, "You have left the lobby", Toast.LENGTH_SHORT).show();
+                        // Remove the game status listener when the activity is destroyed
+                        if (lobbyRef != null && gameStatusListener != null) {
+                            lobbyRef.child("gameStatus").removeEventListener(gameStatusListener);
+                        }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Handle database error, if needed
-            }
-        });
+                        // Remove the participant from the lobby
+                        String username = PreferenceHelper.getUsername(LobbyActivity.this);
+                        lobbyRef.child("participants").orderByChild("name").equalTo(username).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                for (DataSnapshot participantSnapshot : dataSnapshot.getChildren()) {
+                                    participantSnapshot.getRef().removeValue();
+                                }
+                            }
 
-        // Decrement the number of participants in the lobby
-        lobbyRef.child("noParticipants").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Integer noParticipants = dataSnapshot.getValue(Integer.class);
-                if (noParticipants != null) {
-                    lobbyRef.child("noParticipants").setValue(noParticipants - 1);
-                }
-            }
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                // Handle database error, if needed
+                            }
+                        });
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Handle database error, if needed
-            }
-        });
+                        // Decrement the number of participants in the lobby
+                        lobbyRef.child("noParticipants").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Integer noParticipants = dataSnapshot.getValue(Integer.class);
+                                if (noParticipants != null) {
+                                    lobbyRef.child("noParticipants").setValue(noParticipants - 1);
+                                }
+                            }
 
-        super.onBackPressed();
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                // Handle database error, if needed
+                            }
+                        });
+
+                        LobbyActivity.super.onBackPressed();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // If the user cancels, dismiss the dialog
+                        dialog.dismiss();
+                    }
+                });
+        // Create and show the dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+
+
     }
 
 

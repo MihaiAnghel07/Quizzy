@@ -146,8 +146,8 @@ public class QuizActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     lobbyId = snapshot.child("lobbyId").getValue(String.class);
-                    quizAuthor = snapshot.child("quizAuthor").getValue(String.class);
-                    durationMinutes = Integer.valueOf(snapshot.child("duration").getValue(Integer.class));
+                    quizAuthor = snapshot.child("host").getValue(String.class);
+                    durationMinutes = Integer.valueOf(snapshot.child("duration").getValue(String.class));
                     String timestamp = snapshot.child("timestamp").getValue(String.class);
 
                     try {
@@ -376,53 +376,53 @@ public class QuizActivity extends AppCompatActivity {
                         // the database, the same as in quiz details activity
                         System.out.println("You guessed it!");
 
-                        // Increment correctAnswers in Statistics
-                        DatabaseReference correctAnswersRef = FirebaseDatabase.getInstance().getReference()
-                                .child("Statistics")
-                                .child("host")
-                                .child(quizAuthor)
-                                .child("quizzes")
-                                .child(lobbyId)
-                                .child(String.valueOf(questions.get(currentQuestionIndex).getId()))
-                                .child("correctAnswers");
-
-                        correctAnswersRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                int correctAnswers = snapshot.getValue(Integer.class);
-                                correctAnswers++;
-                                correctAnswersRef.setValue(correctAnswers);
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
+//                        // Increment correctAnswers in Statistics
+//                        DatabaseReference correctAnswersRef = FirebaseDatabase.getInstance().getReference()
+//                                .child("Statistics")
+//                                .child("host")
+//                                .child(quizAuthor)
+//                                .child("quizzes")
+//                                .child(lobbyId)
+//                                .child(String.valueOf(questions.get(currentQuestionIndex).getId()))
+//                                .child("correctAnswers");
+//
+//                        correctAnswersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                                int correctAnswers = snapshot.getValue(Integer.class);
+//                                correctAnswers++;
+//                                correctAnswersRef.setValue(correctAnswers);
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(@NonNull DatabaseError error) {
+//
+//                            }
+//                        });
                     } else {
                         // Increment wrongAnswers in Statistics
-                        DatabaseReference wrongAnswersRef = FirebaseDatabase.getInstance().getReference()
-                                .child("Statistics")
-                                .child("host")
-                                .child(quizAuthor)
-                                .child("quizzes")
-                                .child(lobbyId)
-                                .child(String.valueOf(questions.get(currentQuestionIndex).getId()))
-                                .child("wrongAnswers");
-
-                        wrongAnswersRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                int wrongAnswers = snapshot.getValue(Integer.class);
-                                wrongAnswers++;
-                                wrongAnswersRef.setValue(wrongAnswers);
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
+//                        DatabaseReference wrongAnswersRef = FirebaseDatabase.getInstance().getReference()
+//                                .child("Statistics")
+//                                .child("host")
+//                                .child(quizAuthor)
+//                                .child("quizzes")
+//                                .child(lobbyId)
+//                                .child(String.valueOf(questions.get(currentQuestionIndex).getId()))
+//                                .child("wrongAnswers");
+//
+//                        wrongAnswersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                                int wrongAnswers = snapshot.getValue(Integer.class);
+//                                wrongAnswers++;
+//                                wrongAnswersRef.setValue(wrongAnswers);
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(@NonNull DatabaseError error) {
+//
+//                            }
+//                        });
                     }
                     currentQuestionIndex++;
                     loadNextQuestion();

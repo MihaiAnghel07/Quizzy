@@ -9,6 +9,7 @@ public class PreferenceHelper {
     private static final String USERNAME = "username";
     private static final String LOBBY_OPEN = "lobbyOpen";
     private static final String ACTIVE_LOBBY_CODE = "activeLobbyCode";
+    private static final String QUIZ_STARTED = "quizStarted";
 
     public static void setLoginStatus(Context context, boolean isLoggedIn) {
         SharedPreferences.Editor editor = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).edit();
@@ -52,5 +53,17 @@ public class PreferenceHelper {
     public static String getActiveLobbyCode(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         return preferences.getString(ACTIVE_LOBBY_CODE, "LOBBYCODE_NONE");
+    }
+
+
+    public static void setQuizStarted(Context context, boolean quizStarted) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).edit();
+        editor.putBoolean(QUIZ_STARTED, quizStarted);
+        editor.apply();
+    }
+
+    public static boolean getQuizStarted(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        return preferences.getBoolean(QUIZ_STARTED, false);
     }
 }

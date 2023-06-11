@@ -107,33 +107,33 @@ public class QuestionSetsActivity2 extends AppCompatActivity {
         // Notify the adapter after the data is fetched
         questionSetAdapter.notifyDataSetChanged();
 
-        questionSetsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Get the clicked question set from the filtered list
-                QuestionSet questionSet = filteredQuestionSetList.get(position);
-
-                // Access the field values of the clicked question set
-                boolean isPublic = questionSet.getIsPublic();
-                String title = questionSet.getTitle();
-                Toast.makeText(QuestionSetsActivity2.this, "Question Set Title: " + title, Toast.LENGTH_SHORT).show();
-                System.out.println("ID: " + filteredQuestionSetIds.get(position));
-                //System.out.println(questionSet.getAuthor());
-                //System.out.println(questionSet.getId());
-                //System.out.println(questionSet.getQuestions().get(0).getQuestion());
-
-                // Example actions you can perform with the field values
-                if (isPublic) {
-                    // Display a toast message indicating the question set is public
-                    //Toast.makeText(QuestionSetsActivity2.this, "Public Question Set: " + title, Toast.LENGTH_SHORT).show();
-                } else {
-                    // Open a new activity and pass the title as an extra
-                    //Intent intent = new Intent(QuestionSetsActivity2.this, DetailsActivity.class);
-                    //intent.putExtra("title", title);
-                    //startActivity(intent);
-                }
-            }
-        });
+//        questionSetsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                // Get the clicked question set from the filtered list
+//                QuestionSet questionSet = filteredQuestionSetList.get(position);
+//
+//                // Access the field values of the clicked question set
+//                boolean isPublic = questionSet.getIsPublic();
+//                String title = questionSet.getTitle();
+//                Toast.makeText(QuestionSetsActivity2.this, "Question Set Title: " + title, Toast.LENGTH_SHORT).show();
+//                System.out.println("ID: " + filteredQuestionSetIds.get(position));
+//                //System.out.println(questionSet.getAuthor());
+//                //System.out.println(questionSet.getId());
+//                //System.out.println(questionSet.getQuestions().get(0).getQuestion());
+//
+//                // Example actions you can perform with the field values
+//                if (isPublic) {
+//                    // Display a toast message indicating the question set is public
+//                    //Toast.makeText(QuestionSetsActivity2.this, "Public Question Set: " + title, Toast.LENGTH_SHORT).show();
+//                } else {
+//                    // Open a new activity and pass the title as an extra
+//                    //Intent intent = new Intent(QuestionSetsActivity2.this, DetailsActivity.class);
+//                    //intent.putExtra("title", title);
+//                    //startActivity(intent);
+//                }
+//            }
+//        });
 
         // Set listeners
         searchEditText.addTextChangedListener(new TextWatcher() {

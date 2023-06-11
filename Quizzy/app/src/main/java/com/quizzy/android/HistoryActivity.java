@@ -148,7 +148,6 @@ public class HistoryActivity extends AppCompatActivity {
                     startActivity(intent);
                 } else {
                     // Start QuizDetailsActivity (host) with quizId as extra
-                    Toast.makeText(HistoryActivity.this, "Host", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(HistoryActivity.this, QuizDetailsHostActivity.class);
                     intent.putExtra("quizId", quizId);
                     intent.putExtra("quizTitle", quizTitle);

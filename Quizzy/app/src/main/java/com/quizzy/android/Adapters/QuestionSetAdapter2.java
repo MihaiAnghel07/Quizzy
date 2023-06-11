@@ -110,6 +110,7 @@ public class QuestionSetAdapter2 extends BaseAdapter {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 // If user confirms, delete question set
+                                Toast.makeText(context, "Question set deleted successfully", Toast.LENGTH_SHORT).show();
                                 String username = PreferenceHelper.getUsername(context);
                                 databaseRef = FirebaseDatabase.getInstance().getReference("Quizzes");
                                 databaseRef.child(username).child(quizId).removeValue();

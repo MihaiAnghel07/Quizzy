@@ -8,6 +8,13 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/warningTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Warning: Do not close the lobby until all participants have finished"
+        android:gravity="center"
+        android:textColor="@color/red"/>
+    <TextView
         android:id="@+id/textViewLobbyCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,6 +33,7 @@
         android:text="Selected Question Set:"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:textColor="@color/black"
         android:layout_gravity="center"/>
 
     <Button
@@ -70,6 +78,17 @@
 
             android:text="Close Lobby"/>
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Participants"
+        android:layout_marginTop="16dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_gravity="center"
+        android:gravity="center"/>
 
     <ListView
         android:id="@+id/listViewParticipants"

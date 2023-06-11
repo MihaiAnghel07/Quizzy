@@ -107,7 +107,7 @@ public class EditQuestionSetActivity extends AppCompatActivity {
                     databaseReference.child(quizAuthor).child(quizId).child("isPublic").setValue(false);
                 }
 
-                Toast.makeText(EditQuestionSetActivity.this, "Visibility set to" + visibilityType, Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditQuestionSetActivity.this, "Visibility set to " + visibilityType, Toast.LENGTH_SHORT).show();
             }
 
             @Override

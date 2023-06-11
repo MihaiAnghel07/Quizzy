@@ -3,30 +3,39 @@ package com.quizzy.android;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.net.Uri;
 import android.os.Bundle;
 
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.quizzy.android.DataStructures.Answer;
 import com.quizzy.android.DataStructures.Question;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -295,61 +304,84 @@ public class ViewStatisticsActivity extends AppCompatActivity {
         // Add answer1 text to view
         TextView answer1TextView = new TextView(ViewStatisticsActivity.this);
         answer1TextView.setGravity(Gravity.CENTER_VERTICAL);
-        answer1TextView.setText(question.getAnswer1().getText());
+        answer1TextView.setText("Ans1. " + question.getAnswer1().getText());
         answer1TextView.setTextSize(16);
         answer1TextView.setTextColor(Color.BLACK);
         answer1TextView.setCompoundDrawablePadding(8);
 
         if (question.getAnswer1().getIsCorrect()) {
             answer1TextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_check_mark2, 0);
-            //answerTextView.setTextColor(Color.GREEN);
+            answer1TextView.setTextColor(Color.GREEN);
         }
         questionLayout.addView(answer1TextView);
 
         // Add answer2 text to view
         TextView answer2TextView = new TextView(ViewStatisticsActivity.this);
         answer2TextView.setGravity(Gravity.CENTER_VERTICAL);
-        answer2TextView.setText(question.getAnswer2().getText());
+        answer2TextView.setText("Ans2. " + question.getAnswer2().getText());
         answer2TextView.setTextSize(16);
         answer2TextView.setTextColor(Color.BLACK);
         answer2TextView.setCompoundDrawablePadding(8);
 
         if (question.getAnswer2().getIsCorrect()) {
             answer2TextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_check_mark2, 0);
-            //answerTextView.setTextColor(Color.GREEN);
+            answer2TextView.setTextColor(Color.GREEN);
         }
         questionLayout.addView(answer2TextView);
 
         // Add answer3 text to view
         TextView answer3TextView = new TextView(ViewStatisticsActivity.this);
         answer3TextView.setGravity(Gravity.CENTER_VERTICAL);
-        answer3TextView.setText(question.getAnswer3().getText());
+        answer3TextView.setText("Ans3. " + question.getAnswer3().getText());
         answer3TextView.setTextSize(16);
         answer3TextView.setTextColor(Color.BLACK);
         answer3TextView.setCompoundDrawablePadding(8);
 
         if (question.getAnswer3().getIsCorrect()) {
             answer3TextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_check_mark2, 0);
-            //answerTextView.setTextColor(Color.GREEN);
+            answer3TextView.setTextColor(Color.GREEN);
         }
         questionLayout.addView(answer3TextView);
 
         // Add answer4 text to view
         TextView answer4TextView = new TextView(ViewStatisticsActivity.this);
         answer4TextView.setGravity(Gravity.CENTER_VERTICAL);
-        answer4TextView.setText(question.getAnswer4().getText());
+        answer4TextView.setText("Ans4. " + question.getAnswer4().getText());
         answer4TextView.setTextSize(16);
         answer4TextView.setTextColor(Color.BLACK);
         answer4TextView.setCompoundDrawablePadding(8);
 
         if (question.getAnswer4().getIsCorrect()) {
             answer4TextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_check_mark2, 0);
-            //answerTextView.setTextColor(Color.GREEN);
+            answer4TextView.setTextColor(Color.GREEN);
         }
         questionLayout.addView(answer4TextView);
 
 
         // TODO: Add image to view
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+        // Add question image
+        if (question.isHasImage()) {
+            ImageView questionImageView = new ImageView(ViewStatisticsActivity.this);
+            String imageName = question.getImage();
+            String imagePath = "History/participant/" + username + "/quizzes/" + quizId + "/questions/" + questionIds.get(questionIndex - 1) + "/" + imageName;
+            //String imagePath = "/History/participant/user3/quizzes/1685717718679/questions/0/1200px-Un1.svg.png";
+            StorageReference imageRef = storageRef.child(imagePath);
+            imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    // Load the image using Picasso
+                    Picasso.get().load(uri).into(questionImageView);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors that occur during image retrieval
+                }
+            });
+            questionLayout.addView(questionImageView);
+        }
 
         questionChartsContainer.addView(questionLayout);
     }
@@ -402,7 +434,7 @@ public class ViewStatisticsActivity extends AppCompatActivity {
     private void displayAnswerDistributionForQuestion(ArrayList<Integer> answerDistribution, int correctIndex) {
         List<BarEntry> entries = getAnswerEntriesForQuestion(answerDistribution);
         BarDataSet dataSet = new BarDataSet(entries, "Question Answer Distribution");
-        dataSet.setColor(Color.GREEN);
+        dataSet.setColor(Color.BLUE);
 
         BarData barData = new BarData(dataSet);
 

@@ -1,8 +1,10 @@
 package com.quizzy.android;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import android.content.Intent;
@@ -49,6 +51,7 @@ public class CreateLobbyActivity extends AppCompatActivity {
     private Button buttonStartQuiz;
     private Button buttonCloseLobby;
     private ListView listViewParticipants;
+    private TextView warningTextView;
 
     private String lobbyCode;
     private ArrayAdapter<String> participantsAdapter;
@@ -73,6 +76,12 @@ public class CreateLobbyActivity extends AppCompatActivity {
         buttonStartQuiz = findViewById(R.id.buttonStartQuiz);
         buttonCloseLobby = findViewById(R.id.buttonCloseLobby);
         listViewParticipants = findViewById(R.id.listViewParticipants);
+        warningTextView = findViewById(R.id.warningTextView);
+        if (PreferenceHelper.getQuizStarted(CreateLobbyActivity.this)) {
+            warningTextView.setVisibility(View.VISIBLE);
+        } else {
+            warningTextView.setVisibility(View.GONE);
+        }
 
         participantsList = new ArrayList<>();
         participantsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, participantsList);
@@ -183,8 +192,24 @@ public class CreateLobbyActivity extends AppCompatActivity {
         buttonCloseLobby.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Close the lobby
-                closeLobby();
+                // Ask user to confirm closing the lobby
+                AlertDialog.Builder builder = new AlertDialog.Builder(CreateLobbyActivity.this);
+                builder.setMessage("Are you sure you want to close the lobby?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // If user confirms, close the lobby
+                                closeLobby();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // If the user cancels, dismiss the dialog
+                                dialog.dismiss();
+                            }
+                        });
+                // Create and show the dialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
     }
@@ -231,7 +256,10 @@ public class CreateLobbyActivity extends AppCompatActivity {
     }
 
     private void startQuiz() {
-        // TODO: Implement quiz start logic
+
+        // Set quizStarted variable in preferences and display warning message
+        PreferenceHelper.setQuizStarted(CreateLobbyActivity.this, true);
+        warningTextView.setVisibility(View.VISIBLE);
 
         // Generate timestamp
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy, hh:mm:ss a", Locale.getDefault());
@@ -395,6 +423,16 @@ public class CreateLobbyActivity extends AppCompatActivity {
                                 }
                             }
                         }
+
+                        // Set lobby state data in order for participant
+                        // to detect quiz start after question set data
+                        // has been duplicated
+                        lobbyRef.child("timestamp").setValue(timestamp);
+                        lobbyRef.child("duration").setValue(editTextDuration.getText().toString());
+                        lobbyRef.child("gameStatus").setValue("in progress");
+                        lobbyRef.child("quizAuthor").setValue(quizAuthor);
+                        lobbyRef.child("quizId").setValue(quizId);
+                        lobbyRef.child("quizTitle").setValue(quizTitle);
                     }
 
                     @Override
@@ -410,20 +448,14 @@ public class CreateLobbyActivity extends AppCompatActivity {
             }
         });
 
-
-
-        lobbyRef.child("timestamp").setValue(timestamp);
-        lobbyRef.child("duration").setValue(editTextDuration.getText().toString());
-        lobbyRef.child("gameStatus").setValue("in progress");
-        lobbyRef.child("quizAuthor").setValue(quizAuthor);
-        lobbyRef.child("quizId").setValue(quizId);
-        lobbyRef.child("quizTitle").setValue(quizTitle);
+        Toast.makeText(CreateLobbyActivity.this, "Quiz has started", Toast.LENGTH_SHORT).show();
     }
 
     private void closeLobby() {
         lobbyRef.removeValue();
         PreferenceHelper.setLobbyOpen(CreateLobbyActivity.this, false);
         PreferenceHelper.setActiveLobbyCode(CreateLobbyActivity.this, "");
+        PreferenceHelper.setQuizStarted(CreateLobbyActivity.this, false);
         finish();
     }
 

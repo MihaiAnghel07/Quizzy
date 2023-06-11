@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:textColor="@color/black"
         android:text="Create Question Set"
         android:gravity="center"
         android:layout_marginBottom="20dp"/>
@@ -75,12 +76,13 @@
         android:orientation="horizontal"
         android:layout_below="@id/answer4EditText">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text="Correct Answer"
-        android:textColor="@color/black"
-        android:textSize="18dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Correct Answer: "
+            android:textColor="@color/black"
+            android:textSize="18dp"
+            android:gravity="center"/>
 
         <Spinner
             android:id="@+id/correctAnswerSpinner"
@@ -89,7 +91,8 @@
             android:layout_below="@id/answer4EditText"
             android:entries="@array/answer_options"
             android:prompt="@string/select_correct_answer"
-            android:spinnerMode="dropdown" />
+            android:spinnerMode="dropdown"
+            android:gravity="center"/>
 
     </LinearLayout>
 
@@ -105,9 +108,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Visibility"
+            android:text="Visibility: "
             android:textColor="@color/black"
-            android:textSize="18dp"/>
+            android:textSize="18dp"
+            android:gravity="center"/>
 
         <Spinner
             android:id="@+id/visibilitySpinner"

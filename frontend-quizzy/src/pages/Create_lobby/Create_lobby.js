@@ -74,6 +74,7 @@ export default function Create_lobby() {
     if (confirmModal) {
       closeLobby(lobbyCode);
       localStorage.removeItem("lobbyCode");
+      localStorage.removeItem("quizStarted");
       navigate('/dashboard', {replace: true});
     }
   }, [confirmModal])
@@ -100,9 +101,10 @@ export default function Create_lobby() {
       if (error == null) {
         setHistoryInitialState(lobbyCode);
         setShowPopup3(true);
-        await delay(2200);
-        localStorage.removeItem("lobbyCode");
-        navigate('/dashboard', {replace: true});
+        localStorage.setItem("quizStarted", true);
+        // await delay(2200);
+        // localStorage.removeItem("lobbyCode");
+        // navigate('/dashboard', {replace: true});
       
       } else if (error != null) {
         // eroare pentru ca nu exista niciun participant
@@ -178,24 +180,31 @@ export default function Create_lobby() {
             onClose={handlePopupClose3}
           />
         )}
+        
+        {localStorage.getItem("quizStarted") !== null && <h4 className='close-lobby-message'>Warning: Do not close the lobby until all participants have finished</h4>}
             
         <div className='create-lobby-content'>
+          
           <div id="print-lobbyCode">Lobby Code: {lobbyCode}</div>
+          
           <div id="print-quiz-title">
             {location.state?.quizId ? <h2>{"Selected Question Set: " + location.state?.quizTitle}</h2> : 
                                     <h2>No Question Set Selected</h2>}
                                     <li id='select-quiz-button' onClick={selectQuizHandler}>Select Question Set</li>
           </div>
+
           <div className='quiz-duration'>
             <p>Quiz duration (minutes):  </p>
             <input id='quiz-duration-input' type='number' value={duration} onChange={handleDurationChange} min="1" max="60"></input>
           </div>
+
           <div className='create-lobby-buttons'>
-          <ul>
-            <li id='start-quiz-button' onClick={startQuizHandler}>Start Quiz</li>
-            <li id='close-lobby-button' onClick={setOpenModal}>Close Lobby</li>
-          </ul>
+            <ul>
+              <li id='start-quiz-button' onClick={startQuizHandler}>Start Quiz</li>
+              <li id='close-lobby-button' onClick={setOpenModal}>Close Lobby</li>
+            </ul>
           </div>
+
           <div className="show-participants-container">
             <caption id="participants">Participants</caption>
             <div className='show-participants'>

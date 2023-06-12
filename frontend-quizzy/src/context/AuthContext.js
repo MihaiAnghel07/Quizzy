@@ -24,7 +24,7 @@ export const authReducer = (state, action) => {
         case 'LOGOUT' :
             localStorage.removeItem('user')
             localStorage.removeItem('username')
-            localStorage.removeItem("lobbyCode");
+            // localStorage.removeItem("lobbyCode");
             localStorage.removeItem("password"); 
             localStorage.removeItem("uid");
             localStorage.removeItem("currentQuestionCount");

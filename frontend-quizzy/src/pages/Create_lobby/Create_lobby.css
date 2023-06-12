@@ -1,6 +1,6 @@
 .create-lobby-wrapper {
     background-color: transparent;
-    width: 800px;
+    width: 900px;
     margin: auto;
     margin-top: 2%;
 }
@@ -134,7 +134,7 @@
     margin-top: -130px;
 }
 
-
+/* 
 @media all and (max-width: 1800px) and (min-width: 1250px) {
     #close-lobby-modal {
         margin-left: -50%;
@@ -151,8 +151,11 @@
     #close-lobby-modal {
         margin-left: -20%;
     }
-}
+} */
 
+#close-lobby-modal {
+    margin-left: -40%;
+}
 
 .create-lobby-navigation-component{
     margin-top: 20px;
@@ -165,4 +168,9 @@
   font-weight: bold;
 }
 
-
+.close-lobby-message {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 80px;
+    color: red;
+}

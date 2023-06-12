@@ -98,7 +98,7 @@ class ShowHostHistory2 extends React.Component {
                 numberOfQuestions = Object.values(this.props.data[key].questions).length;
             }
         })
-        numberOfScores = Array.apply(null, Array(numberOfQuestions)).map(Number.prototype.valueOf, 0);
+        numberOfScores = Array.apply(null, Array(numberOfQuestions + 1)).map(Number.prototype.valueOf, 0);
 
         Object.keys(this.props.data).map((key) => {
             if (key !== 'timestamp' && key !== 'quizTitle' && key !== 'feedbacks' && key !== 'ratings') {

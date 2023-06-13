@@ -58,6 +58,7 @@ public class ViewStatisticsActivity extends AppCompatActivity {
 
     private String quizId;
     private String username;
+    private String participantName;
 
     int scoreSum, scoreCount, questionsCount;
 
@@ -127,6 +128,8 @@ public class ViewStatisticsActivity extends AppCompatActivity {
                             int score = 0;
                             if (!participantSnapshot.getKey().equals("timestamp") && !participantSnapshot.getKey().equals("quizTitle")
                                     && !participantSnapshot.getKey().equals("feedbacks") && !participantSnapshot.getKey().equals("ratings")) {
+                                // Set a participant name to use in path to question images
+                                participantName = participantSnapshot.getKey();
                                 for (DataSnapshot questionSnapshot : participantSnapshot.child("questions").getChildren()) {
                                     AnswerData answer1 = new AnswerData();
                                     AnswerData answer2 = new AnswerData();
@@ -320,6 +323,32 @@ public class ViewStatisticsActivity extends AppCompatActivity {
         questionLayout.addView(questionTextView);
 
 
+        // Add image to view
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+        if (question.isHasImage()) {
+            ImageView questionImageView = new ImageView(ViewStatisticsActivity.this);
+            String imageName = question.getImage();
+            String imagePath = "History/host/" + username + "/quizzes/" + quizId + "/" + participantName + "/questions/" + questionIds.get(questionIndex - 1) + "/" + imageName;
+            //String imagePath = "/History/participant/user3/quizzes/1685717718679/questions/0/1200px-Un1.svg.png";
+            StorageReference imageRef = storageRef.child(imagePath);
+            imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    // Load the image using Picasso
+                    Picasso.get().load(uri).into(questionImageView);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors that occur during image retrieval
+                }
+            });
+            questionLayout.addView(questionImageView);
+        }
+
+
+
         // Add answer1 text to view
         TextView answer1TextView = new TextView(ViewStatisticsActivity.this);
         answer1TextView.setGravity(Gravity.CENTER_VERTICAL);
@@ -376,31 +405,6 @@ public class ViewStatisticsActivity extends AppCompatActivity {
         }
         questionLayout.addView(answer4TextView);
 
-
-        // TODO: Add image to view
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference();
-        // Add question image
-        if (question.isHasImage()) {
-            ImageView questionImageView = new ImageView(ViewStatisticsActivity.this);
-            String imageName = question.getImage();
-            String imagePath = "History/participant/" + username + "/quizzes/" + quizId + "/questions/" + questionIds.get(questionIndex - 1) + "/" + imageName;
-            //String imagePath = "/History/participant/user3/quizzes/1685717718679/questions/0/1200px-Un1.svg.png";
-            StorageReference imageRef = storageRef.child(imagePath);
-            imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    // Load the image using Picasso
-                    Picasso.get().load(uri).into(questionImageView);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Handle any errors that occur during image retrieval
-                }
-            });
-            questionLayout.addView(questionImageView);
-        }
 
         questionChartsContainer.addView(questionLayout);
     }

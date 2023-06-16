@@ -1,114 +1,17 @@
 .App {
-  /* max-width: 1920px;
-  margin: 0 auto; */
-  /* background-color: rgb(234, 228, 176); */
   display: flex;
 }
 
 .App .body {
-  /* background-color: blue; */
   min-height: 100vh;
-  /* margin-left: 250px; */
   width: 100%;
-  /* min-width: 100vw; */
   flex-grow: 1;
-  /* padding: 0 60px; */
 }
 
 .body {
-  /* background-color: rgb(207, 236, 236); */
   background-color: white;
 }
 
-/* .logo {
-  width: 140px;
-  height: 70px;
-  margin-left: 150px;
-} */
-
-/* nav {
-  width: 95%;
-  top: 0%;
-  border-style: inset;
-  border-bottom-right-radius: 15px;
-  border-bottom-left-radius: 15px;
-  display: flex;
-  margin: 0 auto 60px;
-  gap: 10px;
-  align-items: center;
-  padding: auto;
-  background-color: blueviolet;
-  font-size: large;
-  position: sticky;
-  z-index: 99;
-
-} */
-
-/* .NavLinks {
-  margin-left: 70%;
-  position: absolute;
-}
-
-@media screen and (min-width: 500px) and (max-width: 1000px) {
-  .NavLinks #first{
-    display: none;
-  } 
-}
-
-@media screen and (min-width: 300px) and (max-width: 700px) {
-  .NavLinks #signup{
-    display: none;
-  } 
-} */
-
-/* .footer {
-  height: 40px;
-}
-
-.footer-copyright {
-  font-size: small;
-  position: relative;
-  align-items: center;
-  margin-left: 150px;
-  margin-top: 20px;
-
-}
-
-.footer-terms {
-  font-size: small;
-  position: relative;
-  align-items: center;
-  margin-left: 320px;
-  top: -27px
-}
-
-.footer-terms:hover {
-  cursor: pointer;
-}
-
-.footer-github {
-  font-size: x-large;
-  position: relative;
-  align-items: center;
-  margin-left: 70%;
-  top: -70px
-}
-
-.footer-github:hover {
-  cursor: pointer;
-}
-
-.footer-facebook {
-  font-size: x-large;
-  position: relative;
-  align-items: center;
-  margin-left: 73%;
-  top: -124px
-}
-
-.footer-facebook:hover {
-  cursor: pointer;
-} */
 
 .login-page {
   margin-top: 7%;
@@ -117,23 +20,6 @@
 .signup-page {
   margin-top: 7%;
 }
-
-/* nav h1 {
-  margin-right: auto;
-}
-
-nav a {
-  color: darkred;
-  padding: 4px 10px;
-}
-
-nav a.active {
-  color: white;
-  background-color: black;
-  text-decoration: none;
-  -webkit-transition: all 0.2s ease;
-  transition: all 0.2s ease;
-} */
 
 
 

@@ -42,6 +42,7 @@ class ParticipantRaport extends React.Component {
                     <NavigationComponent
                         pageTitle="Participant Raport"
                         pairs={[['History', '/history'],
+                                ['Quiz Raport', '/quiz_raport'],
                                 ['Participant Raport', '/participant_raport']
                         ]}
                     />

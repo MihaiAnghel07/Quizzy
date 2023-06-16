@@ -1,12 +1,12 @@
 
 .show-participant-history-question {
     padding-top: 20px;
-    word-wrap: break-word;
+    word-break: break-all;
 }
 
 .show-participant-history-answer4 {
     padding-bottom: 60px;
-    word-wrap: break-word;
+    word-break: break-all;
 }
 
 .show-participant-history-summary {
@@ -19,7 +19,7 @@
 }
 
 .show-participant-history-answer1, .show-participant-history-answer2, .show-participant-history-answer3{
-    word-wrap: break-word;
+    word-break: break-all;
 }
 
 .flag-button-history{
@@ -29,14 +29,19 @@
 
 .correct-answer {
     color: green;
-    word-wrap: break-word;
+    word-break: break-all;
   }
   
 .incorrect-answer {
     color: red;
-    word-wrap: break-word;
+    word-break: break-all;
 }
 
 .show-participant-history-wrapper{
     padding-bottom: 60px;
+    width: 100%;
+}
+
+.show-participant-history-wrapper div {
+    word-break: break-all;
 }

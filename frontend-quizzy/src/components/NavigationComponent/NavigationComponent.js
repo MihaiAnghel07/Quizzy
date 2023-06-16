@@ -8,8 +8,9 @@ function NavigationComponent({pageTitle, pairs }) {
 
   function handleNavigationItemClick(link) {
     if (pairs[pairs.length - 1][1] !== link) {
+      
       if (link == "/update_quiz") {
-        // singurul caz in care trebuie sa trimitem date pentru incarcarea paginii
+       
         navigate(link, {state:{quizId:sessionStorage.getItem("updateQuizId"), 
                               quizAuthor:sessionStorage.getItem("updateQuizAuthor"), 
                               isPublic:sessionStorage.getItem("updateIsPublic"), 
@@ -18,6 +19,13 @@ function NavigationComponent({pageTitle, pairs }) {
         sessionStorage.removeItem("updateIsPublic");
         sessionStorage.removeItem("updateQuizTitle");
         sessionStorage.removeItem("updateQuizAuthor");
+
+      } else if (link == "/quiz_raport") {
+  
+        navigate(link, {state:{quizId:sessionStorage.getItem("quiz_raport_quizId"), 
+                              data:JSON.parse(sessionStorage.getItem("quiz_raport_data"))}});
+        sessionStorage.removeItem("quiz_raport_quizId");
+        sessionStorage.removeItem("quiz_raport_data");
 
       } else {
         navigate(link);

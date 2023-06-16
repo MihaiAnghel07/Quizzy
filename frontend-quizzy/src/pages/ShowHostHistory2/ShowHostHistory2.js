@@ -236,17 +236,23 @@ function wrapClass (Component) {
         let location = useLocation();
         
         const participantRaportHandler = (participant) => {
+            sessionStorage.setItem("quiz_raport_data", JSON.stringify(location.state.data));
+            sessionStorage.setItem("quiz_raport_quizId", location.state.quizId);
             navigate('/participant_raport', {state:{participant:participant, quizId:location.state.quizId}});
         }
 
         const showStatisticsHandler = () => {
+            sessionStorage.setItem("quiz_raport_data", JSON.stringify(location.state.data));
+            sessionStorage.setItem("quiz_raport_quizId", location.state.quizId);
             navigate('/statistics_per_question2', {state:{quizId:location.state.quizId}});
         }
 
         const viewFeedbacksHandler = () => {
+            sessionStorage.setItem("quiz_raport_data",  JSON.stringify(location.state.data));
+            sessionStorage.setItem("quiz_raport_quizId", location.state.quizId);
             navigate('/view_feedback', {state:{quizId:location.state.quizId}});
         }
-        
+ 
         return <Component data={location.state.data}
                         participantRaportHandler={participantRaportHandler}
                         showStatisticsHandler={showStatisticsHandler}

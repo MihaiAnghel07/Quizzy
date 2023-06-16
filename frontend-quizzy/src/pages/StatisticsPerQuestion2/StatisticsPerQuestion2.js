@@ -203,6 +203,7 @@ class StatisticsPerQuestion2 extends React.Component {
                     <NavigationComponent
                         pageTitle="Statistics Per Question"
                         pairs={[['History', '/history'],
+                                ['Quiz Raport', '/quiz_raport'],
                                 ['Statistics Per Question', '/statistics_per_question']
                         ]}
                     />

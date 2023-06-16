@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Redirect, Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
 import Home from './pages/home/Home';
 import Login from './pages/login/Login'
@@ -21,8 +21,7 @@ import QuizzesSelection from './pages/QuizzesSelection/QuizzesSelection';
 import PopupTest from './pages/PopupTest/PopupTest';
 import { AddQuestion } from './pages/AddQuestion/AddQuestion';
 import Faq from './pages/Faq/Faq';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Modal from './components/modal/Modal';
 import History from './pages/History/History';
 import ChangePassword from './pages/ChangePassword/ChangePassword';
@@ -64,8 +63,8 @@ function App() {
         {user && <MySidebar setOpenModal={setOpenModal}/>}
         <div className="body" style={{ marginLeft: user ? '250px' : '0px' }}>  
         
-        {openModal && <div id='exit-modal'> 
-          <Modal closeModal={setOpenModal} yesModal={setConfirmModal} message="Are you sure you want to exit?" /> </div>}
+          {openModal && <div id='exit-modal'> 
+            <Modal closeModal={setOpenModal} yesModal={setConfirmModal} message="Are you sure you want to exit?" /> </div>}
           
           {!user && <Navbar />}
           

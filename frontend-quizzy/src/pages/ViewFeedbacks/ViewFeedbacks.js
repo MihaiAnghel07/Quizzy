@@ -42,6 +42,7 @@ class ViewFeedbacks extends React.Component {
                     <NavigationComponent
                         pageTitle="Quiz Feedback"
                         pairs={[['History', '/history'],
+                                ['Quiz Raport', '/quiz_raport'],
                                 ['Quiz Feedback', '/view_feedbacks']
                         ]}
                     />

@@ -69,7 +69,6 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         logoutButton.setOnClickListener(v -> {
-
             // Display confirmation dialog
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Are you sure you want to log out?")
@@ -103,7 +102,7 @@ public class HomeActivity extends AppCompatActivity {
 
         questionSetsButton.setOnClickListener(v -> {
             // Start History activity
-            Intent newIntent = new Intent(HomeActivity.this, QuestionSetsActivity2.class);
+            Intent newIntent = new Intent(HomeActivity.this, QuestionSetsActivity.class);
             startActivity(newIntent);
         });
 

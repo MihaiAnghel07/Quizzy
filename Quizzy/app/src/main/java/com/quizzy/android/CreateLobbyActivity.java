@@ -479,7 +479,7 @@ public class CreateLobbyActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK) {
             if (data != null) {
-                // Set the question set author and Id receiver from question set selection activity
+                // Set the question set author and Id received from question set selection activity
                 quizAuthor = data.getStringExtra("quizAuthor");
                 quizId = data.getStringExtra("quizId");
                 quizTitle = data.getStringExtra("title");

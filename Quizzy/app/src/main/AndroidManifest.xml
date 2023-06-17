@@ -78,14 +78,14 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".QuestionSetsActivity2"
+            android:name=".QuestionSetsActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".QuestionSetsActivity"
+            android:name=".QuestionSetsActivityUseless"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

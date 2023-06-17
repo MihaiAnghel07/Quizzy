@@ -18,11 +18,9 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 
 import com.google.firebase.database.ChildEventListener;
@@ -31,9 +29,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.quizzy.android.Adapters.QuestionSetAdapter2;
 import com.quizzy.android.DataStructures.Question;
-import com.quizzy.android.DataStructures.QuestionSet;
 import com.quizzy.android.DataStructures.Answer;
 
 import java.util.ArrayList;

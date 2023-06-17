@@ -263,33 +263,10 @@ public class QuizActivity extends AppCompatActivity {
             String imagePath = "History/participant/" + username + "/quizzes/" + lobbyId +"/questions/" + questionId +"/" + image;
             StorageReference imageRef = storageRef.child(imagePath);
 
-            // Define a method to load the image using Picasso
-            Runnable loadImage = null;
-            Runnable finalLoadImage = loadImage;
-            loadImage = new Runnable() {
-                @Override
-                public void run() {
-                    imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            // Load the image using Picasso
-                            Picasso.get().load(uri).into(questionImageView);
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            // Handle any errors that occur during image retrieval
-                            // Retry loading the image after a delay
-                            System.out.println("Retrying to load image...");
-                            Handler handler = new Handler();
-                            handler.postDelayed(finalLoadImage, 1000); // Retry after 1 second (adjust as needed)
-                        }
-                    });
-                }
-            };
+            // Use a custom runnable for fetching and loading the question image
+            ImageLoadRunnable imageLoadingRunnable = new ImageLoadRunnable(questionImageView, imageRef);
+            imageLoadingRunnable.run();
 
-            // Start loading the image
-            loadImage.run();
             questionImageView.setVisibility(View.VISIBLE);
         } else {
             questionImageView.setVisibility(View.GONE);
@@ -510,11 +487,11 @@ public class QuizActivity extends AppCompatActivity {
 
         if (currentQuestionIndex == 0) {
             // Wait for first image to load
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
         }
 
         displayQuestionAndAnswers(questions.get(currentQuestionIndex).getQuestion(),

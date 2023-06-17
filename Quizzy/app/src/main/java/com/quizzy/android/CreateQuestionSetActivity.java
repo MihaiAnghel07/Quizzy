@@ -109,17 +109,16 @@ public class CreateQuestionSetActivity extends AppCompatActivity {
 
                     // Create QuestionSet object
                     QuestionSet questionSet = new QuestionSet();
-                    //questionSet.setId(quizId);
-                    questionSet.setAuthor(username); // Set the appropriate username
+                    questionSet.setAuthor(username);
                     questionSet.setTitle(title);
                     questionSet.setIsPublic(visibility.equalsIgnoreCase("Public"));
 
                     // Create Question object
                     Question question = new Question();
                     question.setQuestion(questionText);
-                    question.setHasImage(false); // Set this based on your requirements
-                    question.setImage(""); // Set this based on your requirements
-                    question.setIsFlagged(false); // Set this based on your requirements
+                    question.setHasImage(false);
+                    question.setImage("");
+                    question.setIsFlagged(false);
 
                     // Create Answer objects
                     ArrayList<Answer> answers = new ArrayList<>();

@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         boolean isLoggedIn = PreferenceHelper.getLoginStatus(this);
 
         if (isLoggedIn) {
-            // User is logged in, redirect to HomeActivity or any other desired activity
+            // User is logged in, redirect to HomeActivity
             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
             startActivity(intent);
             finish(); // Finish the MainActivity so that it's not in the back stack
@@ -38,9 +38,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             });
         }
-
-
     }
+
     @Override
     protected void onResume() {
         super.onResume();

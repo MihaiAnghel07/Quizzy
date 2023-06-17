@@ -1,25 +1,13 @@
 package com.quizzy.android.Adapters;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.appcompat.app.AlertDialog;
 
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.quizzy.android.DataStructures.QuestionSet;
-import com.quizzy.android.EditQuestionSetActivity;
-import com.quizzy.android.HistoryActivity;
-import com.quizzy.android.HomeActivity;
-import com.quizzy.android.PreferenceHelper;
-import com.quizzy.android.QuestionSetsActivity2;
 import com.quizzy.android.R;
 
 import java.util.List;

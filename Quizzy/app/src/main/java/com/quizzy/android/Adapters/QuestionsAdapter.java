@@ -10,20 +10,14 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.quizzy.android.DataStructures.Question;
-import com.quizzy.android.DataStructures.QuestionSet;
 import com.quizzy.android.EditQuestionActivity;
-import com.quizzy.android.EditQuestionSetActivity;
-import com.quizzy.android.HistoryActivity;
-import com.quizzy.android.HomeActivity;
 import com.quizzy.android.PreferenceHelper;
-import com.quizzy.android.QuestionSetsActivity2;
 import com.quizzy.android.R;
 
 import java.util.List;
@@ -63,7 +57,7 @@ public class QuestionsAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
 
-        // Get the current QuestionSet object
+        // Get the current Question object
         Question question = questionList.get(position);
         String questionId = questionIds.get(position);
 

@@ -55,7 +55,7 @@ public class FeedbackActivity extends AppCompatActivity {
         star4ImageView = findViewById(R.id.star4ImageView);
         star5ImageView = findViewById(R.id.star5ImageView);
 
-        // Set title text
+        // Set title text ("You scored X out of Y")
         String title = getIntent().getStringExtra("title");
         titleTextView.setText(title);
     }

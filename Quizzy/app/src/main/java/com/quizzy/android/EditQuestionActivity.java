@@ -133,7 +133,6 @@ public class EditQuestionActivity extends AppCompatActivity {
             return;
         }
 
-
         // Create Question object
         Question question = new Question();
         question.setQuestion(questionText);
@@ -154,7 +153,7 @@ public class EditQuestionActivity extends AppCompatActivity {
         question.setAnswer4(answers.get(3));
 
 
-        // Save QuestionSet to Firebase Realtime Database
+        // Save Question to Firebase Realtime Database
         databaseRef.child(username).child(quizId).child("Questions").child(questionId).setValue(question);
 
         Toast.makeText(EditQuestionActivity.this, "Changes saved successfully", Toast.LENGTH_SHORT).show();

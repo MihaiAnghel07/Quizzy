@@ -22,11 +22,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.quizzy.android.Adapters.QuestionSetAdapter2;
 import com.quizzy.android.Adapters.QuestionsAdapter;
 import com.quizzy.android.DataStructures.Answer;
 import com.quizzy.android.DataStructures.Question;
-import com.quizzy.android.DataStructures.QuestionSet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +82,7 @@ public class EditQuestionSetActivity extends AppCompatActivity {
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         visibilitySpinner.setAdapter(spinnerAdapter);
 
-        // Set the spinner selection to "All question sets"
+        // Set the spinner selection
         boolean initialVisibility = getIntent().getBooleanExtra("visibility", true);
         if(initialVisibility) {
             visibilitySpinner.setSelection(0);
@@ -99,8 +97,7 @@ public class EditQuestionSetActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 visibilityType = parent.getItemAtPosition(position).toString();
 
-                // TODO: Change question set visibility in firebase
-                // ...
+                // Change question set visibility in firebase
                 if (visibilityType.equals("Public")) {
                     databaseReference.child(quizAuthor).child(quizId).child("isPublic").setValue(true);
                 } else {
@@ -141,7 +138,7 @@ public class EditQuestionSetActivity extends AppCompatActivity {
         saveTitleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Change question set title in firebase
+                // Change question set title in firebase
                 String newTitle = titleEditText.getText().toString();
                 databaseReference.child(quizAuthor).child(quizId).child("Title").setValue(newTitle);
                 Toast.makeText(EditQuestionSetActivity.this, "Title changed to " + newTitle, Toast.LENGTH_SHORT).show();

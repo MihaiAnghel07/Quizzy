@@ -264,8 +264,8 @@ public class QuizActivity extends AppCompatActivity {
             StorageReference imageRef = storageRef.child(imagePath);
 
             // Use a custom runnable for fetching and loading the question image
-            ImageLoadRunnable imageLoadingRunnable = new ImageLoadRunnable(questionImageView, imageRef);
-            imageLoadingRunnable.run();
+            ImageLoadRunnable imageLoadRunnable = new ImageLoadRunnable(questionImageView, imageRef);
+            imageLoadRunnable.run();
 
             questionImageView.setVisibility(View.VISIBLE);
         } else {

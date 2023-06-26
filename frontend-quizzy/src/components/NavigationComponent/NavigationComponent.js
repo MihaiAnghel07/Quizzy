@@ -33,30 +33,20 @@ function NavigationComponent({pageTitle, pairs }) {
     }
   }
 
-  function handleBackClick() {
-    navigate(-1);
-  }
-
   return (
     <div className="navigation-wrapper">
         <div className='navigation-page-items'>
             {pairs && pairs.map((pair, index) => (
                 <React.Fragment key={index}>
-                <span className="navigation-item" onClick={() => handleNavigationItemClick(pair[1])}>
-                    {pair[0]}
-                </span>
-                {index !== pairs.length - 1 && <span className="item-divider">{'/'}</span>}
+                  <span className="navigation-item" onClick={() => handleNavigationItemClick(pair[1])}>
+                     {/* pair[0] reffers to page title, and pair[1] reffers to page link */}
+                      {pair[0]}
+                  </span>
+                  {index !== pairs.length - 1 && <span className="item-divider">{'/'}</span>}
                 </React.Fragment>
             ))}
         </div>
 
-        {/* <div className='navigation-page-title'>{pageTitle}</div> */}
-        
-        {/* <div className='navigation-back-item'>
-            {pairs && <span className="navigation-item" onClick={handleBackClick}>
-                &lt; Back
-            </span>}
-        </div> */}
     </div>
   );
 }

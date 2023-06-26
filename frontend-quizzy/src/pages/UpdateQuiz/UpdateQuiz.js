@@ -34,6 +34,7 @@ class UpdateQuiz extends React.Component {
         let quizAuthor = this.props.quizAuthor;
         let quizId = this.props.quizId;
         const ref = projectFirebaseRealtime.ref('Quizzes/' + quizAuthor + '/' + quizId);
+
         ref.on('value', (snapshot) => {
             let quizTitle = snapshot.val().Title;
             let isPublic = snapshot.val().isPublic;
@@ -95,12 +96,14 @@ class UpdateQuiz extends React.Component {
                             />
                         
                         <div className="dropdown">
-                            {this.props.isOpen &&<button className="dropdown-toggle" onClick={this.props.toggleDropdown} >
+                            {this.props.isOpen &&
+                            <button className="dropdown-toggle" onClick={this.props.toggleDropdown} >
                                 <AiOutlineUp/> Visibility: {this.props.isPublic? 'Public': 'Private'}
                             </button>
                             }
 
-                            {!this.props.isOpen &&<button className="dropdown-toggle" onClick={this.props.toggleDropdown} >
+                            {!this.props.isOpen &&
+                            <button className="dropdown-toggle" onClick={this.props.toggleDropdown} >
                                 <AiOutlineDown/> Visibility: {this.props.isPublic? 'Public': 'Private'}
                             </button>
                             }
@@ -109,11 +112,12 @@ class UpdateQuiz extends React.Component {
                                 <div className="dropdown-menu">
                                 {this.props.options.map((option) => (
                                     <div
-                                    key={option.value}
-                                    className="dropdown-item"
-                                    onClick={() => this.props.handleOptionClick(option)}
+                                        key={option.value}
+                                        className="dropdown-item"
+                                        onClick={() => this.props.handleOptionClick(option)}
                                     >
-                                    {option.label}
+
+                                        {option.label}
                                     </div>
                                 ))}
                                 </div>
@@ -140,7 +144,7 @@ class UpdateQuiz extends React.Component {
                                             <span className="question-index">{key + 1}.</span>
                                             <span className="question-text">{question.data.question}</span>
                                         </div>
-                                            {/* {key + 1}.  {question.data.question} */}
+
                                         <button id="delete-question-btn" onClick={(event) => {event.stopPropagation();
                                                                                     this.props.deleteQuestionHandler(question.key)}}>
                                                                                     <RiDeleteBinLine />Delete</button>

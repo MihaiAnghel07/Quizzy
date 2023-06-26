@@ -2,8 +2,6 @@ import './Create_quiz.css'
 import { React, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { useCreateQuiz } from '../../hooks/useCreateQuiz';
-import { useAddQuestion } from '../../hooks/useAddQuestion';
-import Modal from '../../components/modal/Modal'
 import NavigationComponent from '../../components/NavigationComponent/NavigationComponent';
 import Popup from '../../components/Popup/Popup';
 import { FaCheck } from 'react-icons/fa';

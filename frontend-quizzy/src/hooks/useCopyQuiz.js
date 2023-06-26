@@ -1,6 +1,5 @@
 import { projectFirebaseRealtime, projectFirebaseStorage } from '../firebase/config'
 import { useGetTimeEpoch } from './useGetTimeEpoch';
-import firebase from "firebase/app";
 
 
 export const useCopyQuiz= () => {

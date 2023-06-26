@@ -1,15 +1,13 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { projectFirebaseAuth, projectFirebaseRealtime } from "../firebase/config"
 import { useAuthContext } from "./useAuthContext"
-import {useGetTimeEpoch} from './useGetTimeEpoch'
 import firebase from "firebase/app";
 
 export const useSignup = () => {
-    const [isCancelled, setIsCancelled] = useState(false)
     const [error, setError] = useState(null)
     const [isPending, setIsPending] = useState(false)
+    const forbiddenChars = /[\[\]+-?=!@#$%^&*()~.,]/;
     const { dispatch } = useAuthContext()
-    const {getTimeEpoch} = useGetTimeEpoch();
     let err = null;
 
     function convertEmailToLowercase(email) {
@@ -23,6 +21,11 @@ export const useSignup = () => {
         err = null;
         
         try {
+            if (forbiddenChars.test(username)) {
+                setError("Username cannot contains the following characters: /[\[\]+-?=!@#$%^&*()~.,]/");
+                err = 'Username cannot contains the following characters: /[\[\]+-?=!@#$%^&*()~.,]/';
+            }
+
             // check if username is valid
             const ref = projectFirebaseRealtime.ref('Users');
             ref.get().then(async (snapshot) => {
@@ -38,19 +41,8 @@ export const useSignup = () => {
                         }
                     })
 
-                    // update user entry
-                    // if (err == null) {
-                    //     projectFirebaseRealtime.ref('Users/noUsers').set(firebase.database.ServerValue.increment(1));
-                    //     let key = getTimeEpoch();
-                    //     projectFirebaseRealtime.ref('Users/' + key).set({'username': username, 'email': convertEmailToLowercase(email)}); 
-                    // }
                 }
-                // } else {
-                //     // add first entry
-                //     let key = getTimeEpoch();
-                //     projectFirebaseRealtime.ref('Users/' + key).set({'username': username, 'email': convertEmailToLowercase(email)});
-                //     projectFirebaseRealtime.ref('Users/noUsers').set(firebase.database.ServerValue.increment(1));
-                // }
+                
 
                 if (err == null) {
                     //signup user

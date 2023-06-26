@@ -7,9 +7,9 @@ export default function Home() {
   return (
     <div className='Home'>
         <h2>Welcome to Quizzy!</h2>
+        
         <div className='ImageAutoSlider'>
-          {/* <ImageSlider ImageData={ImageData}/><br/> */}
-          <ImageSliderAuto ImageData={ImageData} SlideInterValTime={5000}/>
+          <ImageSliderAuto ImageData={ImageData} SlideInterValTime={3000}/>
         </div>
     </div>
   )

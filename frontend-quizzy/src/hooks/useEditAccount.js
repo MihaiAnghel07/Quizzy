@@ -6,10 +6,12 @@ export const useEditAccount = () => {
     const [isPending, setIsPending] = useState(false);
     const [error, setError] = useState(null);
     const [noUsers, setNoUsers] = useState(-1);
+    const forbiddenChars = /[\[\]+-?=!@#$%^&*()~.,]/;
 
     const editAccount = async (username, email, password) => {
         setIsPending(true);
         setError(null)
+        let err = null;
 
         const ref = projectFirebaseRealtime.ref("Users/");
         const ref2 = projectFirebaseRealtime.ref("Quizzes/");
@@ -17,6 +19,11 @@ export const useEditAccount = () => {
         const ref4 = projectFirebaseRealtime.ref("Lobbies/");
         const ref5 = projectFirebaseRealtime.ref("History/");
         const ref6 = projectFirebaseRealtime.ref("History/participant/");
+
+        if (forbiddenChars.test(username)) {
+            setError("Username cannot contains the following characters: /[\[\]+-?=!@#$%^&*()~.,]/");
+            err = 'Username cannot contains the following characters: /[\[\]+-?=!@#$%^&*()~.,]/';
+        }
 
         await ref.once("value", (snapshot) => {
             if (snapshot.exists()) {
@@ -31,7 +38,7 @@ export const useEditAccount = () => {
             }
         })
 
-        if (error === null) {
+        if (error === null && err === null) {
             await ref.once("value", (snapshot) => {
                 if (snapshot.exists()) {
                     snapshot.forEach((childSnapshot) => {
@@ -46,7 +53,7 @@ export const useEditAccount = () => {
         }
 
         
-        if (error === null) {
+        if (error === null && err === null) {
 
             // update 'Lobbies'entry
             if (localStorage.getItem("lobbyCode") !== null) {
@@ -72,7 +79,7 @@ export const useEditAccount = () => {
                 }
             });
 
-            // update 'Quizzes' entry
+            // update 'Question Sets' entry
             await ref2.child(localStorage.getItem("username")).once('value').then(function(snapshot) {
                 let data = snapshot.val();
                 for (const i in data) {
@@ -191,7 +198,7 @@ export const useEditAccount = () => {
             await projectFirebaseAuth.signInWithEmailAndPassword(localStorage.getItem("user"), localStorage.getItem("password"))
             .then(function(userCredential) {
                 userCredential.user.updateEmail(email)
-                // userCredential.user.updatePassword(password)
+                userCredential.user.updateProfile({displayName: username});
             })
             .catch(err => {
                 setError(err)

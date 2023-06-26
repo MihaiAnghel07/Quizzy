@@ -1,8 +1,6 @@
 import { createContext, useEffect, useReducer, useState } from "react";
 import { projectFirebaseAuth } from '../firebase/config';
-import firebase from "firebase/app";
 import { useGetUsername } from "../hooks/useGetUsername";
-import Login from "../pages/login/Login";
 
 
 export const AuthContext = createContext()
@@ -24,7 +22,6 @@ export const authReducer = (state, action) => {
         case 'LOGOUT' :
             localStorage.removeItem('user')
             localStorage.removeItem('username')
-            // localStorage.removeItem("lobbyCode");
             localStorage.removeItem("password"); 
             localStorage.removeItem("uid");
             localStorage.removeItem("currentQuestionCount");
@@ -57,8 +54,6 @@ export const AuthContextProvider = ({ children }) => {
     }, []);
 
     SetUsernameFunction();
-    console.log("user = ", currentUser)
-    console.log('AuthContext state:', state)
     
     return (
         <AuthContext.Provider value={{ ...state, dispatch }}>

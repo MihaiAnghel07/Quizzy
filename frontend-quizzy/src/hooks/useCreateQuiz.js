@@ -1,6 +1,5 @@
 import { projectFirebaseRealtime, projectFirebaseStorage } from '../firebase/config'
 import { useState } from 'react'
-import firebase from "firebase/app";
 
 
 export const useCreateQuiz = () => {
@@ -60,9 +59,9 @@ export const useCreateQuiz = () => {
 
                     //add question image, if exists
                     if (imageUpload !== null && imageUpload.length !== 0) {
-                        console.log(imageUpload[0].name)
                         let ref = projectFirebaseStorage.ref('Images/');
-                        ref.child(username + '/' + newKey + '/' + 'Questions/0/' + imageUpload[0].name).put(imageUpload[0]).then((snapshot) => {
+                        ref.child(username + '/' + newKey + '/' + 'Questions/0/' + imageUpload[0].name).put(imageUpload[0])
+                        .then((snapshot) => {
                             console.log("Uploading state: " + snapshot.state);
                             console.log("File uploaded!")
                         });

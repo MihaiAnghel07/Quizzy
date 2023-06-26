@@ -20,7 +20,6 @@ class Quizzes extends React.Component {
             allQuizzesBtn: "quizzes-all-quizzes-btn"
         }
         
-        //this.componentDidMount = this.componentDidMount.bind(this)
     }
     
 
@@ -30,7 +29,6 @@ class Quizzes extends React.Component {
         this.setState({myQuizzesBtn:"history-host-btn2", allQuizzesBtn: "quizzes-all-quizzes-btn"})
 
         this.forceUpdate();
-
     }
 
     allQuizzesHandler = (e) => {
@@ -39,7 +37,6 @@ class Quizzes extends React.Component {
         this.setState({myQuizzesBtn:"history-host-btn", allQuizzesBtn: "quizzes-all-quizzes-btn2"})
 
         this.forceUpdate();
-
     }
 
    

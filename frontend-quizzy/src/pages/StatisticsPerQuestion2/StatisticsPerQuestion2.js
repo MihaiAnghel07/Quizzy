@@ -14,7 +14,7 @@ import {
   } from 'chart.js';
   import { Bar } from 'react-chartjs-2';
 import BouncingDotsLoader from '../../components/BouncingDotsLoader/BouncingDotsLoader';
-import { RxCheck, RxCross2 } from 'react-icons/rx';
+import { RxCheck } from 'react-icons/rx';
 
   
   ChartJS.register(
@@ -40,10 +40,6 @@ import { RxCheck, RxCross2 } from 'react-icons/rx';
             title: {
               display: true,
               text: 'Answers', // Replace with your desired vertical axis name
-            //   font: {
-            //     size: 14,
-            //     weight: 'bold',
-            //   },
             },
             ticks: {
                 precision: 0, // Set the precision to 0 for integer values
@@ -56,10 +52,6 @@ import { RxCheck, RxCross2 } from 'react-icons/rx';
           title: {
             display: true,
             text: 'Number of Answers', // Replace with your desired vertical axis name
-            // font: {
-            //   size: 14,
-            //   weight: 'bold',
-            // },
           },
           ticks: {
             precision: 0, // Set the precision to 0 for integer values
@@ -83,10 +75,8 @@ class StatisticsPerQuestion2 extends React.Component {
     
 
     async componentDidMount() {
-        let statistics = [];
         let questions = [];
         let questions2 = [];
-        let statistics2 = [];
         let participants =[];
         let username;
         const mapQuestions = new Map();
@@ -150,7 +140,6 @@ class StatisticsPerQuestion2 extends React.Component {
             mapAnswers.set(questions[key].answer4.text, 0);
             mapQuestions.set(key, mapAnswers);
         
-            // console.log(mapQuestions)
             return fetchImage(key, questions[key]);
           });
           
@@ -189,7 +178,6 @@ class StatisticsPerQuestion2 extends React.Component {
                     })
                 })
 
-                console.log(questions2)
                 this.setState({mapQuestions: mapQuestions, questions: questions2});      
         })
         
@@ -203,7 +191,7 @@ class StatisticsPerQuestion2 extends React.Component {
                     <NavigationComponent
                         pageTitle="Statistics Per Question"
                         pairs={[['History', '/history'],
-                                ['Quiz Raport', '/quiz_raport'],
+                                ['Quiz Report', '/quiz_raport'],
                                 ['Statistics Per Question', '/statistics_per_question']
                         ]}
                     />
@@ -243,7 +231,11 @@ class StatisticsPerQuestion2 extends React.Component {
                             datasets: [
                                 {
                                     label: 'Answers',
-                                    data: [mapAns.get(record.question.answer1.text), mapAns.get(record.question.answer2.text), mapAns.get(record.question.answer3.text), mapAns.get(record.question.answer4.text)],
+                                    data: [mapAns.get(record.question.answer1.text), 
+                                            mapAns.get(record.question.answer2.text), 
+                                            mapAns.get(record.question.answer3.text), 
+                                            mapAns.get(record.question.answer4.text)
+                                        ],
                                     backgroundColor: backgroundColor,
                                     categoryPercentage: 0.5,
                                 },
@@ -257,7 +249,7 @@ class StatisticsPerQuestion2 extends React.Component {
                                 {key + 1}. {record.question.text}
                                 <ul className='statistics-per-question2-answers-list'>
                                     <li className={record.question.answer1.isCorrect && 'correct-answer'}>Ans1: {record.question.answer1.text}{(record.question.answer1.isCorrect && <RxCheck style={{color:'green'}}/>)}</li>
-                                    <li className={record.question.answer2isCorrect && 'correct-answer'}>Ans2: {record.question.answer2.text}{(record.question.answer2.isCorrect && <RxCheck style={{color:'green'}}/>)}</li>
+                                    <li className={record.question.answer2.isCorrect && 'correct-answer'}>Ans2: {record.question.answer2.text}{(record.question.answer2.isCorrect && <RxCheck style={{color:'green'}}/>)}</li>
                                     <li className={record.question.answer3.isCorrect && 'correct-answer'}>Ans3: {record.question.answer3.text}{(record.question.answer3.isCorrect && <RxCheck style={{color:'green'}}/>)}</li>
                                     <li className={record.question.answer4.isCorrect && 'correct-answer'}>Ans4: {record.question.answer4.text}{(record.question.answer4.isCorrect && <RxCheck style={{color:'green'}}/>)}</li>
                                     {record.question.hasImage &&

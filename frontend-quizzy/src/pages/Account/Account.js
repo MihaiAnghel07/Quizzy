@@ -3,9 +3,8 @@ import './Account.css'
 import Popup from '../../components/Popup/Popup';
 import { useEditAccount } from '../../hooks/useEditAccount';
 import Modal from '../../components/modal/Modal';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDeleteAccount } from '../../hooks/useDeleteAccount';
-import NavigationComponent from '../../components/NavigationComponent/NavigationComponent';
 import { motion } from "framer-motion"
 
 
@@ -21,9 +20,8 @@ export default function Account() {
   const [aux, setAux] = useState(false);
   const [message, setMessage] = useState("No field has been modified")
   const {editAccount, isPending, error} = useEditAccount();
-  const {deleteAccount, isPending2, error2} = useDeleteAccount();
+  const {deleteAccount} = useDeleteAccount();
   let navigate = useNavigate();
-  let location = useLocation();
   localStorage.setItem("selectedButton", "account");
  
   const handleSubmit = (e) => {
@@ -74,8 +72,8 @@ export default function Account() {
 
   // used for adding a small delay between "Edit Account" command and popup show
   useEffect(()=>{
-    if (!isPending && aux) {
-      setMessage("Your account has been updated");
+    if (!isPending && aux && !error) {
+      setMessage("Your account has been updated!");
       setShowPopup(true);
     
     } else if (isPending) {
@@ -104,13 +102,6 @@ export default function Account() {
         transition={{ duration: 0.5 }}
         className='dashboard-wrapper'
       >
-    {/* <div> */}
-      {/* <div className='edit-account-navigation-component'>
-          <NavigationComponent
-              pageTitle="Edit Account"
-              pairs={[]}
-          />
-      </div> */}
 
       <h2 className='edit-account-title'>Edit Account</h2>
 
@@ -133,7 +124,8 @@ export default function Account() {
 
         {openModal2 && 
           <div id='modal-edit-account'> 
-            <Modal closeModal={setOpenModal2} yesModal={setConfirmModal2} message="Are you sure you want to delete your account? All quizzes and history will be deleted" /> 
+            <Modal closeModal={setOpenModal2} yesModal={setConfirmModal2} message="Are you sure you want to delete your account? 
+              All quizzes and history will be deleted" /> 
           </div>
         }
         

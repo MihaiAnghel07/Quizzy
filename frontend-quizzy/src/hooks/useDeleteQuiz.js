@@ -1,6 +1,4 @@
 import { projectFirebaseRealtime } from '../firebase/config'
-import { useState } from 'react'
-import firebase from "firebase/app";
 
 
 export const useDeleteQuiz= () => {

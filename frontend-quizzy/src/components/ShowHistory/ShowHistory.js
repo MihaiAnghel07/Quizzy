@@ -4,7 +4,6 @@ import { projectFirebaseRealtime } from '../../firebase/config'
 import { useState } from 'react';
 import { AiOutlineDown, AiOutlineUp } from 'react-icons/ai';
 import ShowParticipantHistory from '../ShowParticipantHistory/ShowParticipantHistory';
-import ShowHostHistory from '../ShowHostHistory/ShowHostHistory';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -70,11 +69,10 @@ class ShowHistory extends React.Component {
                                     
                             </div>
                             
-                            {this.props.expandedId === key && (
-                                
+                            {this.props.expandedId === key && 
+                            (    
                                 <div className="quiz-content">
                                     {this.props.historyType === "participant" && <ShowParticipantHistory questions={row.data.questions} quizId={row.key}/>}
-                                    {/* {this.props.historyType === "host" && <ShowHostHistory data={row.data} quizId={row.key}/>} */}
                                 </div>
                             )}
 

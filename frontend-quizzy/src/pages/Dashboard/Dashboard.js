@@ -1,20 +1,11 @@
 import React from 'react'
-import { useAuthContext } from '../../hooks/useAuthContext';
-import Join_lobby_label from '../../components/menu-label/join/Join_lobby_label';
-import Create_lobby_label from '../../components/menu-label/create/Create_lobby_label';
-import Create_quiz_label from '../../components/menu-label/create_quiz/Create_quiz_label';
-import Training_label from '../../components/menu-label/training/Training_label';
-import Quizzes_label from '../../components/menu-label/quizzes/Quizzes_label';
 import './Dashboard.css'
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { motion } from "framer-motion"
-import NavigationComponent from '../../components/NavigationComponent/NavigationComponent';
 
 
 export default function Dashboard() {
   localStorage.setItem("selectedButton", "dashboard");
-  // const {user} = useAuthContext()
-  
   const navigate = useNavigate();
 
   function handleJoinLobbyButtonClick() {
@@ -30,7 +21,6 @@ export default function Dashboard() {
   }
 
   return (
-    // <div className='dashboard-wrapper'>
       <motion.div
         initial={{ opacity: 0.4 }}
         animate={{ opacity: 1 }}
@@ -47,7 +37,6 @@ export default function Dashboard() {
         <button id='dashboard-quizzes-button' onClick={handleQuizzesButtonClick}>Question Sets</button>
       </div>
 
-    {/* </div> */}
     </motion.div>
   )
 }

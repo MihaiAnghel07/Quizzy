@@ -3,7 +3,6 @@ import { useState } from 'react';
 import './Faq.css'
 
 import { AiOutlineUp, AiOutlineDown } from 'react-icons/ai'
-import NavigationComponent from '../../components/NavigationComponent/NavigationComponent';
 import { motion } from "framer-motion"
 
 const Faq = () => {
@@ -18,49 +17,46 @@ const Faq = () => {
     }
   };
 
-  return (
-    <motion.div
-        initial={{ opacity: 0.4 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.5 }}
-        className='dashboard-wrapper'
-      >
-    {/* <div> */}
-      {/* <div className='faq-navigation-component'>
-        <NavigationComponent
-            pageTitle="FAQ"
-            pairs={[]}
-        />
-      </div>   */}
+return (
+  <motion.div
+      initial={{ opacity: 0.4 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+      className='dashboard-wrapper'
+    >
 
-      <h2 className='faq-title'>Frequently Asked Questions</h2>
-    
-      <div className="faq-wrapper">
-        <div className="faq-item">
-          <div className="faq-question" onClick={() => handleFaqClick(1)}>
-            {expandedId === 1 && <AiOutlineUp/>}
-            {expandedId != 1 && <AiOutlineDown/>}
-              How do I create a set of questions?
-            </div>
-          {expandedId === 1 && (
-            <div className="faq-answer">
-              In order to create a set of questions, you need to follow the steps:
-
-              <ol className='faq-q1-list'>
-                <li>From Dashboard, click on "Question Sets"</li>
-                <li>In "Question Sets" page, you will find "Create Question Set" button. Click on it.</li>
-                <li>Now, you can define your own question set. You can add images & text for each question, 
-                  you can set the question set visibility:</li>
-                  <ul>
-                    <li><b>private:</b> only you will be able to use this set for quizzes</li>
-                    <li><b>public:</b> other people will see the set content and they will be able to use the set for their own quizzes</li>
-                  </ul>
-              </ol>
-              
-            </div>
-          )}
+    <h2 className='faq-title'>Frequently Asked Questions</h2>
+  
+    <div className="faq-wrapper">
+      <div className="faq-item">
+        
+        <div className="faq-question" onClick={() => handleFaqClick(1)}>
+          {expandedId === 1 && <AiOutlineUp/>}
+          {expandedId != 1 && <AiOutlineDown/>}
+            How do I create a set of questions?
         </div>
+
+        {expandedId === 1 && (
+          <div className="faq-answer">
+            In order to create a set of questions, you need to follow the steps:
+
+            <ol className='faq-q1-list'>
+              <li>From Dashboard, click on "Question Sets"</li>
+              <li>In "Question Sets" page, you will find "Create Question Set" button. Click on it.</li>
+              <li>Now, you can define your own question set. You can add images & text for each question, 
+                  you can set the question set visibility:</li>
+                <ul>
+                  <li><b>private:</b> only you will be able to use this set for quizzes</li>
+                  <li><b>public:</b> other people will see the set content and they will be able to use
+                      the set for their own quizzes
+                    </li>
+                </ul>
+            </ol>
+            
+          </div>
+        )}
+      </div>
 
         <div className="faq-item">
           <div className="faq-question" onClick={() => handleFaqClick(2)}>

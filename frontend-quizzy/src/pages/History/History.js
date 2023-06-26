@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './History.css'
-import { useNavigate } from 'react-router-dom';
 import ShowHistory from '../../components/ShowHistory/ShowHistory';
-import NavigationComponent from '../../components/NavigationComponent/NavigationComponent';
 import { motion } from "framer-motion"
 
  
@@ -17,8 +15,7 @@ class History extends React.Component {
         participantBtnId: "history-participant-btn"
 
     }
-    
-    //this.componentDidMount = this.componentDidMount.bind(this)
+
   }
 
   hostBtnHandler = (e) => {
@@ -46,13 +43,6 @@ class History extends React.Component {
         transition={{ duration: 0.5 }}
         className='dashboard-wrapper'
       >
-      {/* <div className='history-wrapper'> */}
-        {/* <div className='history-navigation-component'>
-          <NavigationComponent
-              pageTitle="History"
-              pairs={[]}
-          />
-        </div> */}
 
         <h2 className='history-title'>History</h2>
 
@@ -82,7 +72,6 @@ class History extends React.Component {
           </div>
 
         </div>
-      {/* </div> */}
       </motion.div>
     )
   }
@@ -91,26 +80,7 @@ class History extends React.Component {
 
 function wrapClass (Component) {
   return function WrappedComponent(props) {
-      const [openModal, setOpenModal] = useState(false)
-      const [confirmModal, setConfirmModal] = useState(false);
-      const [quizId, setQuizId] = useState(null)
-      const [quizAuthor, setQuizAuthor] = useState(null)
-      const [searchInput, setSearchInput] = useState("");
-      let navigate = useNavigate();
-
-      useEffect(()=>{
-          if (confirmModal) {
-            setConfirmModal(false)
-            setOpenModal(false)
-          }
-      
-        }, [confirmModal])  
-
-      const openModalHandler = (quizId, quizAuthor)=> {
-          setQuizId(quizId)
-          setQuizAuthor(quizAuthor)
-          setOpenModal(true)
-      }
+      const [searchInput, setSearchInput] = useState(""); 
 
       const searchInputHandler = (input) => {
           setSearchInput(input)

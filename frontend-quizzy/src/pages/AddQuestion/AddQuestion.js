@@ -50,6 +50,7 @@ export const AddQuestion = () => {
       } else {
           addQuestion(quizQuestion, quizAnswer1, quizAnswer2, quizAnswer3, quizAnswer4, selectedOption, imageUpload, location.state.quizKey);
           setShowPopup(true);
+          setImageUpload(null);
       }
     }
 

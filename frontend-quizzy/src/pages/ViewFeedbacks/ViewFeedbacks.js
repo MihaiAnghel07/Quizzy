@@ -3,7 +3,6 @@ import './ViewFeedbacks.css'
 import { useLocation } from 'react-router-dom';
 import NavigationComponent from '../../components/NavigationComponent/NavigationComponent';
 import { projectFirebaseRealtime } from '../../firebase/config';
-import Feedback from 'react-bootstrap/esm/Feedback';
 
 class ViewFeedbacks extends React.Component {
 
@@ -42,7 +41,7 @@ class ViewFeedbacks extends React.Component {
                     <NavigationComponent
                         pageTitle="Quiz Feedback"
                         pairs={[['History', '/history'],
-                                ['Quiz Raport', '/quiz_raport'],
+                                ['Quiz Report', '/quiz_raport'],
                                 ['Quiz Feedback', '/view_feedbacks']
                         ]}
                     />

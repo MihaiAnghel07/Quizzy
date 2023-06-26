@@ -39,10 +39,6 @@ import NavigationComponent from '../../components/NavigationComponent/Navigation
             title: {
               display: true,
               text: 'Score', // Replace with your desired vertical axis name
-            //   font: {
-            //     size: 14,
-            //     weight: 'bold',
-            //   },
             },
             ticks: {
                 precision: 0, // Set the precision to 0 for integer values
@@ -55,10 +51,6 @@ import NavigationComponent from '../../components/NavigationComponent/Navigation
           title: {
             display: true,
             text: 'Number of Participants', // Replace with your desired vertical axis name
-            // font: {
-            //   size: 14,
-            //   weight: 'bold',
-            // },
           },
           ticks: {
             precision: 0, // Set the precision to 0 for integer values
@@ -92,7 +84,6 @@ class ShowHostHistory2 extends React.Component {
 
         //calculez lungimea setului
         //initializez vectorul
-
         Object.keys(this.props.data).map((key) => {
             if (key !== 'timestamp' && key !== 'quizTitle' && key !== 'feedbacks' && key !== 'ratings') {
                 numberOfQuestions = Object.values(this.props.data[key].questions).length;
@@ -166,12 +157,12 @@ class ShowHostHistory2 extends React.Component {
                     <NavigationComponent
                         pageTitle="Quiz Raport"
                         pairs={[['History', '/history'],
-                                ['Quiz Raport', '/quiz_raport']
+                                ['Quiz Report', '/quiz_raport']
                         ]}
                     />
                 </div>
 
-                <h2 className='show-host-history2-title'>Quiz Raport</h2>
+                <h2 className='show-host-history2-title'>Quiz Report</h2>
 
                 <div className='show-host-history-content'>
                 

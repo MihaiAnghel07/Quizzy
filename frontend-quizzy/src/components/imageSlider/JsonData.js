@@ -1,11 +1,10 @@
-import Img2 from '../../assets/logo.jpg'
-import dasboard from '../../assets/dashboard.png'
 import create_lobby from '../../assets/create_lobby.png'
-import my_question_sets from '../../assets/my-question-sets.png'
 import quiz from '../../assets/quiz.png'
 import feedback from '../../assets/feedback.png'
 import quiz_raport from '../../assets/quiz-raport.png'
 import quiz_raport2 from '../../assets/quiz-raport-2.png'
+import dasboard from '../../assets/dashboard.png'
+import my_question_sets from '../../assets/my-question-sets.png'
 
 export const ImageData = [
     {

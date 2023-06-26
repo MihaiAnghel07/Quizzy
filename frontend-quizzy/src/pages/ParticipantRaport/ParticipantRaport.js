@@ -40,15 +40,15 @@ class ParticipantRaport extends React.Component {
                 
                 <div className='participant-raport-navigation-component'>
                     <NavigationComponent
-                        pageTitle="Participant Raport"
+                        pageTitle="Participant Report"
                         pairs={[['History', '/history'],
-                                ['Quiz Raport', '/quiz_raport'],
-                                ['Participant Raport', '/participant_raport']
+                                ['Quiz Report', '/quiz_raport'],
+                                ['Participant Report', '/participant_raport']
                         ]}
                     />
                 </div>
 
-                <h2 className='participant-raport-title'>Participant Raport</h2>
+                <h2 className='participant-raport-title'>Participant Report</h2>
 
                 {this.state.records.map((el) => {
                     if (el.key === "questions") {

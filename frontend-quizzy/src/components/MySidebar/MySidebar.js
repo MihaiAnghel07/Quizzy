@@ -3,25 +3,15 @@ import './MySidebar.css';
 import logo from '../../assets/logo.jpg';
 import { FaHome, FaQuestion } from 'react-icons/fa';
 import { VscAccount } from 'react-icons/vsc';
-import { GrContactInfo, GrContact } from 'react-icons/gr';
-import { Link, useNavigate } from 'react-router-dom';
-import Dashboard from '../../pages/Dashboard/Dashboard';
-import { useAuthContext } from '../../hooks/useAuthContext';
-import Account from '../../pages/Account/Account';
-import { AiOutlineMail } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
 import { CiLogout } from 'react-icons/ci';
 import { BsTelephoneFill } from 'react-icons/bs';
-import { useLogout } from '../../hooks/useLogout';
-import Modal from '../modal/Modal';
 import { useEffect } from 'react';
 import { BiHistory } from "react-icons/bi";
 
+
 export default function MySidebar(props) {
-  const { user } = useAuthContext();
   const navigate = useNavigate();
-  const { logout } = useLogout();
-
-
   const [selectedButton, setSelectedButton] = useState('dashboard');
 
   useEffect(()=>{
@@ -56,8 +46,7 @@ export default function MySidebar(props) {
       localStorage.setItem("selectedButton", "dashboard");
       navigate('/dashboard');
     }
-
-    
+ 
   }
 
   function handleAccountButtonClick() {
@@ -169,21 +158,23 @@ export default function MySidebar(props) {
   }
 
 
-  return (
-    <div className="mySidebar-wrapper">
-      <div>
-        <img className="mySidebar-logo" src={logo} />
-      </div>
-      <div className="sidebar-items-container">
-        <div className='sidebar-username'> Logged in as {localStorage.getItem("username")}</div>
-        <div className="sidebar-main-buttons">
-          <button
-            id={selectedButton === 'dashboard' ? 'sidebar-dashboard-button-selected' : 'sidebar-dashboard-button'}
-            onClick={handleDashboardButtonClick}
-          >
-            <FaHome />
-            Dashboard
-          </button>
+return (
+  <div className="mySidebar-wrapper">
+    <div>
+      <img className="mySidebar-logo" src={logo} />
+    </div>
+
+    <div className="sidebar-items-container">
+      <div className='sidebar-username'> Logged in as {localStorage.getItem("username")}</div>
+      
+      <div className="sidebar-main-buttons">
+        <button
+          id={selectedButton === 'dashboard' ? 'sidebar-dashboard-button-selected' : 'sidebar-dashboard-button'}
+          onClick={handleDashboardButtonClick}
+        >
+          <FaHome />
+          Dashboard
+        </button>
           <button
             id={selectedButton === 'history' ? 'sidebar-history-button-selected' : 'sidebar-history-button'}
             onClick={handleHistoryButtonClick}
@@ -213,10 +204,12 @@ export default function MySidebar(props) {
             Contact
           </button>
         </div>
+
         <button id="sidebar-logout-button" onClick={props.setOpenModal}>
           <CiLogout />
           Log out
         </button>
+      
       </div>
     </div>
   );

@@ -1,12 +1,8 @@
 import './ShowQuizzes.css'
 import React from 'react'
-import { Table } from 'react-bootstrap';
 import { projectFirebaseRealtime } from '../../firebase/config'
-import firebase from "firebase/app";
 import { useCopyQuiz } from '../../hooks/useCopyQuiz';
-import { useDeleteQuiz } from '../../hooks/useDeleteQuiz';
 import { useNavigate } from 'react-router-dom';
-import Modal from '../modal/Modal';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { RiDeleteBinLine } from 'react-icons/ri'
@@ -58,12 +54,10 @@ class ShowQuizzes extends React.Component {
                             if (childSnapshot.key !== 'private' && childSnapshot.key !== 'public') {
                                 const ref3 = projectFirebaseRealtime.ref('Quizzes/' + childSnapshot.key);
                                 ref3.on('value', (childSnapshot2) => {
-                                    // console.log("KEY = " + childSnapshot2.key)
                                     childSnapshot2.forEach(childSnapshot3 => {
                                         let key = childSnapshot3.key;
                                         let data = childSnapshot3.val();
                                         if (childSnapshot2.key !== username && data.isPublic === true) {
-                                            // console.log(key + '  ' + data.Author)
                                             records.push({"key":key, "data":data}); 
                                         } else if (childSnapshot2.key === username) {
                                             records.push({"key":key, "data":data}); 
@@ -106,7 +100,8 @@ class ShowQuizzes extends React.Component {
                         </tr>
                     </thead>}
 
-                    {this.props.quizDataFiltered.length !== 0 && <tbody>
+                    {this.props.quizDataFiltered.length !== 0 && 
+                    <tbody>
                         {this.props.quizDataFiltered.map((row, index) => {
                             return (
                                 <tr key={index}>
@@ -168,7 +163,8 @@ function wrapClass (Component) {
                 if (auxTitle.includes(props.search.toLowerCase()) || auxAuthor.includes(props.search.toLowerCase()))
                     return el;
                 
-                if (('private'.includes(props.search.toLowerCase()) && el.data.isPublic === false) || ('public'.includes(props.search.toLowerCase()) && el.data.isPublic === true))
+                if (('private'.includes(props.search.toLowerCase()) && el.data.isPublic === false) 
+                    || ('public'.includes(props.search.toLowerCase()) && el.data.isPublic === true))
                     return el;
                 
             })

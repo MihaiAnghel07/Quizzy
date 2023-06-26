@@ -45,7 +45,6 @@ function App() {
   let navigate = useNavigate();
 
 
-  // when confirmModal modified, cloase the lobby and redirect to dashboard
   useEffect(()=>{
     if (confirmModal) {
       setConfirmModal(false)
@@ -101,7 +100,6 @@ function App() {
           {!user && <Footer />}
           
         </div>
-        
       
     </div>
   );

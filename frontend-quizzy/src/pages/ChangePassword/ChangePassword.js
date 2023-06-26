@@ -3,7 +3,6 @@ import './ChangePassword.css'
 import { useEditPassword } from '../../hooks/useEditPassword';
 import { useState } from 'react';
 import Modal from '../../components/modal/Modal';
-import Popup from '../../components/Popup/Popup';
 import { useNavigate } from 'react-router-dom';
 import NavigationComponent from '../../components/NavigationComponent/NavigationComponent';
 
@@ -60,7 +59,6 @@ function ChangePassword() {
     <div>
         <div className='nav-component'> 
             <NavigationComponent
-                pageTitle="Change Password"
                 pairs={[['Edit Account', '/account'],
                 ['Change Password', '/change_password'],
                 ]}
